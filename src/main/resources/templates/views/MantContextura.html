@@ -1,0 +1,155 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Contextura</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/template :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/template :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/template :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white font-weight-bold">
+                        <div class="bg-light p-3 mb-3">
+                            <button class="btn btn-success margin" id="btn-add" title="Nuevo" onclick="BuscarPorId(0)"><i class="fa fa-plus"></i> Nuevo</button>
+
+                            <h3 class="mt-3">Lista de Contextura</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="resultado" ></div>
+                    </div>
+                </div>
+
+
+                <footer th:replace="plantilla/template :: footer"></footer> 
+            </div>
+
+        </div>
+
+        <div class="modal fade"  id="ModalAgregar">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="NomModal"> <strong>Agregar Contextura</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body"> 
+                        <form id="frmRegistro" method="POST" th:object="${contextura}" >  
+                            <div class="form-group row ">
+                                <div class="col-md-12">
+                                    <label >Contextura</label>
+                                    <input type="text" class="form-control"  th:field="*{nombreContextura}"  id="nombreContextura"  maxlength="30">
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+                                <div class="col-md-12">
+                                    <label>Descripcion</label>
+                                    <textarea class="form-control"  th:field="*{descripcion}"  id="descripcion"  rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row margin-top-10">
+                                <div class="col-md-6 mt-4">
+                                    <input type="hidden" id="id_contextura" th:field="*{id_contextura}"  />
+                                    <button class="btn btn-primary" type="button" id="BtnGuardar">Guardar</button>
+                                    <button class="btn btn-danger" type="reset">Nuevo</button>
+                                </div>
+                            </div> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+
+    <script type="text/javascript">
+        $(function () {
+            Listar();
+
+        });
+
+        function Listar() {
+            $.ajax({
+                type: 'GET',
+                url: "/contextura/Listar",
+                data: {},
+                beforeSend: function (xhr) {
+                    $("#resultado").html("Cargando..");
+                },
+                success: function (result) {
+                    $("#resultado").html(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        alert("Error inexpicable.");
+                    }
+                }
+            });
+        }
+
+        $("#BtnGuardar").on("click", function () {
+
+            $.ajax({
+                type: 'POST',
+                url: "/contextura/guardar",
+                data: $("#frmRegistro").serialize()
+                , success: function (data) {
+                    if (data === "OK") {
+                        Mensaje("Guardado correctamente..!!");
+                        Listar();
+                        $("#ModalAgregar").modal("hide");
+                        $("#frmRegistro")[0].reset();
+                    } else {
+                        Mensaje(data);
+                    }
+
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    Mensaje("No se ha podido guardar datos...!!");
+                }
+            });
+        });
+
+        function BuscarPorId(id) {
+            if (id === 0) {
+                $("#ModalAgregar").modal("show");
+                $("#NomModal").html("Agregar Contextura");
+                $("#frmRegistro")[0].reset();
+                $("#id_contextura").val("0");
+                return false;
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: "/contextura/Buscar/" + id,
+                data: {},
+                success: function (data) {
+                    $("#NomModal").html("Modificar Contextura");
+                    $("#nombreContextura").val(data.nombreContextura);
+                    $("#id_contextura").val(data.id_contextura);
+                    $("#descripcion").val(data.descripcion);
+                    $("#ModalAgregar").modal("show");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        Mensaje("Error : " + jqXHR.responseText);
+                    } else {
+                        Mensaje("Error inexpicable.");
+                    }
+                }
+            });
+        }
+    </script>
+</html>

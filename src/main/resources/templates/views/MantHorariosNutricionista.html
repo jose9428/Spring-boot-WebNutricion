@@ -1,0 +1,164 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Horarios</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/template :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/template :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/template :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white font-weight-bold">
+                        <div class="bg-light p-3 mb-3">
+
+                            <div class="box-body">
+                                <button class="btn btn-success margin" id="btn-add" title="Nuevo" data-toggle="modal" data-target="#ModalAsignarHorario"><i class="fa fa-plus"></i> Asignar Horario</button>
+                            </div>
+
+                            <div class="form-group row col-6 mt-3">
+                                <label  class="col-sm-4 col-form-label">Filtrar Turno : </label>
+                                <div class="col-sm-8">
+                                    <select  name="turno" id="turno" class="form-control" onchange="Listar()">
+                                        <option th:each="turno : ${listTurno}" th:value="${turno.id_Turno}"
+                                                th:text="${turno.nombre_Turno}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <p th:text="${listHorario}"></p>
+                        <div id="resultado" ></div>
+                    </div>
+
+                </div>
+
+
+                <footer th:replace="plantilla/template :: footer"></footer> 
+            </div>
+
+            <div class="modal fade bd-example-modal-lg"  id="ModalAsignarHorario">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"> <strong>Asignar Horario</strong></h5>
+                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        </div>
+                        <div class="modal-body"> 
+                            <form id="frmRegistro">  
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label class="control-label col-form-label">Seleccione Turno</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <select  name="Turno2" id="Turno2" class="form-control" onchange="CargaMedicos()">
+                                            <option th:each="turnoA : ${listTurno}" th:value="${turnoA.id_Turno}"
+                                                    th:text="${turnoA.nombre_Turno}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label class="control-label col-form-label">Seleccione Horario</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <select  name="medico" id="medico" class="form-control">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12 text-right">
+                                        <button class="btn btn-primary" type="button" id="GuardarHorario">Guardar horario</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </body>
+
+    <script type="text/javascript">
+        $(function () {
+            Listar();
+            CargaMedicos();
+        });
+
+
+        function Listar() {
+            var turno = $("#turno").val();
+
+            $.ajax({
+                type: 'GET',
+                url: "/nutricionista/listarHorario",
+                data: {
+                    id: turno
+                }, beforeSend: function (xhr) {
+                    $("#resultado").html("Cargando..");
+                },
+                success: function (result) {
+                    $("#resultado").html(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        alert("Error inexpicable.");
+                    }
+                }
+            });
+        }
+
+        function CargaMedicos() {
+            var code = $("#Turno2").val();
+            var medico = $("#medico");
+            var cuenta = 0;
+            medico.find('option').remove();
+
+            $.ajax({
+                type: 'GET',
+                url: "/nutricionista/listarMedicosDisp",
+                dataType: 'json',
+                data: {
+                    id: code
+                },
+                success: function (data) {
+                    $(data).each(function (i, v) { // indice, valor
+                        medico.append('<option value="' + v[0] + '">' + v[2] + " " +
+                                v[3] + " " + v[4] + '</option>');
+                        cuenta++;
+                    });
+
+                    if (cuenta === 0) {
+                        medico.append('<option>No se encontraron medicos disponibles para este horario.</option>');
+                        $("#GuardarHorario").prop('disabled', true);
+                    } else {
+                        $("#GuardarHorario").prop('disabled', false);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        console.log("Error.!" + jqXHR.responseText);
+                    } else {
+                        console.log("Error.!Error inexpicable.");
+                    }
+                }
+            });
+
+
+        }
+
+    </script>
+</html>

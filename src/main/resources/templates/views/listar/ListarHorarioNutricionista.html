@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <body >
+        <table id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>DNI</th>
+                    <th>Fecha Nac.</th>
+                    <th>Correo</th>
+                    <th>Genero</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="medico : ${listaMedicos}">
+                    <td> <img th:src="@{/nutricionista/verImagen/}+${medico.id_Nutricionista}" width="80"
+                              onerror="src='../img/sin_foto_medico.png' "></td>
+                    <td th:text="${medico.nombres}"></td>
+                    <td th:text="${medico.apellido_Paterno} +' ' +${medico.apellido_Materno}"></td>
+                    <td th:text="${medico.dni}"></td>
+                    <td th:text="${#dates.format(medico.fecha_Nacimiento, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${medico.correo}"></td>
+                    <td th:text="${medico.genero=='M'?'Masculino':'Femenino' }"></td> 
+                </tr>
+            </tbody>
+        </table>
+    </body>
+
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+                language: {
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "zeroRecords": "No se encontraron resultados",
+                    "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sSearch": "Buscar:",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "sProcessing": "Procesando...",
+                },
+                //para usar los botones   
+
+                responsive: "true"
+            });
+        });
+    </script>
+
+</html>

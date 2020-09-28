@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Plantilla Base</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+
+    <body>
+        <div th:fragment="EstilosCss">
+            <link th:href="@{'/css/bootstrap.min.css'}" rel="stylesheet" type="text/css">
+
+            <link th:href="@{/bootbox/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+            <link th:href="@{/bootbox/animate.min.css}" rel="stylesheet" type="text/css"/>
+
+            <link th:href="@{/css/fontawesome-all.min.css}"  rel="stylesheet" >
+            <link th:href="@{/css/datatables.min.css}" rel="stylesheet">
+            <link th:href="@{/css/fullcalendar.min.css}" rel="stylesheet">
+            <link th:href="@{/css/bootadmin.min.css}" rel="stylesheet">
+
+
+        </div>
+        <!-- Barra Header-->
+        <nav class="navbar navbar-expand navbar-dark " th:fragment = "BarraHeader" style="background: #005593;">
+            <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
+            <a class="navbar-brand" href="https://bootadmin.net">Sistema Nutricion</a>
+
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Doe</a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
+                            <a href="#" class="dropdown-item">Perfil</a>
+                            <a href="#" class="dropdown-item">Cerrar Sesion</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- End Barra Header-->
+
+        <!-- Barra Menu-->
+        <div class="sidebar sidebar-dark bg-dark" th:fragment="BarraMenu">
+            <ul class="list-unstyled">
+             <li>
+                    <a href="#sm_base" data-toggle="collapse">
+                        <i class="fa fa-fw fa-cube"></i> Nutricionista
+                    </a>
+                    <ul id="sm_base" class="list-unstyled" >
+                        <li  th:classappend="(${#httpServletRequest.requestURI} == '/nutricionista/')?'active':'' ">
+                            <a th:href="@{/nutricionista/}"><i class="fa fa-fw fa-table"></i> Mantenimiento</a>
+                        </li>
+                        <li  th:classappend="(${#httpServletRequest.requestURI} == '/nutricionista/horarios')?'active':'' ">
+                            <a th:href="@{/nutricionista/horarios}"><i class="fa fa-fw fa-table"></i> Horarios</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li  th:classappend="(${#httpServletRequest.requestURI} == '/contextura/')?'active':'' ">
+                    <a th:href="@{/contextura/}"><i class="fa fa-fw fa-table"></i> Contextura</a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- End Barra Menu-->
+
+        <footer th:fragment="footer" class="bg-dark text-white text-center fixed-bottom" >
+            <div class="container">
+                <p>Copyright &copy; Desarrollo de Software I  - 2020</p>
+            </div>
+            <script th:src="@{/js/jquery.min.js}"></script>
+            <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+            <script th:src="@{/js/datatables.min.js}"></script>
+            <script th:src="@{/js/moment.min.js}"></script>
+            <script th:src="@{/js/fullcalendar.min.js}"></script>
+            <script th:src="@{/js/bootadmin.min.js}"></script>
+
+            <script th:src="@{/bootbox/bootbox.min.js}" type="text/javascript"></script>
+            <script th:src="@{/js/funciones/Alerta.js}" type="text/javascript"></script>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+package com.proyecto.spring.models.repository;
+
+import com.proyecto.spring.models.entity.Hora;
+import com.proyecto.spring.models.entity.Nutricionista;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface HoraRepository extends JpaRepository<Hora, Long> {
+
+ 
+}
