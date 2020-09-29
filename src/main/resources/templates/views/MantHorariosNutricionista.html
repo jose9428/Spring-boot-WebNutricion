@@ -35,6 +35,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card-body">
 
                         <div id="resultado" ></div>
@@ -54,33 +55,46 @@
                             <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                         </div>
                         <div class="modal-body"> 
-                            <form id="frmRegistro">  
-                                <div class="form-group row">
-                                    <div class="col-md-3">
-                                        <label class="control-label col-form-label">Seleccione Turno</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <select  name="Turno2" id="Turno2" class="form-control" onchange="CargaMedicos()">
-                                            <option th:each="turnoA : ${listTurno}" th:value="${turnoA.id_Turno}"
-                                                    th:text="${turnoA.nombre_Turno}"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-3">
-                                        <label class="control-label col-form-label">Seleccione Horario</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <select  name="medico" id="medico" class="form-control">
+                            <form id="frmRegistro"> 
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <label class="control-label col-form-label">Seleccione Turno</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <select  name="Turno2" id="Turno2" class="form-control" onchange="CargaMedicos()">
+                                                    <option th:each="turnoA : ${listTurno}" th:value="${turnoA.id_Turno}"
+                                                            th:text="${turnoA.nombre_Turno}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <label class="control-label col-form-label">Seleccione Medico</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <select  name="medico" id="medico" class="form-control" onchange="CargarFoto()">
 
-                                        </select>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-12 text-right">
+                                                <button class="btn btn-primary" type="button" id="GuardarHorario">Guardar horario</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+
+                                        <img class="border-0" id="fotoNut" src="" width="140" height="176" onerror="src='../img/sin_foto_medico.png' ">
+
+
+                                      
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-md-12 text-right">
-                                        <button class="btn btn-primary" type="button" id="GuardarHorario">Guardar horario</button>
-                                    </div>
-                                </div>
+
+
                             </form>
 
                         </div>
@@ -117,6 +131,23 @@
                 }
             });
         });
+
+        function CargarFoto() {
+            var medico = $("#medico").val();
+
+            $.ajax({
+                url: "/nutricionista/verImagenAjax/" + medico,
+                type: 'get',
+                data: {},
+                success: function (data) {
+                    $("#fotoNut").attr("src", "data:image/jpg;base64," + data.trim());
+
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    Mensaje("No se pudo cargar imagen...!!");
+                }
+            });
+
+        }
 
 
         function Listar() {
@@ -162,9 +193,10 @@
                                 v[3] + " " + v[4] + '</option>');
                         cuenta++;
                     });
-
+                    CargarFoto();
                     if (cuenta === 0) {
                         medico.append('<option>No se encontraron medicos disponibles para este horario.</option>');
+
                         $("#GuardarHorario").prop('disabled', true);
                     } else {
                         $("#GuardarHorario").prop('disabled', false);

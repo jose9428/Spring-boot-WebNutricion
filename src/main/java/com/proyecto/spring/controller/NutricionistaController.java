@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.proyecto.spring.util.Utileria;
+import java.util.Base64;
 import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Parameter;
@@ -150,6 +151,16 @@ public class NutricionistaController {
         response.getOutputStream().close();
     }
 
+    @GetMapping("/verImagenAjax/{id}")
+    @ResponseBody
+    public String showImageAjax(@PathVariable("id") Long id) {
+
+        Nutricionista n = nutricionistaService.getById(id);
+        String imagen = Base64.getEncoder().encodeToString(n.getFoto());
+
+        return imagen;
+    }
+
     @GetMapping(value = "/listarMedicosDisp")
     @ResponseBody
     public List ListaMedicosDispTurnos(@Param("id") Long id) {
@@ -168,7 +179,7 @@ public class NutricionistaController {
             h.setNutricionista(n);
             h.setTurno(t);
             horarioService.Guardar(h);
-            
+
             return ResponseEntity.ok("OK");
         } else {
             return ResponseEntity.ok("No se ha podido guardar el horario paar el nutricionista.");

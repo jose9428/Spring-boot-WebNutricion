@@ -42,11 +42,11 @@
         <!-- Barra Menu-->
         <div class="sidebar sidebar-dark bg-dark" th:fragment="BarraMenu">
             <ul class="list-unstyled">
-             <li>
+                <li>
                     <a href="#sm_base" data-toggle="collapse">
                         <i class="fa fa-fw fa-cube"></i> Nutricionista
                     </a>
-                    <ul id="sm_base" class="list-unstyled" >
+                    <ul id="sm_base" class="list-unstyled collapse" >
                         <li  th:classappend="(${#httpServletRequest.requestURI} == '/nutricionista/')?'active':'' ">
                             <a th:href="@{/nutricionista/}"><i class="fa fa-fw fa-table"></i> Mantenimiento</a>
                         </li>

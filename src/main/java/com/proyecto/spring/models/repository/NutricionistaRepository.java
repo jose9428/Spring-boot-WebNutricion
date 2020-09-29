@@ -13,4 +13,5 @@ public interface NutricionistaRepository extends JpaRepository<Nutricionista, Lo
 
     @Query(value = "SELECT  n.usuario.id_Usuario FROM  Nutricionista n WHERE  n.id_Nutricionista=?1")
     public Long ObtenerIdUsuario(Long idNutricionista);
+    
 }
