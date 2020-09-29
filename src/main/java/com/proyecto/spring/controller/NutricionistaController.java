@@ -40,7 +40,7 @@ public class NutricionistaController {
 
     @Autowired
     private IHoraService horaService;
-    
+
     @Autowired
     private IHorarioNutricionistaService horarioService;
 
@@ -59,7 +59,7 @@ public class NutricionistaController {
     }
 
     @GetMapping(value = "/listarHorario")
-    public String ListarHorarios(@RequestParam("id") Long id , Model model) {
+    public String ListarHorarios(@RequestParam("id") Long id, Model model) {
         model.addAttribute("listaMedicos", horarioService.ListadoNutricionistaPorTurno(id));
         return "/views/listar/ListarHorarioNutricionista";
     }
@@ -149,10 +149,30 @@ public class NutricionistaController {
 
         response.getOutputStream().close();
     }
-    
+
     @GetMapping(value = "/listarMedicosDisp")
     @ResponseBody
-    public List ListaMedicosDispTurnos(@Param("id") Long id){
+    public List ListaMedicosDispTurnos(@Param("id") Long id) {
         return horarioService.ListadoNutricionistaDispTurno(id);
+    }
+
+    @PostMapping(value = "/GuardarHorario")
+    @ResponseBody
+    public ResponseEntity<String> GuardarHorario(@RequestParam("Turno2") Long idTurno, @RequestParam("medico") Long idMedico) {
+
+        Turno t = turnoService.getById(idTurno);
+        Nutricionista n = nutricionistaService.getById(idMedico);
+
+        if (t != null && n != null) {
+            HorarioNutricionista h = new HorarioNutricionista();
+            h.setNutricionista(n);
+            h.setTurno(t);
+            horarioService.Guardar(h);
+            
+            return ResponseEntity.ok("OK");
+        } else {
+            return ResponseEntity.ok("No se ha podido guardar el horario paar el nutricionista.");
+        }
+
     }
 }

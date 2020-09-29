@@ -37,7 +37,6 @@
                     </div>
                     <div class="card-body">
 
-                        <p th:text="${listHorario}"></p>
                         <div id="resultado" ></div>
                     </div>
 
@@ -94,6 +93,29 @@
         $(function () {
             Listar();
             CargaMedicos();
+        });
+
+        $("#GuardarHorario").on("click", function () {
+            var form = $("#frmRegistro").serialize();
+
+            $.ajax({
+                url: "/nutricionista/GuardarHorario",
+                type: 'post',
+                data: form,
+                success: function (data) {
+                    if (data === "OK") {
+                        $('#ModalAsignarHorario').modal('hide');
+                        Mensaje("Horario guardado con correctamente.");
+                        Listar();
+                        CargaMedicos();
+                    } else {
+                        Mensaje(data);
+                    }
+
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    Mensaje("No se ha podido guardar datos...!!");
+                }
+            });
         });
 
 

@@ -16,5 +16,10 @@ public class TurnoServiceImpl implements ITurnoService{
     public List<Turno> getAll() {
         return turnoRepository.findAll();
     }
+
+    @Override
+    public Turno getById(Long id) {
+        return turnoRepository.findById(id).orElse(null);
+    }
     
 }

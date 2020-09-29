@@ -11,4 +11,6 @@ public interface IHorarioNutricionistaService {
     public List<Nutricionista> ListadoNutricionistaPorTurno(Long idTurno);
     
     public List ListadoNutricionistaDispTurno(Long idTurno);
+    
+    public void Guardar(HorarioNutricionista h);
 }

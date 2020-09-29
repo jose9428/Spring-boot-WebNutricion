@@ -17,6 +17,6 @@ public interface HorarioNutricionistaRepository extends JpaRepository<HorarioNut
     public List<Nutricionista> ListadoNutricionistaPorTurno(Long idTurno);
     
      @Query(value = "{call sp_filtro_medicos_por_horario(:idTurno)}", nativeQuery = true)
-     public List ListadoNutricionistaDispTurno( @Param("idTurno")  Long idTurno);
+     public List ListadoNutricionistaDispTurno(@Param("idTurno")  Long idTurno);
      
 }

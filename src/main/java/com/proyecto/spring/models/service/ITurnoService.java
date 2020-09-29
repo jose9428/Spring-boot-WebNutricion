@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 public interface ITurnoService {
     
     List<Turno> getAll();
+    
+    Turno getById(Long id);
 }

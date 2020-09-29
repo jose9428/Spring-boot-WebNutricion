@@ -31,4 +31,9 @@ public class HorarioNutricionistaServiceImpl implements IHorarioNutricionistaSer
         return nutricionistaRepository.ListadoNutricionistaDispTurno(idTurno);
     }
 
+    @Override
+    public void Guardar(HorarioNutricionista h) {
+        nutricionistaRepository.save(h);
+    }
+
 }
