@@ -8,12 +8,17 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,9 +63,16 @@ public class AdministradorController {
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<String> GuardarNutricionista(Administrador a,
+    public ResponseEntity<Object> GuardarNutricionista(@Valid Administrador a, BindingResult errores,
             @RequestParam("file") MultipartFile imagen, @RequestParam("fechaN") String fecha) {
+        
         try {
+
+            if (errores.hasErrors()) {
+                List<ErrorEntity> lista = Utileria.getListError(errores);
+              
+                return ResponseEntity.accepted().body(lista); // 202
+            }
 
             if (!imagen.isEmpty()) {
                 a.setFoto(Utileria.ConvertirImagen(imagen));
@@ -81,10 +93,10 @@ public class AdministradorController {
 
             adminService.Guardar(a);
 
-            return ResponseEntity.ok("OK");
+            return ResponseEntity.ok("OK"); // 200
 
         } catch (Exception ex) {
-            return new ResponseEntity<String>("ERROR", HttpStatus.BAD_REQUEST);
+             return  ResponseEntity.badRequest().body("A ocurrido un error al momento de procesar la info : "+ex.getMessage()); // 400
         }
     }
 }

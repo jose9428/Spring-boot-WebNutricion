@@ -25,6 +25,7 @@
                         </div>
                     </div>
 
+
                     <div class="card-body">
                         <div id="resultado" ></div>
                     </div>
@@ -44,6 +45,10 @@
                         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     </div>
                     <div class="modal-body"> 
+                        <div class="alert alert-danger" role="alert" id="mensajeError">
+                        </div>
+
+
                         <form id="frmRegistro" enctype="multipart/form-data" method="POST" th:object="${admin}">  
                             <div class="form-group row margin-top-10">
                                 <div class="col-md-6">
@@ -85,7 +90,7 @@
                             <div class="form-group row margin-top-10">
                                 <div class="col-md-6">
                                     <label >DNI</label>
-                                    <input type="text" class="form-control" id="dni" th:field="*{dni}" maxlength="8">
+                                    <input type="number" class="form-control" id="dni" th:field="*{dni}" maxlength="8">
                                 </div>
                                 <div class="col-md-6">
                                     <label>Correo</label>
@@ -97,7 +102,7 @@
                                 <div class="col-md-6">
                                     <input type="hidden" th:field="*{id_Admi}" id="id_Admi">
                                     <button class="btn btn-primary" type="button" id="BtnGuardar">Guardar</button>
-                                    <button class="btn btn-danger" type="reset">Nuevo</button>
+                                    <button class="btn btn-danger" type="reset" id="Nuevo" >Nuevo</button>
                                 </div>
                             </div>
                         </form>
@@ -111,9 +116,19 @@
     <script type="text/javascript">
         $(function () {
             Listar();
+            $("#mensajeError").hide();
         });
-        
-            $("#BtnGuardar").on("click", function () {
+
+        function CargaDiv() {
+            if ($("#mensajeError").is(":visible")) {
+                $("#mensajeError").hide();
+            } else {
+                $("#mensajeError").show();
+            }
+        }
+
+
+        $("#BtnGuardar").on("click", function () {
             var form = new FormData(document.getElementById("frmRegistro"));
             $.ajax({
                 type: 'POST',
@@ -122,18 +137,30 @@
                 contentType: false,
                 cache: false,
                 processData: false,
-                success: function (data) {
-                    if (data === "OK") {
-                        Mensaje("Guardado correctamente..!!");
-                        Listar();
-                        $("#ModalAgregar").modal("hide");
-                        $("#frmRegistro")[0].reset();
-                    } else {
-                        Mensaje(data);
-                    }
+                success: function (data, status, xhr) {
 
-                }, error: function (jqXHR, textStatus, errorThrown) {
-                    Mensaje("No se ha podido guardar datos...!!");
+                    if (xhr.status === 202) {
+
+                        var cadena = " ";
+                        for (var i in data) {
+                            //  data[i].campo
+                            cadena += "." + data[i].mensaje + "<br>";
+                        }
+                        $("#mensajeError").html(cadena);
+                        $("#mensajeError").show();
+                    } else {
+                        if (data === "OK") {
+                            Mensaje("Guardado correctamente..!!");
+                            Listar();
+                            $("#ModalAgregar").modal("hide");
+                            $("#frmRegistro")[0].reset();
+                        } else {
+                            Mensaje(data);
+                        }
+                    }
+                }
+                , error: function (xhr, status, errMsg) {
+                    Mensaje(xhr.responseText);
                 }
             });
         });
@@ -153,7 +180,7 @@
                     if (jqXHR.status === 500) {
                         alert("Error : " + jqXHR.responseText);
                     } else {
-                        alert("Error inexpicable.");
+                        alert("Error al momento de cargar la lista de administradores.");
                     }
                 }
             });

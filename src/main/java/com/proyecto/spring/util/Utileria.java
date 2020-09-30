@@ -1,8 +1,13 @@
 package com.proyecto.spring.util;
 
+import com.proyecto.spring.models.entity.ErrorEntity;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Utileria {
@@ -21,7 +26,7 @@ public class Utileria {
 
     public static byte[] ConvertirImagen(MultipartFile imagen) {
         byte[] byteObjects = null;
-        
+
         if (!imagen.isEmpty()) {
             try {
                 byteObjects = new byte[imagen.getBytes().length];
@@ -38,5 +43,18 @@ public class Utileria {
         }
 
         return byteObjects;
+    }
+
+    public static List<ErrorEntity> getListError(BindingResult errores) {
+        List<ErrorEntity> lista = new ArrayList<>();
+        
+        for (FieldError o : errores.getFieldErrors()) {
+            ErrorEntity e = new ErrorEntity();
+            e.setCampo(o.getField());
+            e.setMensaje(o.getDefaultMessage());
+            lista.add(e);
+        }
+
+        return lista;
     }
 }
