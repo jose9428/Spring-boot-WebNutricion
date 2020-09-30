@@ -42,6 +42,9 @@
         <!-- Barra Menu-->
         <div class="sidebar sidebar-dark bg-dark" th:fragment="BarraMenu">
             <ul class="list-unstyled">
+                 <li  th:classappend="(${#httpServletRequest.requestURI} == '/admin/')?'active':'' ">
+                    <a th:href="@{/admin/}"><i class="fa fa-fw fa-table"></i> Administradores</a>
+                </li>
                 <li>
                     <a href="#sm_base" data-toggle="collapse">
                         <i class="fa fa-fw fa-cube"></i> Nutricionista

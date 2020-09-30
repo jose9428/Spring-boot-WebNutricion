@@ -10,31 +10,19 @@
                     <td scope="col">Fecha Nac.</td>
                     <td scope="col">Correo</td>
                     <td scope="col">Genero</td> 
-                    <td scope="col">Estado</td>
-                    <td scope="col">Accion</td>
                 </tr>
             </thead>
             <tbody>
 
-                <tr th:each="medico : ${listaMedicos}">
-                    <td> <img th:src="@{/nutricionista/verImagen/}+${medico.id_Nutricionista}" width="80"
-                              onerror="src='../img/sin_foto_medico.png' "></td>
-                    <td th:text="${medico.nombres}"></td>
-                    <td th:text="${medico.apellido_Paterno} +' ' +${medico.apellido_Materno}"></td>
-                    <td th:text="${medico.dni}"></td>
-                    <td th:text="${#dates.format(medico.fecha_Nacimiento, 'dd-MM-yyyy')}"></td>
-                    <td th:text="${medico.correo}"></td>
-                    <td th:text="${medico.genero=='M'?'Masculino':'Femenino' }"></td> 
-
-                    <td>
-                        <button th:if="${medico.usuario.estado==1}"  class="btn btn-info" 
-                                th:attr="onclick='CambiarEstado('+${medico.id_Nutricionista} +', 0,\' '  +${medico.nomCompletos()}+ '\'  )' " >Activo</button>
-                        <button th:unless="${medico.usuario.estado==1}"  class="btn btn-danger"
-                                th:attr="onclick='CambiarEstado('+${medico.id_Nutricionista} +', 1,\' '  +${medico.nomCompletos()}+ '\'  )' " >Inactivo</button>
-                    </td>
-                    <td>
-                        <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${medico.id_Nutricionista} + ')'"  class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Editar"><i class="fa fa-fw fa-edit"></i></a>
-                    </td>
+                <tr th:each="admin : ${listado}">
+                    <td> <img th:src="@{/admin/verImagen/}+${admin.id_Admi}" width="80"
+                              onerror="src='../img/sin_imagen.png' "></td>
+                    <td th:text="${admin.nombres}"></td>
+                    <td th:text="${admin.apellido_Paterno} +' ' +${admin.apellido_Materno}"></td>
+                    <td th:text="${admin.dni}"></td>
+                    <td th:text="${#dates.format(admin.fecha_Nacimiento, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${admin.correo}"></td>
+                    <td th:text="${admin.genero=='M'?'Masculino':'Femenino' }"></td> 
                 </tr>
             </tbody>
         </table>

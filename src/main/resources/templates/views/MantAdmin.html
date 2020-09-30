@@ -1,0 +1,164 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Administradores</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/template :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/template :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/template :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white font-weight-bold">
+                        <div class="bg-light p-3 mb-3">
+                            <button class="btn btn-success margin" id="btn-add" title="Nuevo" data-toggle="modal"  data-target="#ModalAgregar"><i class="fa fa-plus"></i> Nuevo</button>
+
+                            <h3 class="mt-3">Lista de Administradores</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="resultado" ></div>
+                    </div>
+                </div>
+
+
+                <footer th:replace="plantilla/template :: footer"></footer> 
+            </div>
+
+        </div>
+
+        <div class="modal fade bd-example-modal-lg"  id="ModalAgregar">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="NomModal"> <strong>Agregar Administrador</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body"> 
+                        <form id="frmRegistro" enctype="multipart/form-data" method="POST" th:object="${admin}">  
+                            <div class="form-group row margin-top-10">
+                                <div class="col-md-6">
+                                    <label >Nombres Completos</label>
+                                    <input type="text" class="form-control" id="nombres"  th:field="*{nombres}" maxlength="30">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Fecha Nacimiento</label>
+                                    <input type="date" class="form-control" id="fechaN"  name="fechaN" >
+                                </div>
+                            </div>
+
+                            <div class="form-group row margin-top-10">
+                                <div class="col-md-6">
+                                    <label >Apellido Paterno</label>
+                                    <input type="text" class="form-control" id="apellido_Paterno"  th:field="*{apellido_Paterno}" maxlength="30">
+                                </div>
+
+                                <div class="col-sm">
+                                    <label>Genero</label>
+                                    <select class="form form-control" id="genero" th:field="*{genero}">
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row margin-top-10">
+                                <div class="col-md-6">
+                                    <label >Apellido Materno</label>
+                                    <input type="text" class="form-control" id="apellido_Materno" th:field="*{apellido_Materno}" maxlength="30">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Foto</label>
+                                    <input type="file" class="form-control" id="file" name="file">
+                                </div>
+
+                            </div>
+                            <div class="form-group row margin-top-10">
+                                <div class="col-md-6">
+                                    <label >DNI</label>
+                                    <input type="text" class="form-control" id="dni" th:field="*{dni}" maxlength="8">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Correo</label>
+                                    <input type="email" class="form-control" id="correo" th:field="*{correo}" maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="form-group row margin-top-10">
+                                <div class="col-md-6">
+                                    <input type="hidden" th:field="*{id_Admi}" id="id_Admi">
+                                    <button class="btn btn-primary" type="button" id="BtnGuardar">Guardar</button>
+                                    <button class="btn btn-danger" type="reset">Nuevo</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+    <script type="text/javascript">
+        $(function () {
+            Listar();
+        });
+        
+            $("#BtnGuardar").on("click", function () {
+            var form = new FormData(document.getElementById("frmRegistro"));
+            $.ajax({
+                type: 'POST',
+                url: "/admin/guardar",
+                data: form,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    if (data === "OK") {
+                        Mensaje("Guardado correctamente..!!");
+                        Listar();
+                        $("#ModalAgregar").modal("hide");
+                        $("#frmRegistro")[0].reset();
+                    } else {
+                        Mensaje(data);
+                    }
+
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    Mensaje("No se ha podido guardar datos...!!");
+                }
+            });
+        });
+
+        function Listar() {
+            $.ajax({
+                type: 'GET',
+                url: "/admin/listar",
+                data: {},
+                beforeSend: function (xhr) {
+                    $("#resultado").html("Cargando..");
+                },
+                success: function (result) {
+                    $("#resultado").html(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        alert("Error inexpicable.");
+                    }
+                }
+            });
+        }
+
+    </script>
+
+</html>
