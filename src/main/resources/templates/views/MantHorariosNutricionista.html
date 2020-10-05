@@ -7,12 +7,12 @@
     </head>
 
     <body class="bg-light">
-        <div th:replace="plantilla/template :: EstilosCss"></div>
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
 
-        <nav th:replace="plantilla/template :: BarraHeader"></nav>
+        <nav th:replace="plantilla/templateAdmin :: BarraHeader"></nav>
 
         <div class="d-flex">
-            <div th:replace="plantilla/template :: BarraMenu"></div>
+            <div th:replace="plantilla/templateAdmin :: BarraMenu"></div>
 
             <div class="content p-4">
 
@@ -44,7 +44,7 @@
                 </div>
 
 
-                <footer th:replace="plantilla/template :: footer"></footer> 
+                <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
             </div>
 
             <div class="modal fade bd-example-modal-lg"  id="ModalAsignarHorario">
@@ -85,7 +85,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-md-3">
 
                                         <img class="border-0" id="fotoNut" src="" width="140" height="176" onerror="src='../img/sin_foto_medico.png' ">
 

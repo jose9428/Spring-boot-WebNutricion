@@ -11,6 +11,7 @@ import com.proyecto.spring.models.service.IContexturaService;
 import com.proyecto.spring.models.service.IHoraService;
 import com.proyecto.spring.models.service.IHorarioNutricionistaService;
 import com.proyecto.spring.models.service.INutricionistaService;
+import com.proyecto.spring.models.service.IPacienteService;
 import com.proyecto.spring.models.service.IPerfilService;
 import com.proyecto.spring.models.service.ITurnoService;
 import com.proyecto.spring.models.service.IUsuarioService;
@@ -43,6 +44,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     private IHorarioNutricionistaService horarioService;
     
+    @Autowired
+    private IPacienteService pacienteService;
+    
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -53,9 +57,7 @@ public class Application implements CommandLineRunner {
         // log.warn(contexturaService.getAll().toString());
         //   List<Perfil> lista = perfilService.getAll();
 
-          List lista = horarioService.ListadoNutricionistaDispTurno(3L);
-          log.warn("Tamaño : "+lista.size());
-          log.warn(lista.get(0).toString());
+          log.warn(pacienteService.getAll().toString());
    
     }
     

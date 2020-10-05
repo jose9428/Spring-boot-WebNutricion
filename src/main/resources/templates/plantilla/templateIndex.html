@@ -1,0 +1,125 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Plantilla Base</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+
+    <body>
+        <div th:fragment="EstilosCss">
+            <link rel="stylesheet" th:href="@{'/css/index/bootstrap.min.css'}" >
+            <link rel="stylesheet" th:href="@{'/css/index/font-awesome.min.css'}">
+            <link rel="stylesheet" th:href="@{'/css/index/jquery.bxslider.css'}">
+            <link rel="stylesheet" th:href="@{'/css/index/isotope.css'}" media="screen" />
+            <link rel="stylesheet" th:href="@{'/css/index/animate.css'}">
+            <link rel="stylesheet" th:href="@{'/js/index/jquery.fancybox.css'}" type="text/css" media="screen" />
+            <link rel="stylesheet" th:href="@{'/css/index/prettyPhoto.css'}"/>
+            <link rel="stylesheet" th:href="@{'/css/index/style.css'}" />
+        </div>
+
+        <header th:fragment = "BarraHeader" >
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="navigation">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse.collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand">
+                                <a th:href="@{/}"><h1><span>N</span>utricion</h1></a>
+                            </div>
+                        </div>
+
+                        <div class="navbar-collapse collapse">
+                            <div class="menu">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation"><a th:href="@{/}">Inicio</a></li>
+                                    <li role="presentation" ><a href="Servicios.jsp">Servicios</a></li>
+                                    <li role="presentation"><a th:href="@{/staff}">Staff</a></li>
+                                    <li role="presentation"><a href="Login.jsp">Iniciar Sesion</a></li>
+                                    <li role="presentation"><a th:href="@{/paciente/registrar}">Abrir Cuenta</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <footer class="fixed-bottom" th:fragment="footer" >
+            <div class="footer" >
+                <div class="container">
+                    <div class="col-md-4 wow fadeInUp" data-wow-offset="0" data-wow-delay="0.2s">
+                        <h2>Clinica</h2>
+                        <p>Nuestra clinica brinda salud y bienestar brinda los servicios de nutrición y endocrinología en Lima, contando con las mejores especialistas en Nutrición Clínica, Deportiva y endocrinología atendiendo a niños, jóvenes y adultos que desean mejorar su salud y bienestar.</p>
+
+                        <ul class="social-network">
+                            <li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook fa-1x"></i></a></li>
+                            <li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter fa-1x"></i></a></li>
+                            <li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin fa-1x"></i></a></li>
+                            <li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest fa-1x"></i></a></li>
+                            <li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus fa-1x"></i></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4 wow fadeInUp" data-wow-offset="0" data-wow-delay="0.4s">
+                        <h3>Hora de Prevenir</h3>
+                        <ul>
+                            <li>Ofrecemos algunos de estos servicios para nuestros pacientes que acudan a Nutrición:</li>
+                            <hr>
+                            <li>Asesoría nutricional</li>
+                            <hr>
+                            <li>Evaluación nutricional </li>
+                            <hr>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4 wow fadeInUp" data-wow-offset="0" data-wow-delay="0.6s">
+                        <h3>CONTACTO</h3>
+                        <ul>
+                            <li><i class="fa fa-home fa-2x"></i> Oficina # 21, Lima Centro</li>
+                            <hr>
+                            <li><i class="fa fa-phone fa-2x"></i> +51 934512334</li>
+                            <hr />
+                            <li><i class="fa fa-envelope fa-2x"></i> nutricion_en_casa@clinica.net</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sub-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Copyright &copy; Desarrollo de Software I  - 2020</p>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <a href="#home" class="scrollup"><i class="fa fa-angle-up fa-3x"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <script th:src="@{/js/jquery.min.js}"></script>
+
+            <script th:src="@{/js/index/jquery-2.1.1.min.js}"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script th:src="@{/js/index/bootstrap.min.js}"></script>
+            <script th:src="@{/js/index/wow.min.js}"></script>
+            <script th:src="@{/js/index/jquery.fancybox.pack.js}"></script>
+            <script th:src="@{/js/index/jquery.easing.1.3.js}"></script>
+            <script th:src="@{/js/index/jquery.bxslider.min.js}"></script>
+            <script th:src="@{/js/index/jquery.prettyPhoto.js}"></script>
+            <script th:src="@{/js/index/jquery.isotope.min.js}"></script>
+            <script th:src="@{/js/index/functions.js}"></script>
+        </footer>
+
+
+
+    </body>
+</html>

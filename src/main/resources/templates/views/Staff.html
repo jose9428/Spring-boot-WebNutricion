@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Staff - Medicos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div th:replace="plantilla/templateIndex :: EstilosCss"></div>
+        <div th:replace="plantilla/templateIndex :: BarraHeader"></div>
+
+        <div class="container">
+            <div class="text-center">
+                <div class="wow bounceInDown" data-wow-offset="0" data-wow-delay="0.3s">
+                    <h2>Staff Médico</h2>
+                </div>
+                <div class="wow bounceInDown" data-wow-offset="0" data-wow-delay="0.6s">
+                    <p>Esta especialidad se encarga de recetar la dieta óptima, según la necesidad de cada paciente, de acuerdo a su metabolismo y tipo de alimentos.</p>
+                </div>
+
+                <div class="wow fadeInRight" data-wow-offset="0" data-wow-delay="0.3s">
+
+
+                    <div class="card col-md-4"   th:each="n : ${medicos}">
+
+                        <div class="card-body">
+                            <div class="card" style="width: 28rem;color: black;">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <img th:src="@{/nutricionista/verImagen/}+${n.id_Nutricionista}" 
+                                             alt="" class="img-circle"  width="220" height="220" onerror="src='../img/sin_foto_medico.png' ">
+                                    </li>
+                                    <li class="list-group-item"  th:text="${n.nomCompletos()}">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#" class="btn btn-primary btn-lg btn-block">Estudios</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <br>
+        <footer th:replace="plantilla/templateIndex :: footer"></footer>
+    </body>
+</html>
