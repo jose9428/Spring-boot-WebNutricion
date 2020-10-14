@@ -31,5 +31,10 @@ public class AdministradorServiceImpl implements IAdministradorService{
     public String UsuarioGenerado() {
         return administradorRepository.UsuarioGenerado();
     }
+
+    @Override
+    public List<Administrador> getListDisponibles() {
+        return administradorRepository.ListadoAdministradoresDisponibles();
+    }
     
 }

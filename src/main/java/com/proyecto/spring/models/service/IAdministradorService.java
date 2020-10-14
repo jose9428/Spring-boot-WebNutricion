@@ -12,4 +12,6 @@ public interface IAdministradorService {
     public void Guardar(Administrador a);
     
     public String UsuarioGenerado();
+    
+      public List<Administrador> getListDisponibles();
 }

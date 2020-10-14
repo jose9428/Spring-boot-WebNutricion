@@ -57,4 +57,13 @@ public class Nutricionista implements Serializable {
     public String nomCompletos() {
         return nombres + " " + apellido_Paterno + " " + apellido_Materno;
     }
+
+    public String Cargo() {
+        if (genero.equalsIgnoreCase("F")) {
+            return "Dra. " + nombres + " " + apellido_Paterno + " " + apellido_Materno;
+        } else {
+            return "Dr. " + nombres + " " + apellido_Paterno + " " + apellido_Materno;
+        }
+
+    }
 }

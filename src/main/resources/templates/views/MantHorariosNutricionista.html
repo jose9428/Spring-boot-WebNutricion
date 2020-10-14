@@ -140,10 +140,12 @@
                 type: 'get',
                 data: {},
                 success: function (data) {
-                    $("#fotoNut").attr("src", "data:image/jpg;base64," + data.trim());
-
+                    try{
+                        $("#fotoNut").attr("src", "data:image/jpg;base64," + data.trim());
+                    }catch(e){
+                    }
                 }, error: function (jqXHR, textStatus, errorThrown) {
-                    Mensaje("No se pudo cargar imagen...!!");
+                    $("#fotoNut").attr("src" , "/img/sin_foto_medico.png");
                 }
             });
 

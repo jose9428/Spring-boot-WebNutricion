@@ -41,6 +41,7 @@ public class Paciente {
     private String genero;
 
     private String telefono;
+    
     @Lob
     @Column(name = "foto", length = Integer.MAX_VALUE)
     private byte[] foto;

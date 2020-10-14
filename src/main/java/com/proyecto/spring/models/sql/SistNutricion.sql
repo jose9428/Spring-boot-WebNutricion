@@ -22,7 +22,15 @@ CREATE TABLE Usuario(
   pass varchar(120) NOT NULL,
   estado boolean NULL ,
   fecha_Registro datetime,
+  token varchar(150),
   FOREIGN KEY(id_Perfil)REFERENCES Perfil(id_Perfil)
+);
+
+CREATE TABLE VerificacionCuenta(
+  id_verificacion INT AUTO_INCREMENT PRIMARY KEY ,
+  id_Usuario int,
+  token varchar(150),
+  FOREIGN KEY(id_Usuario)REFERENCES Usuario(id_Usuario)
 );
 
 CREATE TABLE Nutricionista(
@@ -140,21 +148,20 @@ INSERT INTO Perfil VALUES(NULL , 'Administrador');
 INSERT INTO Perfil VALUES(NULL , 'Nutricionista');
 INSERT INTO Perfil VALUES(NULL , 'Paciente');
 
-INSERT INTO Usuario VALUES(NULL , 1 , 'admin','admin',1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'C001', '21232123', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'C002', '51223577', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'C003', '41223558', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'C004', '29323841', 1, NOW());
+INSERT INTO Usuario VALUES(NULL , 1 , 'admin','admin',1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'C001', '21232123', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'C002', '51223577', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'C003', '41223558', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'C004', '29323841', 1, NOW(),NULL);
 
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N5', '10564587', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N6', '21458565', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N7', '45211562', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N8', '45168574', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N9', '56412568', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N10', '43001245', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N11', '00156578', 1, NOW());
-INSERT INTO Usuario VALUES(NULL , 3, 'user001', '123456', 0, NOW());
-
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N5', '10564587', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N6', '21458565', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N7', '45211562', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N8', '45168574', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N9', '56412568', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N10', '43001245', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N11', '00156578', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 3, 'user001', '123456', 0, NOW(),'ASD-12499');
 
 -- ID 1 // Administrador
 INSERT INTO Administrador VALUES (NULL , 1, 'Sebastian', 'Palomino', 'Quispe', '31452820', '1989-02-13', 'sebas-89@gmail.com', 'M',null);

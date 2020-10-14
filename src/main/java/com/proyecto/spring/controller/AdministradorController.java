@@ -34,11 +34,26 @@ public class AdministradorController {
 
     @Autowired
     private IAdministradorService adminService;
+    
+    @Autowired
+    private INutricionistaService nutricionistaService;
+    
+    @Autowired
+    private IPacienteService pacienteService;
 
     @GetMapping("/")
     public String ViewAdmin(Model model) {
         model.addAttribute("admin", new Administrador());
         return "/views/MantAdmin";
+    }
+
+    @GetMapping("/reporte")
+    public String Reportes(Model model) {
+        model.addAttribute("cantPaciente", pacienteService.getCantDisponibles());
+        model.addAttribute("cantMedico", nutricionistaService.getCantDisponibles());
+        model.addAttribute("cantAdmin", adminService.getListDisponibles().size());
+        model.addAttribute("cantCitasPendiente", 26);
+        return "/views/PanelAdmin";
     }
 
     @GetMapping("/listar")
@@ -65,12 +80,12 @@ public class AdministradorController {
     @PostMapping("/guardar")
     public ResponseEntity<Object> GuardarNutricionista(@Valid Administrador a, BindingResult errores,
             @RequestParam("file") MultipartFile imagen, @RequestParam("fechaN") String fecha) {
-        
+
         try {
 
             if (errores.hasErrors()) {
                 List<ErrorEntity> lista = Utileria.getListError(errores);
-              
+
                 return ResponseEntity.accepted().body(lista); // 202
             }
 
@@ -96,7 +111,7 @@ public class AdministradorController {
             return ResponseEntity.ok("OK"); // 200
 
         } catch (Exception ex) {
-             return  ResponseEntity.badRequest().body("A ocurrido un error al momento de procesar la info : "+ex.getMessage()); // 400
+            return ResponseEntity.badRequest().body("A ocurrido un error al momento de procesar la info : " + ex.getMessage()); // 400
         }
     }
 }

@@ -1,10 +1,11 @@
 package com.proyecto.spring.models.service;
 
-import com.proyecto.spring.models.entity.Nutricionista;
-import com.proyecto.spring.models.entity.Usuario;
+import com.proyecto.spring.models.entity.*;
 import com.proyecto.spring.models.repository.NutricionistaRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -49,6 +50,17 @@ public class NutricionistaServiceImpl implements INutricionistaService {
         }
         
         Guardar(n);
+    }
+
+
+    @Override
+    public int getCantDisponibles() {
+        return nutricionistaRepository.CantNutricionistaDisponibles();
+    }
+
+    @Override
+    public Page<Nutricionista> getListDisponibles(Pageable pageable) {
+        return nutricionistaRepository.ListadoNutricionistaDisponibles(pageable);
     }
 
 }

@@ -3,90 +3,65 @@
         <title>Nuevo Paciente</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link th:href="@{'/css/bootstrap.min.css'}" rel="stylesheet" type="text/css">
     </head>
+    <style >
+        .marco{
+            border: 1px solid black;
+            color: black;
+            border-top-width: 3px;
+            border-left-width: 2px;
+            border-style: inset; border-width: 1px;
+        }
+    </style>
 
     <body>
         <div th:replace="plantilla/templateIndex :: EstilosCss"></div>
         <div th:replace="plantilla/templateIndex :: BarraHeader"></div>
 
-        <div>
-            <div id="signup" class="tab-pane">
-                <form id="frmRegistro">
-                    <div class="form-row">
-                        <br>
-                        <div class="col-sm">
-                            <select class="form form-control" id="contextura" name="contextura">
-                                <option th:each="c : ${contexturas}" 
-                                        th:text="${c.nombreContextura}"
-                                        th:value="${c.id_contextura}"></option>
-                            </select>
-                            <div id="error_contextura" style="color: #ff0000;"></div>
+        <div class="container mt-3 marco">
+            <div class="card " >
+
+                <div class="card-body " >
+                    <br>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Nombres</label>
+                                <input type="text" class="form-control" placeholder="Nombre Completo" maxlength="40" id="nombres" name="nombres">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Apellido Paterno</label>
+                                <input type="text" class="form-control" placeholder="Apellido Paterno" maxlength="40" id="nombres" name="nombres">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Apellido Materno</label>
+                                <input type="text" class="form-control" placeholder="Apellido Paterno" maxlength="40" id="nombres" name="nombres">
+                            </div>
                         </div>
-                        <br>
-                        <div class="col-sm">
-                            <input type="text" class="form-control" placeholder="Nombres Completos" maxlength="40" id="nombres" name="nombres">
-                            <div id="error_nombres" style="color: #ff0000;"></div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Nombres</label>
+                                <input type="text" class="form-control" placeholder="Nombre Completo" maxlength="40" id="nombres" name="nombres">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Apellido Paterno</label>
+                                <input type="text" class="form-control" placeholder="Apellido Paterno" maxlength="40" id="nombres" name="nombres">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <button type="button" class="btn btn-primary">Registrarse</button>
                         </div>
 
-                        <br>
-                        <div class="col-sm">
-                            <input type="text" class="form-control" placeholder="Primer Apellido" maxlength="40" id="apeP" name="apeP">
-                            <div id="error_apeP" style="color: #ff0000;"></div>
-                        </div>
+                    </form>
+                    </ul>
 
-                        <br>
-                        <div class="col-sm">
-                            <input type="text" class="form-control" placeholder="Segundo Apellido" maxlength="40" id="apeM" name="apeM">
-                            <div id="error_apeM" style="color: #ff0000;"></div>
-                        </div>
+                </div>
 
-                        <br>
-                        <div class="col-sm">
-                            <input type="text" class="form-control" placeholder="DNI" maxlength="8" id="dni" name="dni">
-                            <div id="error_dni" style="color: #ff0000;"></div>
-                        </div>
-                        <br>
-                        <div class="col-sm">
-                            <select class="form form-control" id="genero" name="genero">
-                                <option value="0">Seleccione Genero</option>
-                                <option value="M">Masculino</option>
-                                <option value="F">Femenino</option>
-                            </select>
-                            <div id="error_genero" style="color: #ff0000;"></div>
-                        </div>
 
-                        <br>
-                        <div class="col-sm">
-                            <label>Fecha Nacimiento</label>
-                            <input type="date" class="form-control" placeholder="Fecha de Nacimiento" id="fechaNac" name="fechaNac">
-                            <div id="error_fechaNac" style="color: #ff0000;"></div>
-                        </div>
-
-                        <br>
-                        <div class="col-sm">
-                            <input type="email" class="form-control" placeholder="Correo electronico" maxlength="40" id="correo" name="correo">
-                            <div id="error_correo" style="color: #ff0000;"></div>
-                        </div>
-
-                        <br>
-                        <div class="col-sm">
-                            <input type="text" class="form-control" placeholder="Usuario" maxlength="40" id="usuario" name="usuario">
-                            <div id="error_usuario" style="color: #ff0000;"></div>
-                        </div>
-
-                        <br>
-                        <div class="col-sm">
-                            <input type="password" class="form-control" placeholder="Contraseña" maxlength="40" id="pass" name="pass">
-                            <div id="error_pass" style="color: #ff0000;"></div>
-                        </div>
-                    </div>
-                    <input type="hidden" name="accion" value="AgregarPaciente">
-                    <button class="btn btn-lg btn-success btn-block" type="button" id="BtnRegistrarse">Registrarse</button>
-                </form>
             </div>
-        </div>
 
+        </div>
+        <br>
         <footer th:replace="plantilla/templateIndex :: footer"></footer>
     </body>
 </html>

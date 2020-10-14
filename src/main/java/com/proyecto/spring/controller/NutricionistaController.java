@@ -153,9 +153,12 @@ public class NutricionistaController {
     @GetMapping("/verImagenAjax/{id}")
     @ResponseBody
     public String showImageAjax(@PathVariable("id") Long id) {
-
+        String imagen = "";
         Nutricionista n = nutricionistaService.getById(id);
-        String imagen = Base64.getEncoder().encodeToString(n.getFoto());
+
+        if (n.getFoto() != null) {
+            imagen = Base64.getEncoder().encodeToString(n.getFoto());
+        }
 
         return imagen;
     }

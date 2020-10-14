@@ -27,4 +27,9 @@ public class PacienteServiceImpl implements IPacienteService {
         pacienteRepository.save(p);
     }
 
+    @Override
+    public int getCantDisponibles() {
+        return pacienteRepository.CantPacientesDisponibles();
+    }
+
 }

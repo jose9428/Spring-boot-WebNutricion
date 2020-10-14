@@ -11,4 +11,6 @@ public interface IPacienteService {
 
     public void Guardar(Paciente p);
 
+    public int getCantDisponibles();
+
 }

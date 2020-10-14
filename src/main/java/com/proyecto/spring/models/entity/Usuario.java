@@ -35,6 +35,8 @@ public class Usuario implements Serializable {
     @Column(name = "estado")
     private int estado;
 
+    private String token;
+
     @Column(name = "fecha_Registro")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
