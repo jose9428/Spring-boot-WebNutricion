@@ -58,16 +58,16 @@
                     <div class="row" style="margin-right:auto;">
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
-                            <nav aria-label="Page navigation ">
+                            <nav aria-label="Page navigation " >
                                 <li class="page-item disabled">
 
-                                    <ul class="pagination justify-content-center paginacion" style="color: black;">
-                                        <li class="page-item" th:classappend="${anterior == 0?'ocultar':' ' }">
+                                    <ul class="pagination justify-content-center paginacion " style="color: black;" >
+                                        <li class="page-item " th:classappend="${anterior == 0?'ocultar':' ' }">
                                             <a th:href="@{|/staff?page=${anterior}|}">Anterior</a>
                                         </li>
 
                                         <li class="page-item" th:each='page : ${pages}' th:classappend="${actual==page?'active':' ' }">
-                                            <a class="page-link" th:href="@{|/staff?page=${page}|}" th:text='${page}'></a>
+                                            <a class="page-link" th:href="@{|/staff?page=${page}|}" th:text='${page}' ></a>
                                         </li>
 
                                         <li class="page-item" th:classappend="${actual == ultimo?'ocultar':' ' }" >

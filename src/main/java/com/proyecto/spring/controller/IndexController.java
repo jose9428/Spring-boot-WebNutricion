@@ -24,9 +24,14 @@ public class IndexController {
     public String Index() {
         return "/views/index";
     }
+    
+    @GetMapping("/login")
+    public String IniciarSesion() {
+        return "/views/Login";
+    }
 
     @GetMapping("/staff")
-    public String StaffMedicos2(Model model, @RequestParam(required = false) Integer page) {
+    public String StaffMedicos(Model model, @RequestParam(required = false) Integer page) {
 
         if (page == null || page == 0) {
             page = 0;
