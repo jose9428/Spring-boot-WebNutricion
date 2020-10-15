@@ -6,6 +6,7 @@ import com.proyecto.spring.util.Utileria;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -84,7 +85,7 @@ public class AdministradorController {
         try {
 
             if (errores.hasErrors()) {
-                List<ErrorEntity> lista = Utileria.getListError(errores);
+                Set<ErrorEntity> lista = Utileria.getListError(errores);
 
                 return ResponseEntity.accepted().body(lista); // 202
             }

@@ -5,12 +5,18 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Utileria {
+
 
     public static Date ConvertirFecha(String cadena) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -45,9 +51,9 @@ public class Utileria {
         return byteObjects;
     }
 
-    public static List<ErrorEntity> getListError(BindingResult errores) {
-        List<ErrorEntity> lista = new ArrayList<>();
-        
+    public static Set<ErrorEntity> getListError(BindingResult errores) {
+        Set<ErrorEntity> lista = new HashSet<>();
+
         for (FieldError o : errores.getFieldErrors()) {
             ErrorEntity e = new ErrorEntity();
             e.setCampo(o.getField());
@@ -57,4 +63,17 @@ public class Utileria {
 
         return lista;
     }
+
+    public static String CodigoToken() {
+        String cadena = "0123456789";
+        String token = "";
+        int max = cadena.length() - 1;
+
+        for (int i = 0; i < 6; i++) {
+            int caracter = (int) (Math.random() * (max));
+            token += cadena.charAt(caracter);
+        }
+        return token;
+    }
+
 }

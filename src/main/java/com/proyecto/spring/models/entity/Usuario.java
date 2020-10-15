@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,9 +27,10 @@ public class Usuario implements Serializable {
     @Column(name = "id_Usuario")
     private Long id_Usuario;
 
+    @NotEmpty(message = "El campo del usuario es requerido")
     @Column(name = "username")
     private String username;
-
+    @NotEmpty(message = "El campo de la contraseña es requerido")
     @Column(name = "pass")
     private String pass;
 

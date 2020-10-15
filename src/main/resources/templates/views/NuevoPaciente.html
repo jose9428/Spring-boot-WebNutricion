@@ -12,8 +12,6 @@
             border-left-width: 2px;
             border-style: inset; border-width: 1px;
         }
-
-
         .card {
             box-shadow: 0 5px 5px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
             transition: all 0.2s ease-in-out;
@@ -44,6 +42,31 @@
             opacity: 0.7;
         }
 
+        #loading-screen {
+            background-color: rgba(25,25,25,0.7);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            z-index: 9999;
+            margin-top: 0;
+            top: 0;
+            text-align: center;
+        }
+        #loading-screen img {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-top: -50px;
+            margin-left: -50px;
+            top: 50%;
+        }
+
+        a:hover{
+            color: white;
+            padding:4px;
+            text-decoration: none;
+
+        }
     </style>
 
     <body>
@@ -55,93 +78,266 @@
             <div class="card">
                 <div class="card-inner">
                     <div class="header">
-                        <h2>Nuevo Registro</h2>
+                        <h2 id="texto">Nuevo Registro</h2>
                         <hr>
                     </div>
+
                     <div class="content">
-                        <form>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label   class="help-block">Nombres</label>
-                                    <input type="text" class="form-control" id="nombres" placeholder="Nombres Completos">
+                        <div class="alert alert-danger" role="alert" id="errores">
+
+                        </div>
+                        <div id="Proceso1">
+                            <form id="frmRegistro" action="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label   class="help-block">Nombres</label>
+                                        <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Nombres Completos" maxlength="30">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label  class="help-block">Apellido Paterno</label>
+                                        <input type="text" class="form-control" id="apellido_Paterno" name="apellido_Paterno" placeholder="Apellido Paterno" maxlength="30">
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label  class="help-block">Apellido Paterno</label>
-                                    <input type="text" class="form-control" id="apellido_Paterno" placeholder="Apellido Paterno">
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label   class="help-block">Dni</label>
+                                        <input type="text" class="form-control" id="dni" name="dni" placeholder="DNI" maxlength="8">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label  class="help-block">Apellido Materno</label>
+                                        <input type="text" class="form-control" id="apellido_Materno" name="apellido_Materno" placeholder="Apellido Materno" maxlength="30">
+                                    </div>
                                 </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label   class="help-block">Fecha de Nacimiento</label>
+                                        <input type="date" class="form-control" id="fechaNac" name="fechaNac">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label  class="help-block">Correo</label>
+                                        <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo Electronico" maxlength="40">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label   class="help-block">Telefono</label>
+                                        <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Telefono" maxlength="9">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label  class="help-block">Contextura</label>
+                                        <select name="id_contextura" id="id_contextura" class="form-control" >
+                                            <option th:each="contextura : ${contexturas}"
+                                                    th:value="${contextura.id_contextura}" 
+                                                    th:text="${contextura.nombreContextura}" ></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label  class="help-block">Genero</label>
+                                        <select name="genero" id="genero" class="form-control" >
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Femenino</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label  class="help-block">Usuario</label>
+                                        <input type="text" class="form-control" id="usuario.username" name="usuario.username" placeholder="Usuario" maxlength="20">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label  class="help-block">Contraseña</label>
+                                        <input type="password" class="form-control" id="usuario.pass" name="usuario.pass" placeholder="Contraseña" maxlength="20">
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <button type="button" class="btn btn-primary" style="background-color: #008CBA;" id="BtnGuardar">Registrarse</button>
+                                    <button type="reset" class="btn btn-primary" style="background-color: #ff3333;" >Cancelar</button>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div id="Proceso2">
+                            <form id="frmRegistro2" action="post">
+                                <div class="alert alert-success" role="alert">
+                                    <p class="help-block" style="font-size: 17px; text-shadow: #555 1px 4px 8px;" >En hora buena <a href="#" class="alert-link">Felicidades</a>. tu cuenta ya ha sido registrada.</p>
+                                    <hr>
+                                    <p class="mb-0 help-block" style="font-size: 17px;">Para activar tu cuenta por favor ingresa el numero que se le ha enviado al correo : <span id="correoToken"  class="alert-link"></span></p>
+                                </div>
+
+
+                                <div class=" row">
+                                    <div class="col-sm-4">
+                                        <label class="help-block">Ingresa tu codigo de confirmacion: </label>
+
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="number" class="form-control" id="codigo" name="codigo" placeholder="Codigo de confirmacion">
+                                    </div>
+                                </div>
+
+                                <div class=" row">
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-primary" id="BtnActivarCuenta">Activar Cuenta</button>
+                                    </div>
+
+                                </div>
+                                <strong class="help-block">
+                                    ¿No haz recibido ningun correo?
+
+                                </strong>
+                                <a href="javascript:Enviar()" style="color: #005593; font: oblique bold 120% cursive;">Volver a enviar</a>
+                            </form>
+                        </div>
+
+                        <div id="Proceso3">
+                            <div class="alert alert-success" role="alert">
+                                <p class="help-block" style="font-size: 17px; text-shadow: #555 1px 4px 8px;" >Su cuenta ha sido activada satisfactoriamente.</p>
+                                <hr>
+                                <p class="mb-0 help-block" style="font-size: 17px;">Ahora podras estar atento de nuestras novedades y de la atencion de nuestro personal medico.</p>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label   class="help-block">Dni</label>
-                                    <input type="text" class="form-control" id="dni" placeholder="DNI">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label  class="help-block">Apellido Paterno</label>
-                                    <input type="text" class="form-control" id="apellido_Materno" placeholder="Apellido Materno">
+                            <div class=" row">
+                                <div class="col-sm-4">
+                                    <a th:href="@{/login}" style="color: #005593; font: oblique bold 120% cursive;">Iniciar Sesion</a>
                                 </div>
                             </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label   class="help-block">Fecha de Nacimiento</label>
-                                    <input type="date" class="form-control" id="fechaNac" >
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label  class="help-block">Correo</label>
-                                    <input type="email" class="form-control" id="correo" placeholder="Correo Electronico">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label   class="help-block">Telefono</label>
-                                    <input type="number" class="form-control" id="telefono" placeholder="Telefono" >
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label  class="help-block">Contextura</label>
-                                    <select name="id_contextura" class="form-control" >
-                                        <option th:each="contextura : ${contexturas}"
-                                                th:value="${contextura.id_contextura}" 
-                                                th:text="${contextura.nombreContextura}" ></option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group col-md-3">
-                                    <label  class="help-block">Genero</label>
-                                    <select name="genero" id="genero" class="form-control" >
-                                        <option value="M">Masculino</option>
-                                        <option value="F">Femenino</option>
-                                    </select>
-                                </div>
-
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label  class="help-block">Usuario</label>
-                                    <input type="text" class="form-control" id="user" placeholder="Usuario">
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label  class="help-block">Contraseña</label>
-                                    <input type="password" class="form-control" id="pass" placeholder="Contraseña">
-                                </div>
-
-                            </div>
-                            <div class="form-row">
-                                <button type="button" class="btn btn-primary" style="background-color: #008CBA;">Registrarse</button>
-                                <button type="reset" class="btn btn-primary" style="background-color: #ff3333;" >Cancelar</button>
-
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
         <br>
+
+        <div id="loading-screen" style="display: none;">
+            <img th:src="@{/img/spinning-circles.svg}">
+        </div>
+
         <footer th:replace="plantilla/templateIndex :: footer"></footer>
     </body>
+    <script type="text/javascript">
+        $(function () {
+            DivError(false);
+            $("#Proceso2").hide();
+            $("#Proceso3").hide();
+            $("#texto").html("Cuenta nueva");
+        });
+
+        function DivError(estado) {
+            if (estado === false) {
+                $("#errores").hide();
+            } else {
+                $("#errores").show();
+            }
+        }
+
+        $("#BtnGuardar").on("click", function () {
+            $.ajax({
+                type: 'POST',
+                url: "/paciente/guardar",
+                data: $("#frmRegistro").serialize(),
+                success: function (data, status, xhr) {
+                    if (xhr.status === 202) {
+                        var cadena = "<strong>Por favor corrija los siguientes errores: </strong><br>";
+                        for (var i in data) {
+                            //  data[i].campo
+                            cadena += "." + data[i].mensaje + "<br>";
+                        }
+                        DivError(true);
+                        $("#errores").html(cadena);
+                    } else {
+
+                        DivError(false);
+                        $("#errores").html("");
+                        if (data === "OK") {
+                            EnviarCorreo($("#correo").val());
+                            setTimeout(function () {
+                                $("#texto").html("Felicidades.!");
+                                $("#Proceso1").hide();
+                                $("#Proceso2").show(1000);
+                            }, 10000);
+
+                        } else {
+                            Mensaje(data);
+                        }
+                    }
+                }
+                , error: function (xhr, status, errMsg) {
+                    Mensaje(xhr.responseText);
+                }
+            });
+        });
+
+        function EnviarCorreo(correo) {
+            $.ajax({
+                type: 'get',
+                url: "/paciente/enviarToken",
+                data: {
+                    correo: correo
+                }, beforeSend: function (xhr) {
+                    $("#loading-screen").fadeIn();
+                    DivError(false);
+                },
+                success: function (data, status, xhr) {
+                    Mensaje("<strong style='color: #004085;'>Se ha enviado correctamente el codigo de confirmacion al correo : " + correo + " </strong>");
+                    $("#correoToken").html(correo);
+                    $("#loading-screen").fadeOut();
+
+                }
+                , error: function (xhr, status, errMsg) {
+                    $("#loading-screen").fadeOut();
+                    $("#errores").html("<strong>" + xhr.responseText);
+                    DivError(true);
+                }
+            });
+        }
+
+        function Enviar() {
+            var correo = $("#correoToken").html();
+
+            EnviarCorreo(correo);
+        }
+
+        $("#BtnActivarCuenta").on("click", function () {
+            var correo = $("#correoToken").html();
+            var codigo = $("#codigo").val();
+
+            $.ajax({
+                type: 'get',
+                url: "/paciente/activarCuenta",
+                data: {
+                    correo: correo,
+                    token: codigo
+                }, beforeSend: function (xhr) {
+
+                    $("#loading-screen").fadeIn();
+                },
+                success: function (data, status, xhr) {
+
+                    setTimeout(function () {
+                        $("#loading-screen").fadeOut();
+                        DivError(false);
+                    }, 2000);
+                    setTimeout(function () {
+                        $("#Proceso2").hide();
+                        $("#Proceso3").show(2000);
+                        $("#texto").html("Cuenta activada..!");
+                    }, 2000);
+                }
+                , error: function (xhr, status, errMsg) {
+                    $("#loading-screen").fadeOut();
+                    $("#errores").html("<strong>" + xhr.responseText);
+                    DivError(true);
+                }
+            });
+        });
+
+    </script>
 </html>

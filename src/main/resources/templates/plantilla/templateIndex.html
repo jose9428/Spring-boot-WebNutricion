@@ -10,6 +10,10 @@
         <div th:fragment="EstilosCss">
             <link rel="stylesheet" th:href="@{'/css/index/bootstrap.min.css'}" >
             <link rel="stylesheet" th:href="@{'/css/index/font-awesome.min.css'}">
+            
+             <link th:href="@{/bootbox/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+            <link th:href="@{/bootbox/animate.min.css}" rel="stylesheet" type="text/css"/>
+            
             <link rel="stylesheet" th:href="@{'/css/index/jquery.bxslider.css'}">
             <link rel="stylesheet" th:href="@{'/css/index/isotope.css'}" media="screen" />
             <link rel="stylesheet" th:href="@{'/css/index/animate.css'}">
@@ -41,7 +45,7 @@
                                     <li role="presentation" ><a href="Servicios.jsp">Servicios</a></li>
                                     <li role="presentation"  th:classappend="(${#httpServletRequest.requestURI} == '/staff')?'active':'' "><a th:href="@{/staff}">Staff</a></li>
                                     <li role="presentation" th:classappend="(${#httpServletRequest.requestURI} == '/login')?'active':'' "><a th:href="@{/login}">Iniciar Sesion</a></li>
-                                    <li role="presentation" th:classappend="(${#httpServletRequest.requestURI} == '/paciente/registrar')?'active':'' "><a th:href="@{/paciente/registrar}">Abrir Cuenta</a></li>
+                                    <li role="presentation" th:classappend="(${#httpServletRequest.requestURI} == '/paciente/registrar')?'active':'' "><a th:href="@{/paciente/registrar}">Crear Cuenta</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -117,6 +121,8 @@
             <script th:src="@{/js/index/jquery.prettyPhoto.js}"></script>
             <script th:src="@{/js/index/jquery.isotope.min.js}"></script>
             <script th:src="@{/js/index/functions.js}"></script>
+              <script th:src="@{/bootbox/bootbox.min.js}" type="text/javascript"></script>
+            <script th:src="@{/js/funciones/Alerta.js}" type="text/javascript"></script>
         </footer>
 
 
