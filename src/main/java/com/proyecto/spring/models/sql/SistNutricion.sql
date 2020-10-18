@@ -26,12 +26,6 @@ CREATE TABLE Usuario(
   FOREIGN KEY(id_Perfil)REFERENCES Perfil(id_Perfil)
 );
 
-CREATE TABLE VerificacionCuenta(
-  id_verificacion INT AUTO_INCREMENT PRIMARY KEY ,
-  id_Usuario int,
-  token varchar(150),
-  FOREIGN KEY(id_Usuario)REFERENCES Usuario(id_Usuario)
-);
 
 CREATE TABLE Nutricionista(
  id_Nutricionista INT AUTO_INCREMENT PRIMARY KEY ,
@@ -101,6 +95,18 @@ CREATE TABLE Paciente(
  FOREIGN KEY(id_contextura)REFERENCES Contexturas(id_contextura)
 );
 
+CREATE TABLE Cita(
+    id_Cita INT AUTO_INCREMENT PRIMARY KEY ,
+    id_Paciente int NULL,
+    id_Nutricionista int NULL,
+    id_Hora int NULL,
+    fecha_registro datetime NULL ,
+    fecha_cita date NULL,
+    estado boolean NULL,
+    FOREIGN KEY(id_Paciente)REFERENCES Paciente(id_Paciente) ,
+    FOREIGN KEY(id_Hora)REFERENCES hora(id_Hora) ,
+    FOREIGN KEY(id_Nutricionista)REFERENCES Nutricionista(id_Nutricionista)
+);
 
 INSERT INTO Contexturas VALUES(NULL ,'Grande' , 'Peso Corporal de la mujer menos de 10 y hombres de 9.6 ');
 INSERT INTO Contexturas VALUES(NULL ,'Normal' , 'Peso Corporal de la mujer entre 10 a 11 y hombres de 9.6 a 10.4');
@@ -142,6 +148,7 @@ INSERT INTO HORA VALUES(NULL,3,'20:30' , '21:00');
 INSERT INTO HORA VALUES(NULL,3,'21:00' , '21:30');
 INSERT INTO HORA VALUES(NULL,3,'21:30' , '22:00');
 INSERT INTO HORA VALUES(NULL,3,'22:00' , '22:30');
+INSERT INTO HORA VALUES(NULL,3,'22:30' , '23:00');
 
 
 INSERT INTO Perfil VALUES(NULL , 'Administrador');
@@ -182,6 +189,38 @@ INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 1,1);
 INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 2,1);
 INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 2,2);
 INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 2,3);
+
+
+DELIMITER @@ 
+DROP PROCEDURE IF EXISTS sp_horarios_disponibles @@
+CREATE PROCEDURE sp_horarios_disponibles
+(
+_turno int ,
+_medico int ,
+_fecha date
+)
+BEGIN
+   IF (current_date() = _fecha) THEN
+		 SELECT id_hora, Hora_Inicio ,Hora_fin 
+         FROM HORA 
+         where id_turno = _turno AND Hora_Inicio>=curTime() 
+		       AND id_hora NOT IN (SELECT ID_HORA
+                                   FROM CITA
+                                   WHERE ID_NUTRICIONISTA = _medico);
+   ELSE IF(current_date()<_fecha) THEN
+     
+	     SELECT id_hora, Hora_Inicio ,Hora_fin 
+         FROM HORA 
+         where id_turno = _turno 
+		       AND id_hora NOT IN (SELECT ID_HORA
+                                   FROM CITA
+                                   WHERE ID_NUTRICIONISTA = _medico AND FECHA_CITA = _fecha);
+     END IF;
+   END IF;
+END @@
+DELIMITER ;
+
+
 
 DELIMITER @@ 
 DROP PROCEDURE IF EXISTS SP_CODIGO_NUTRICIONISTA @@

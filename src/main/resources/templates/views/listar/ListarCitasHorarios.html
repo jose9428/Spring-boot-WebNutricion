@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <body >
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                    <th>Reservar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="hora : ${horas}">
+                    <td th:text="${hora.hora_Inicio}"></td>
+                    <td th:text="${hora.hora_Fin}"></td>
+                    <td>
+                        <a href="" class="btn"  style="background-color:  #3C7D30;color: #ffffff;">Reservar</a>
+                    </td>
+                </tr>
+            <div th:if="${horas == null or horas.empty}">
+                <tr >
+                    <td colspan="3">No se encontraron horarios</td>
+                </tr>
+            </div>
+        </tbody>
+    </table>
+</body>
+</html>

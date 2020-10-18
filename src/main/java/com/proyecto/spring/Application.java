@@ -25,40 +25,47 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @Slf4j
 public class Application implements CommandLineRunner {
-    
+
     @Autowired
     private IPerfilService perfilService;
-    
+
     @Autowired
     private IUsuarioService usuarioService;
-    
+
     @Autowired
     private INutricionistaService nutricionistaService;
-    
+
     @Autowired
     private ITurnoService turnoService;
-    
+
     @Autowired
     private IHoraService horaService;
-    
+
     @Autowired
     private IHorarioNutricionistaService horarioService;
-    
+
     @Autowired
     private IPacienteService pacienteService;
-    
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-    
+
     @Override
     public void run(String... args) throws Exception {
         //log.warn("Prueba..!!");
         // log.warn(contexturaService.getAll().toString());
         //   List<Perfil> lista = perfilService.getAll();
 
-          log.warn(pacienteService.getAll().toString());
-   
+        /*
+        List lista = horaService.HorariosDisp(2L, 1L, "2020-10-18");
+
+        for (int i = 0; i < lista.size(); i++) {
+            Object[] o = (Object[]) lista.get(i);
+            log.warn("" + o[0]+" \t"+o[1]+"\t"+o[2]);
+        }
+        */
+
     }
-    
+
 }

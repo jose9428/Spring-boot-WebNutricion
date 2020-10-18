@@ -92,7 +92,15 @@ public class PacienteController {
         String token = Utileria.CodigoToken();
 
         String asunto = "Codigo de verificacion";
-        String mensaje = "Hemos recibido tu token : " + token;
+        String mensaje = "";
+
+        mensaje = "Hola \n";
+        mensaje +="Muchas gracias por depositar tu confianza en nosotros."
+                + "Para poder acceder a nuestra plataforma debes activar tu cuenta usuario con el siguiente codigo de confirmacion: \n";
+        mensaje+="\nCodigo de confirmacion : "+token+"\n";
+        mensaje+="\nSi tienes alguna duda, por favor contacta con nosotros al correo : nutricion-unidos@gmail.com o al nro de celular 965412365.";
+        mensaje+="\n\nGracias";
+
         try {
             SimpleMailMessage email = new SimpleMailMessage();
 

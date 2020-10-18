@@ -42,7 +42,7 @@
         <!-- Barra Menu-->
         <div class="sidebar sidebar-dark bg-dark" th:fragment="BarraMenu">
             <ul class="list-unstyled">
-                 <li  th:classappend="(${#httpServletRequest.requestURI} == '/admin/')?'active':'' ">
+                <li  th:classappend="(${#httpServletRequest.requestURI} == '/admin/')?'active':'' ">
                     <a th:href="@{/admin/}"><i class="fa fa-fw fa-table"></i> Administradores</a>
                 </li>
                 <li>
@@ -61,6 +61,10 @@
 
                 <li  th:classappend="(${#httpServletRequest.requestURI} == '/contextura/')?'active':'' ">
                     <a th:href="@{/contextura/}"><i class="fa fa-fw fa-table"></i> Contextura</a>
+                </li>
+
+                <li  th:classappend="(${#httpServletRequest.requestURI} == '/citas/medicos')?'active':'' ">
+                    <a th:href="@{/citas/medicos}"><i class="fa fa-fw fa-table"></i>Reservar Cita</a>
                 </li>
 
             </ul>
