@@ -74,11 +74,22 @@ public class NutricionistaController {
             }
 
             if (n.getId_Nutricionista() != 0) {
+                 if (nutricionistaService.ExisteCorreoNotId(n.getCorreo(), n.getId_Nutricionista())) {
+                    return ResponseEntity.ok("El correo ya se encuentra registrado en el sistema");
+                }
+                
+                
                 if (imagen.isEmpty()) {
                     Nutricionista n2 = nutricionistaService.getById(n.getId_Nutricionista());
                     n.setFoto(n2.getFoto());
                 }
+            } else {
+                // Nuevo Medico
+                if (nutricionistaService.ExisteCorreo(n.getCorreo())) {
+                    return ResponseEntity.ok("El correo ya se encuentra registrado en el sistema");
+                }
             }
+
             Long idUser = nutricionistaService.ObtenerIdUsuario(n.getId_Nutricionista());
             Usuario user = null;
             //Nuevo Usuario

@@ -13,7 +13,7 @@
                     <td th:text="${hora.hora_Inicio}"></td>
                     <td th:text="${hora.hora_Fin}"></td>
                     <td>
-                        <a href="" class="btn"  style="background-color:  #3C7D30;color: #ffffff;">Reservar</a>
+                        <a href=" javascript:GenerarCita(3)" class="btn"  style="background-color:  #3C7D30;color: #ffffff;">Reservar</a>
                     </td>
                 </tr>
             <div th:if="${horas == null or horas.empty}">

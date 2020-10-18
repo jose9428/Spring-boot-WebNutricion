@@ -45,7 +45,7 @@
                                             <img th:src="@{/nutricionista/verImagen/}+${medico.id_Nutricionista}" th:unless="${medico.genero=='M'}"  width="160" onerror="src='../img/sin_foto-medico-mujer.jpg' " class="img-thumbnail">
                                         </div>
 
-                                        
+
                                         <div class="text-center mt-2">
                                             <a href="" class="btn btn-info" title="Ver estudios">Ver Estudios realizados</a>
                                         </div>
@@ -78,12 +78,54 @@
             </div>
 
         </div>
+        <div id="loading-screen" style="display: none;">
+            <img src="../../images/spinning-circles.svg">
+        </div>
     </body>
     <script type="text/javascript">
         $(function () {
             FechaActual();
             ListarHorarios();
         });
+
+        function GenerarCita(idHora) {
+            var idMedico = "[[${medico.id_Nutricionista}]]";
+            var fechaCita = $("#fechaCita").val();
+            
+            alert(idMedico+" , Fecha : "+fechaCita+" , Hora : "+idHora);
+            
+           /*
+         $.ajax({
+                url: "../../ControlCita",
+                type: 'POST',
+                data: {
+                    hora: idHora,
+                    medico: idMedico,
+                    fecha: fecha,
+                    paciente: codePaciente,
+                    accion: 'GenerarCita'
+                },
+                beforeSend: function (xhr) {
+                    $("#loading-screen").fadeIn();
+                },
+                success: function (data) {
+                    if (data === "OK") {
+                        setTimeout(function () {
+                            $("#loading-screen").fadeOut();
+                            $(location).attr('href', 'Pendientes.jsp');
+                        }, 3000);
+
+                    } else {
+                        $("#loading-screen").fadeOut();
+                        alert(data);
+                    }
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    alert("No se ha podido procesar los datos...!!");
+                }
+
+            });
+            */
+        }
 
         function ListarHorarios() {
             var NomTurno = "[[${turno.nombre_Turno}]]";

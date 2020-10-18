@@ -246,34 +246,6 @@ DELIMITER ;
 
 
 DELIMITER @@ 
-DROP PROCEDURE IF EXISTS sp_Validar_Existencia @@
-CREATE PROCEDURE sp_Validar_Existencia(_correo varchar(50) , _dni char(8) , _idNutricionista int)
-BEGIN
-   -- 1 = Guardar
-   DECLARE _cadena varchar(120) default 'OK';
-   IF (_idNutricionista = 0)THEN
-       IF EXISTS(SELECT * FROM NUTRICIONISTA WHERE CORREO = _correo) THEN
-           set _cadena = concat('El correo ' , _correo,' ya se encuentra en uso.Pruebe con otro.');
-	   ELSE IF EXISTS(SELECT * FROM NUTRICIONISTA WHERE dni = _dni) THEN
-               set _cadena = concat('El N.° de DNI ' , _dni,' ya se encuentra en uso.Pruebe con otro.');
-            END IF;
-       END IF;
-   ELSE 
-       IF EXISTS(SELECT * FROM NUTRICIONISTA WHERE CORREO = _correo AND id_nutricionista !=_idNutricionista) THEN
-           set _cadena = concat('El correo ' , _correo,' ya se encuentra en uso.Pruebe con otro.');
-	   ELSE IF EXISTS(SELECT * FROM NUTRICIONISTA WHERE dni = _dni AND id_nutricionista !=_idNutricionista) THEN
-               set _cadena = concat('El N.° de DNI ' , _dni,' ya se encuentra en uso.Pruebe con otro.');
-            END IF;
-       END IF;
-   END IF;
-   
-   SELECT _cadena;
-END @@
-DELIMITER ;
-
--- call sp_Validar_Existencia('jessica-199323@gmail.com' , '2432123',2);
-
-DELIMITER @@ 
 DROP PROCEDURE IF EXISTS sp_filtro_medicos_por_horario @@
 CREATE PROCEDURE sp_filtro_medicos_por_horario(_TURNO INT )
 BEGIN

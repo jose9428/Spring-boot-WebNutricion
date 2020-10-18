@@ -23,4 +23,8 @@ public interface NutricionistaRepository extends JpaRepository<Nutricionista, Lo
     @Query(value = "SELECT count(n) FROM Nutricionista n  WHERE  n.usuario.estado = 1")
     public int CantNutricionistaDisponibles();
 
+    public List<Nutricionista> findByCorreo(String correo);
+
+    @Query(value = "SELECT  n FROM Nutricionista n WHERE  n.correo=?1 and n.id_Nutricionista<>?2")
+    public List<Nutricionista> findByCorreoAndId(String correo , Long id);
 }

@@ -16,4 +16,5 @@ public interface AdministradorRepository extends JpaRepository<Administrador, Lo
             + "  WHERE  a.usuario.estado = 1")
     public List<Administrador> ListadoAdministradoresDisponibles();
     
+    public List<Administrador> findByCorreo(String correo);
 }

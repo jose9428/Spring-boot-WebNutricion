@@ -1,12 +1,15 @@
 package com.proyecto.spring;
 
 import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
+import com.proyecto.spring.models.entity.Administrador;
 import com.proyecto.spring.models.entity.Hora;
 import com.proyecto.spring.models.entity.HorarioNutricionista;
 import com.proyecto.spring.models.entity.Nutricionista;
+import com.proyecto.spring.models.entity.Paciente;
 import com.proyecto.spring.models.entity.Perfil;
 import com.proyecto.spring.models.entity.Usuario;
 import com.proyecto.spring.models.repository.ContexturaRepository;
+import com.proyecto.spring.models.service.IAdministradorService;
 import com.proyecto.spring.models.service.IContexturaService;
 import com.proyecto.spring.models.service.IHoraService;
 import com.proyecto.spring.models.service.IHorarioNutricionistaService;
@@ -46,6 +49,9 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private IPacienteService pacienteService;
+    
+    @Autowired
+    private IAdministradorService adminService;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -65,6 +71,9 @@ public class Application implements CommandLineRunner {
             log.warn("" + o[0]+" \t"+o[1]+"\t"+o[2]);
         }
         */
+        
+        List<Paciente> lista = pacienteService.getListCorreo("juan43@gmail.com");
+        log.warn("Cantidad correos : "+lista.size());
 
     }
 

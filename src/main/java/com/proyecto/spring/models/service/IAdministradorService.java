@@ -13,5 +13,9 @@ public interface IAdministradorService {
     
     public String UsuarioGenerado();
     
-      public List<Administrador> getListDisponibles();
+    public List<Administrador> getListDisponibles();
+      
+    public List<Administrador> getListCorreo(String correo);
+    
+    public boolean ExisteCorreo(String correo);
 }

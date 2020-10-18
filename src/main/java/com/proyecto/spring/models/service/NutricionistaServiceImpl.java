@@ -14,6 +14,12 @@ public class NutricionistaServiceImpl implements INutricionistaService {
     @Autowired
     private NutricionistaRepository nutricionistaRepository;
 
+    @Autowired
+    private IAdministradorService administradorService;
+
+    @Autowired
+    private IPacienteService pacienteService;
+
     @Override
     public List<Nutricionista> getAll() {
         return nutricionistaRepository.findAll();
@@ -48,10 +54,9 @@ public class NutricionistaServiceImpl implements INutricionistaService {
             u.setEstado(estado);
             n.setUsuario(u);
         }
-        
+
         Guardar(n);
     }
-
 
     @Override
     public int getCantDisponibles() {
@@ -61,6 +66,37 @@ public class NutricionistaServiceImpl implements INutricionistaService {
     @Override
     public Page<Nutricionista> getListDisponibles(Pageable pageable) {
         return nutricionistaRepository.ListadoNutricionistaDisponibles(pageable);
+    }
+
+    @Override
+    public List<Nutricionista> getListCorreo(String correo) {
+        return nutricionistaRepository.findByCorreo(correo);
+    }
+
+    @Override
+    public boolean ExisteCorreo(String correo) {
+        List<Administrador> admin = administradorService.getListCorreo(correo);
+        List<Paciente> paciente = pacienteService.getListCorreo(correo);
+        List<Nutricionista> medico = nutricionistaRepository.findByCorreo(correo);
+
+        if (admin.size() > 0 || paciente.size() > 0 || medico.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean ExisteCorreoNotId(String correo, Long id) {
+        List<Administrador> admin = administradorService.getListCorreo(correo);
+        List<Paciente> paciente = pacienteService.getListCorreo(correo);
+        List<Nutricionista> medico = nutricionistaRepository.findByCorreoAndId(correo, id);
+
+        if (admin.size() > 0 || paciente.size() > 0 || medico.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -22,5 +22,10 @@ public interface INutricionistaService {
     public Page<Nutricionista> getListDisponibles(Pageable pageable);
 
     public int getCantDisponibles();
+
+    public List<Nutricionista> getListCorreo(String correo);
+
+    public boolean ExisteCorreo(String correo);
     
+    public boolean ExisteCorreoNotId(String correo , Long id);
 }

@@ -79,7 +79,7 @@ public class AdministradorController {
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<Object> GuardarNutricionista(@Valid Administrador a, BindingResult errores,
+    public ResponseEntity<Object> GuardarAdministrador(@Valid Administrador a, BindingResult errores,
             @RequestParam("file") MultipartFile imagen, @RequestParam("fechaN") String fecha) {
 
         try {
@@ -88,6 +88,10 @@ public class AdministradorController {
                 Set<ErrorEntity> lista = Utileria.getListError(errores);
 
                 return ResponseEntity.accepted().body(lista); // 202
+            }
+            
+            if(adminService.ExisteCorreo(a.getCorreo())){
+                 return ResponseEntity.ok("El correo ya se encuentra registrado en el sistema");
             }
 
             if (!imagen.isEmpty()) {

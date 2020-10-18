@@ -32,4 +32,9 @@ public class PacienteServiceImpl implements IPacienteService {
         return pacienteRepository.CantPacientesDisponibles();
     }
 
+    @Override
+    public List<Paciente> getListCorreo(String correo) {
+        return pacienteRepository.findByCorreo(correo);
+    }
+
 }
