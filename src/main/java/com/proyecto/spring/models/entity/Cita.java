@@ -42,5 +42,5 @@ public class Cita {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha_cita;
 
-    private int estado;
+    private String estado;
 }

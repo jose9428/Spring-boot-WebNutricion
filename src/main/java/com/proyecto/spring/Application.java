@@ -64,15 +64,14 @@ public class Application implements CommandLineRunner {
         //   List<Perfil> lista = perfilService.getAll();
 
         /*
-        List lista = horaService.HorariosDisp(2L, 1L, "2020-10-18");
+      
 
         for (int i = 0; i < lista.size(); i++) {
             Object[] o = (Object[]) lista.get(i);
             log.warn("" + o[0]+" \t"+o[1]+"\t"+o[2]);
         }
         */
-        
-        List<Paciente> lista = pacienteService.getListCorreo("juan43@gmail.com");
+          List<Hora> lista = horaService.HorariosDisp(1L, 2L, "2020-12-12");
         log.warn("Cantidad correos : "+lista.size());
 
     }

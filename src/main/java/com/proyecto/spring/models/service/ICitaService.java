@@ -6,4 +6,6 @@ import java.util.List;
 public interface ICitaService {
 
     public List<Cita> getList();
+    
+    public void ReservarCita(Cita c);
 }

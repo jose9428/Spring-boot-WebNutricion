@@ -102,7 +102,7 @@ CREATE TABLE Cita(
     id_Hora int NULL,
     fecha_registro datetime NULL ,
     fecha_cita date NULL,
-    estado boolean NULL,
+    estado varchar(40) NULL,
     FOREIGN KEY(id_Paciente)REFERENCES Paciente(id_Paciente) ,
     FOREIGN KEY(id_Hora)REFERENCES hora(id_Hora) ,
     FOREIGN KEY(id_Nutricionista)REFERENCES Nutricionista(id_Nutricionista)
@@ -189,7 +189,11 @@ INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 1,1);
 INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 2,1);
 INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 2,2);
 INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 2,3);
-
+INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 4,1);
+INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 5,3);
+INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 6,3);
+INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 7,2);
+INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 7,3);
 
 DELIMITER @@ 
 DROP PROCEDURE IF EXISTS sp_horarios_disponibles @@
@@ -201,7 +205,7 @@ _fecha date
 )
 BEGIN
    IF (current_date() = _fecha) THEN
-		 SELECT id_hora, Hora_Inicio ,Hora_fin 
+		 SELECT *
          FROM HORA 
          where id_turno = _turno AND Hora_Inicio>=curTime() 
 		       AND id_hora NOT IN (SELECT ID_HORA
@@ -209,7 +213,7 @@ BEGIN
                                    WHERE ID_NUTRICIONISTA = _medico);
    ELSE IF(current_date()<_fecha) THEN
      
-	     SELECT id_hora, Hora_Inicio ,Hora_fin 
+	     SELECT *
          FROM HORA 
          where id_turno = _turno 
 		       AND id_hora NOT IN (SELECT ID_HORA
@@ -264,7 +268,7 @@ SELECT * FROM Usuario;
 
 select * from paciente;
 
-
+select * from cita;
 
 
 
