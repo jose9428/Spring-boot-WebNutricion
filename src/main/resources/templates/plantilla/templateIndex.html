@@ -42,7 +42,7 @@
                             <div class="menu">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation"  th:classappend="(${#httpServletRequest.requestURI} == '/')?'active':'' "><a th:href="@{/}">Inicio</a></li>
-                                    <li role="presentation" ><a href="Servicios.jsp">Servicios</a></li>
+                                    <li role="presentation"  th:classappend="(${#httpServletRequest.requestURI} == '/servicios')?'active':'' "><a th:href="@{/servicios}">Servicios</a></li>
                                     <li role="presentation"  th:classappend="(${#httpServletRequest.requestURI} == '/staff')?'active':'' "><a th:href="@{/staff}">Staff</a></li>
                                     <li role="presentation" th:classappend="(${#httpServletRequest.requestURI} == '/login')?'active':'' "><a th:href="@{/login}">Iniciar Sesion</a></li>
                                     <li role="presentation" th:classappend="(${#httpServletRequest.requestURI} == '/paciente/registrar')?'active':'' "><a th:href="@{/paciente/registrar}">Crear Cuenta</a></li>

@@ -9,6 +9,8 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,11 @@ public class IndexController {
     @GetMapping("/login")
     public String IniciarSesion() {
         return "/views/Login";
+    }
+    
+    @GetMapping("/servicios")
+    public String Servicios(){
+        return "/views/Servicios";
     }
 
     @GetMapping("/staff")
@@ -54,5 +61,12 @@ public class IndexController {
         model.addAttribute("anterior", page); // prev
          model.addAttribute("ultimo", totalPage); // last
         return "/views/staff";
+    }
+    
+    //Nombre del usuario logeado
+    public String isLogeado(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        return (String) principal;
     }
 }

@@ -213,12 +213,15 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <br>
 
-        <div id="loading-screen" style="display: none;">
-            <img th:src="@{/img/spinning-circles.svg}">
+            <div id="loading-screen" style="display: none;">
+                <img th:src="@{/img/spinning-circles.svg}">
+            </div>
+
         </div>
+        <br />
+
+
 
         <footer th:replace="plantilla/templateIndex :: footer"></footer>
     </body>
@@ -239,12 +242,16 @@
         }
 
         $("#BtnGuardar").on("click", function () {
+
             $.ajax({
                 type: 'POST',
                 url: "/paciente/guardar",
                 data: $("#frmRegistro").serialize(),
+                cache: false,
                 success: function (data, status, xhr) {
+
                     if (xhr.status === 202) {
+
                         var cadena = "<strong>Por favor corrija los siguientes errores: </strong><br>";
                         for (var i in data) {
                             //  data[i].campo
@@ -270,7 +277,7 @@
                     }
                 }
                 , error: function (xhr, status, errMsg) {
-                    Mensaje(xhr.responseText);
+                    Mensaje("Error :( " + xhr.responseText);
                 }
             });
         });

@@ -1,30 +1,42 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
-        <title>Login</title>
+        <title>Inicio Sesion</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link th:href="@{/css/style-login.css}" rel="stylesheet" type="text/css"/>
     </head>
-    <body class="login" background="../img/wood_1.png">
+    <body class="login" >
         <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
         <div class="login-form">
 
-            <form action="#"  method="post">
+            <form th:action="@{/login}"  method="post">
                 <div class="avatar">
                     <a th:href="@{/}">
                         <img th:src="@{'/img/user.png'}" title="Ir a pagina de inicio">
                     </a>
                 </div>
-                <h2 class="text-center">Iniciar Sesion</h2>   
-                <div class="form-group">
-                    <input type="text"  class="form-control" name="Usuario" placeholder="Username" required="required">
+
+                <h2 class="text-center">Iniciar Sesion</h2>  
+                <div align="center" class="col-sm-12">
+                    <div role='alert' th:if="${param.error}" class="alert alert-danger" >
+                      Usuario y/o Clave
+                    </div>
+                    <div role='alert' th:if="${param.logout}" class="alert alert-success" >
+                        Sesion cerrada correctamente
+                    </div>
+
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                    <input type="text"  class="form-control" name="username" id="username" placeholder="Username" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required">
                 </div>        
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
                 </div>
+
+
             </form>
         </div>
 

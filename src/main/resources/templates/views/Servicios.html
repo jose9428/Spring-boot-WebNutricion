@@ -1,0 +1,87 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Staff - Medicos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+        <div th:replace="plantilla/templateIndex :: EstilosCss"></div>
+        <div th:replace="plantilla/templateIndex :: BarraHeader"></div>
+        <style type="text/css">
+            a:hover {
+                opacity: 0.7;
+            }
+
+            .ocultar{
+                pointer-events: none;
+            }
+
+        </style>
+        <div class="site-section">
+            <div class="container">
+                <div class="text-center">
+                    <div class="services-box">
+                        <div class="wow bounceInDown" data-wow-offset="0" data-wow-delay="0.3s">
+                            <h2>CONSULTORIO VIRTUAL: CONECTADOS CON TU SALUD DESDE CASA</h2>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.3s">
+                                <img th:src="@{/img/consulta.jpg}" width="400" alt="" class="img-thumbnail"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+    
+                            <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.9s">
+                                <div class="text-justify">
+                                    <p>A pesar del nuevo brote del coronavirus, queremos seguir conectados con tu salud desde casa. Por ello, tenemos para ti nuestro servicio por ZOOM donde podrás tener atención médica a través de una videollamada con uno de nuestros especialistas.</p>
+                                    <p>
+                                        Para poder reservar una consulta con uno de nuestros especialistas, deberá registrase y solicitar una cita. Luego de eso, nosotros te enviaremos la información que necesitas para conectarte el día de tu consulta.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="container">
+                <div class="text-center">
+                    <div class="services-box">
+                        <div class="col-md-6">
+                            <div class="wow fadeInDown" data-wow-offset="0" data-wow-delay="0.9s">
+                                <img th:src="@{/img/salud.png}" width="100" alt="Imagen"  />
+                            </div>
+                            <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.9s">
+                                <h3><strong>RECOMENDACIONES</strong></h3>
+                                <div class="text-justify">
+                                    <p>Si ya llegó el día de tu cita ten en cuenta estas recomendaciones:<br>
+                                        ° Accede al link que te enviamos.<br>
+                                        ° Es preferible que te conectes 10 min antes.<br>
+                                        ° Encuentra un lugar tranquilo.<br>
+                                        ° Verifica que tu cámara, audio y conexión a Internet funcionen correctamente.<br>
+                                        ° ¡Comienza tu consulta online! 
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.3s">
+                                <img th:src="@{/img/consulta2.jpg}" width="400" class="img-thumbnail" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+        <footer th:replace="plantilla/templateIndex :: footer"></footer>
+    </body>
+</html>

@@ -50,12 +50,15 @@ public class PacienteController {
             @RequestParam("fechaNac") String fechaNac, @RequestParam("id_contextura") Long id_contextura) {
 
         try {
+        
             Set<ErrorEntity> lista = null;
             Date fechaNacimiento = Utileria.ConvertirFecha(fechaNac);
 
             if (errores.hasErrors()) {
                 lista = Utileria.getListError(errores);
             }
+            
+        
 
             if (fechaNacimiento == null || lista != null) {
                 if (lista == null) {
