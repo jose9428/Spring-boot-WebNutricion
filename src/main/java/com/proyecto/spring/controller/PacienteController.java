@@ -10,11 +10,14 @@ import com.proyecto.spring.models.service.IPacienteService;
 import com.proyecto.spring.util.Utileria;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -50,15 +53,13 @@ public class PacienteController {
             @RequestParam("fechaNac") String fechaNac, @RequestParam("id_contextura") Long id_contextura) {
 
         try {
-        
+
             Set<ErrorEntity> lista = null;
             Date fechaNacimiento = Utileria.ConvertirFecha(fechaNac);
 
             if (errores.hasErrors()) {
                 lista = Utileria.getListError(errores);
             }
-            
-        
 
             if (fechaNacimiento == null || lista != null) {
                 if (lista == null) {
@@ -98,11 +99,11 @@ public class PacienteController {
         String mensaje = "";
 
         mensaje = "Hola \n";
-        mensaje +="Muchas gracias por depositar tu confianza en nosotros."
+        mensaje += "Muchas gracias por depositar tu confianza en nosotros."
                 + "Para poder acceder a nuestra plataforma debes activar tu cuenta usuario con el siguiente codigo de confirmacion: \n";
-        mensaje+="\nCodigo de confirmacion : "+token+"\n";
-        mensaje+="\nSi tienes alguna duda, por favor contacta con nosotros al correo : nutricion-unidos@gmail.com o al nro de celular 965412365.";
-        mensaje+="\n\nGracias";
+        mensaje += "\nCodigo de confirmacion : " + token + "\n";
+        mensaje += "\nSi tienes alguna duda, por favor contacta con nosotros al correo : nutricion-unidos@gmail.com o al nro de celular 965412365.";
+        mensaje += "\n\nGracias";
 
         try {
             SimpleMailMessage email = new SimpleMailMessage();
@@ -131,4 +132,5 @@ public class PacienteController {
         }
 
     }
+
 }

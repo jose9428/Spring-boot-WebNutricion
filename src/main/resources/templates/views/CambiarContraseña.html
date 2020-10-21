@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Cambiar Contraseña</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link th:href="@{/css/style-login.css}" rel="stylesheet" type="text/css"/>
+    </head>
+    <body class="login" >
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
+        <div class="login-form">
+
+            <form  method="post">
+                <div class="text-center">
+                    <a th:href="@{/}">
+                        <img th:src="@{'/img/mensaje.png'}" title="Ir a pagina de inicio">
+                    </a>
+                </div>
+
+
+                <div class="form-group mt-3">
+                    <input type="text"  class="form-control" name="nueva" id="nueva" placeholder="Nueva Contraseña" required="required">
+                </div>
+
+                <div class="form-group mt-3">
+                    <input type="text"  class="form-control" name="confirmar" id="confirmar" placeholder="Confirmar Contraseña" required="required">
+                </div>
+
+                <div class="form-group">
+                    <button id="btnEnviar" type="button" class="btn btn-danger btn-lg btn-block">Cambiar Contraseña</button>
+                </div>
+                <div class="form-group">
+                    <a th:href="@{/login}" class="btn btn-link btn-lg btn-block">Volver a Inicio Sesion</a>
+                </div>
+            </form>
+        </div>
+        <div th:replace="plantilla/templateAdmin :: script-js">
+
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        $("#btnEnviar").on("click", function () {
+            var nueva = $("#nueva").val();
+            var confirmar = $("#confirmar").val();
+
+            $.ajax({
+                type: 'GET',
+                url: "/reestablecer-clave",
+                data: {
+                    nueva: nueva,
+                    confirmar: confirmar
+                },
+                beforeSend: function (xhr) {
+
+                },
+                success: function (result) {
+                    if (result === "OK") {
+                        Mensaje("Su contraseña ha sido cambiada con éxito.");
+                        setTimeout(function () {
+                            $(location).attr('href', "/login");
+                        }, 6000);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        alert("Error no se ha podido enviar al correo electronico la restauracion de contraseña.");
+                    }
+                }
+            });
+        });
+    </script>
+</html>

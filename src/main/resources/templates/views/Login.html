@@ -19,7 +19,7 @@
                 <h2 class="text-center">Iniciar Sesion</h2>  
                 <div align="center" class="col-sm-12">
                     <div role='alert' th:if="${param.error}" class="alert alert-danger" >
-                      Usuario y/o Clave
+                        Usuario y/o Clave
                     </div>
                     <div role='alert' th:if="${param.logout}" class="alert alert-success" >
                         Sesion cerrada correctamente
@@ -35,7 +35,9 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
                 </div>
-
+                <div class="form-group">
+                    <a th:href="@{/recuperar}" class="btn btn-light btn-lg btn-block">Recuperar contraseña</a>
+                </div>
 
             </form>
         </div>

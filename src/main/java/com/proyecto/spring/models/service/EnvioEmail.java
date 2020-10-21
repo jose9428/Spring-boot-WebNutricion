@@ -14,7 +14,6 @@ public class EnvioEmail {
     public void sendEmail(String destinatario, String asunto, String mensaje) {
 
         SimpleMailMessage email = new SimpleMailMessage();
-
         email.setTo(destinatario);
         email.setSubject(asunto);
         email.setText(mensaje);
