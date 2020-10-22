@@ -5,6 +5,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link th:href="@{/css/style-login.css}" rel="stylesheet" type="text/css"/>
     </head>
+    <style>
+        #loading-screen {
+            background-color: rgba(25,25,25,0.7);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            z-index: 9999;
+            margin-top: 0;
+            top: 0;
+            text-align: center;
+        }
+
+        #loading-screen img {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-top: -50px;
+            margin-left: -50px;
+            top: 50%;
+        }
+
+    </style>
     <body class="login" >
         <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
         <div class="login-form">
@@ -32,11 +54,19 @@
         <div th:replace="plantilla/templateAdmin :: script-js">
 
         </div>
+        <div id="loading-screen" style="display: none;">
+            <img th:src="@{/img/spinning-circles.svg}">
+        </div>
     </body>
 
     <script type="text/javascript">
         $("#btnEnviar").on("click", function () {
             var correo = $("#correo").val();
+
+            if (correo.trim() === "") {
+                Mensaje("El campo es requerido.");
+                return false;
+            }
 
             $.ajax({
                 type: 'GET',
@@ -45,11 +75,16 @@
                     correo: correo
                 },
                 beforeSend: function (xhr) {
-
+                    $("#loading-screen").fadeIn();
                 },
                 success: function (result) {
-            
-                    alert(result);
+                    $("#loading-screen").fadeOut();
+                    if (result === true) {
+                        Mensaje("Se ha enviado un correo electronico con las instrucciones para el cambio de tu contraseña.Por favor verifica la informacion enviada.");
+                    } else {
+                        Mensaje("El correo electronico no se encuentra registrado en el sistema.");
+                    }
+
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status === 500) {

@@ -23,6 +23,7 @@ CREATE TABLE Usuario(
   estado boolean NULL ,
   fecha_Registro datetime,
   token varchar(150),
+  fecha_Recuperacion datetime,
   FOREIGN KEY(id_Perfil)REFERENCES Perfil(id_Perfil)
 );
 
@@ -155,20 +156,20 @@ INSERT INTO Perfil VALUES(NULL , 'Administrador');
 INSERT INTO Perfil VALUES(NULL , 'Nutricionista');
 INSERT INTO Perfil VALUES(NULL , 'Paciente');
 
-INSERT INTO Usuario VALUES(NULL , 1 , 'admin','{noop}admin',1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'C001', '{noop}21232123', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'C002', '{noop}51223577', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'C003', '{noop}41223558', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'C004', '{noop}29323841', 1, NOW(),NULL);
+INSERT INTO Usuario VALUES(NULL , 1, 'admin','{noop}admin',1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'C001', '{noop}21232123', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'C002', '{noop}51223577', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'C003', '{noop}41223558', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'C004', '{noop}29323841', 1, NOW(),NULL,NULL);
 
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N5', '{noop}10564587', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N6', '{noop}21458565', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N7', '{noop}45211562', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N8', '{noop}45168574', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N9', '{noop}56412568', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N10', '{noop}43001245', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 2, 'u2020N11', '{noop}00156578', 1, NOW(),NULL);
-INSERT INTO Usuario VALUES(NULL , 3, 'user001', '{noop}123456', 0, NOW(),'ASD-12499');
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N5', '{noop}10564587', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N6', '{noop}21458565', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N7', '{noop}45211562', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N8', '{noop}45168574', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N9', '{noop}56412568', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N10', '{noop}43001245', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 2, 'u2020N11', '{noop}00156578', 1, NOW(),NULL,NULL);
+INSERT INTO Usuario VALUES(NULL , 3, 'user001', '{noop}123456', 1, NOW(),'ASD-12499',NULL);
 
 -- ID 1 // Administrador
 INSERT INTO Administrador VALUES (NULL , 1, 'Sebastian', 'Palomino', 'Quispe', '31452820', '1989-02-13', '1624643@utp.edu.pe', 'M',null);
@@ -268,7 +269,7 @@ SELECT * FROM Usuario;
 
 select * from paciente;
 
-select * from cita;
+select * from usuario;
 
 
 

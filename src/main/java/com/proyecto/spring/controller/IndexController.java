@@ -2,6 +2,7 @@ package com.proyecto.spring.controller;
 
 import com.proyecto.spring.models.entity.*;
 import com.proyecto.spring.models.service.*;
+import com.proyecto.spring.util.Utileria;
 import freemarker.core.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
+import java.util.Date;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.hibernate.annotations.Parameter;
@@ -44,6 +46,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class IndexController {
+
+    @Autowired
+    private IUsuarioService usuarioService;
 
     @Autowired
     private INutricionistaService nutricionistaService;
@@ -75,7 +80,6 @@ public class IndexController {
 
     @GetMapping("/servicios")
     public String Servicios(Model model) {
-        model.addAttribute("nom", NomUsuario());
         return "/views/Servicios";
     }
 
@@ -124,6 +128,24 @@ public class IndexController {
         return "/views/EnvioCorreoCambio";
     }
 
+    @GetMapping("/validarToken")
+    @ResponseBody
+    public String ValidarToken(@RequestParam String token) {
+        String mensaje = "";
+
+        Usuario user = usuarioService.getByToken(token);
+
+        if (user != null) {
+            mensaje = "OK";
+        } else if (token.equals("1")) {
+            //La fecha expiro
+            mensaje = "El código de recuperacion de contraseña ha expirado.Por favor intente denuevo.";
+        } else {
+            mensaje = "El código de recuperacion de contraseña no es valido.Por favor intente denuevo.";
+        }
+        return mensaje;
+    }
+
     @GetMapping("/reestablecer-clave")
     @ResponseBody
     public String CambiarContraseñaUsuario() {
@@ -131,10 +153,9 @@ public class IndexController {
     }
 
     @GetMapping("/login/newPassword")
-    public String NuevoPass(@RequestParam(required = false) Integer token) {
+    public String NuevoPass(@RequestParam(required = false) String token, Model model) {
         if (token != null) {
-            // El codigo de recuperacion de contraseña no es valido.Por favor intenta denuevo
-            
+            model.addAttribute("token", token);
             return "/views/CambiarContraseña";
         }
         return "redirect:/recuperar";
@@ -145,24 +166,30 @@ public class IndexController {
     public boolean PlantillaRecuperar(@RequestParam String correo) {
         boolean envio = true;
         List<Nutricionista> listaN = nutricionistaService.getListCorreo(correo);
+        Usuario user = null;
+        String token = Utileria.CodigoToken();
 
         if (listaN.size() > 0) {
             for (Nutricionista n : listaN) {
-                envio = EnviarCorreo(n.getCorreo(), n.getNombres() + " , " + n.getApellido_Paterno());
+                envio = EnviarCorreo(n.getCorreo(), n.getNombres() + " , " + n.getApellido_Paterno(), token);
+                user = n.getUsuario();
             }
         } else {
             List<Administrador> listaAdmin = adminService.getListCorreo(correo);
 
             if (listaAdmin.size() > 0) {
                 for (Administrador a : listaAdmin) {
-                    envio = EnviarCorreo(a.getCorreo(), a.getNombres() + " , " + a.getApellido_Paterno());
+                    envio = EnviarCorreo(a.getCorreo(), a.getNombres() + " , " + a.getApellido_Paterno(), token);
+                    user = a.getUsuario();
                 }
+
             } else {
                 List<Paciente> listaPaciente = pacienteService.getListCorreo(correo);
 
                 if (listaPaciente.size() > 0) {
                     for (Paciente p : listaPaciente) {
-                        envio = EnviarCorreo(p.getCorreo(), p.getNombres() + " , " + p.getApellido_Paterno());
+                        envio = EnviarCorreo(p.getCorreo(), p.getNombres() + " , " + p.getApellido_Paterno(), token);
+                        user = p.getUsuario();
                     }
                 } else {
                     envio = false;
@@ -170,19 +197,26 @@ public class IndexController {
             }
         }
 
+        if (user != null) {
+            user.setToken(token);
+            user.setFecha_Recuperacion(new Date());
+            usuarioService.Guardar(user);
+        }
+
         return envio;
     }
 
     @Transactional
-    public boolean EnviarCorreo(String destinatario, String nombre) {
+    public boolean EnviarCorreo(String correo, String nombre, String token) {
         boolean estado = false;
+
         try {
             Calendar c = Calendar.getInstance();
-            Map<String, Object> obj = new HashMap<>();
-            obj.put("anio", c.get(Calendar.YEAR));
-            obj.put("nombres", nombre);
-            obj.put("servidor", servidor);
-            obj.put("ruta", "http://localhost:" + servidor + "/login/newPassword?token=12334");
+            Map<String, Object> model = new HashMap<>();
+            model.put("anio", c.get(Calendar.YEAR));
+            model.put("nombres", nombre);
+            model.put("servidor", servidor);
+            model.put("ruta", "http://localhost:" + servidor + "/login/newPassword?token=" + token);
 
             MimeMessage message = mailSender.createMimeMessage();
 
@@ -190,11 +224,11 @@ public class IndexController {
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
 
             Template t = freemarkerConfig.getTemplate("Plantilla-Recupear-Clave.html");
-            String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, obj);
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
             SimpleMailMessage email = new SimpleMailMessage();
 
-            helper.setTo(destinatario);
+            helper.setTo(correo);
             helper.setText(html, true);
             helper.setSubject("Cambio de contraseña");
 

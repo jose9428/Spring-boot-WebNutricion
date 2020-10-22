@@ -71,8 +71,7 @@ public class Application implements CommandLineRunner {
             log.warn("" + o[0]+" \t"+o[1]+"\t"+o[2]);
         }
         */
-          List<Hora> lista = horaService.HorariosDisp(1L, 2L, "2020-12-12");
-        log.warn("Cantidad correos : "+lista.size());
+   
 
     }
 

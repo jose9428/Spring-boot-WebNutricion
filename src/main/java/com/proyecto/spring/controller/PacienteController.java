@@ -72,7 +72,7 @@ public class PacienteController {
 
                 return ResponseEntity.accepted().body(lista); // 202
             }
-
+            
             Perfil per = new Perfil();
             per.setId_Perfil(3L);
 
@@ -80,6 +80,7 @@ public class PacienteController {
             p.setFecha_Nacimiento(fechaNacimiento);
             p.getUsuario().setFecha_Registro(new Date());
             p.getUsuario().setPerfil(per);
+            p.getUsuario().setPass("{noop}"+p.getUsuario().getPass()); // Modificar con encoder
             p.setContextura(c);
 
             pacienteService.Guardar(p);

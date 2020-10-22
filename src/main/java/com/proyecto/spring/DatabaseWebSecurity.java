@@ -41,8 +41,8 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable().authorizeRequests().antMatchers("/", "/staff", "/servicios", "/recuperar",
                 "/paciente/**", "/nutricionista/verImagen/**", "/enviarToken" ,"/login/newPassword/**",
-                "/reestablecer", "/reestablecer-clave",
-                "/css/**", "/js/**", "/img/**", "/bootbox/**").permitAll()
+                "/reestablecer", "/reestablecer-clave","/validarToken",
+                "/css/**", "/js/**", "/img/**", "/bootbox/**" ,"/webfonts/**").permitAll()
                 // Asignar permisos 
                 .antMatchers("/admin/**").hasAnyAuthority("Administrador")
                 .anyRequest().authenticated()

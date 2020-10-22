@@ -12,10 +12,9 @@
             <form  method="post">
                 <div class="text-center">
                     <a th:href="@{/}">
-                        <img th:src="@{'/img/mensaje.png'}" title="Ir a pagina de inicio">
+                        <img th:src="@{'/img/candado.png'}" width="170" title="Ir a pagina de inicio">
                     </a>
                 </div>
-
 
                 <div class="form-group mt-3">
                     <input type="text"  class="form-control" name="nueva" id="nueva" placeholder="Nueva Contraseña" required="required">
@@ -26,7 +25,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button id="btnEnviar" type="button" class="btn btn-danger btn-lg btn-block">Cambiar Contraseña</button>
+                    <button id="btnEnviar" type="button" class="btn btn-primary btn-lg btn-block">Cambiar Contraseña</button>
                 </div>
                 <div class="form-group">
                     <a th:href="@{/login}" class="btn btn-link btn-lg btn-block">Volver a Inicio Sesion</a>
@@ -39,6 +38,41 @@
     </body>
 
     <script type="text/javascript">
+        $(function () {
+            Validar();
+        });
+
+        function Validar() {
+            var token = "[[${token}]]";
+
+            $.ajax({
+                type: 'GET',
+                url: "/validarToken",
+                data: {
+                    token: token
+                },
+                beforeSend: function (xhr) {
+
+                },
+                success: function (result) {
+
+                    if (result !== "OK") {
+                        bootbox.alert({
+                            message: result,
+                            callback: function (result) {
+                                $(location).attr('href', "/recuperar");
+                            }
+                        });
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    }
+                }
+            });
+        }
+
         $("#btnEnviar").on("click", function () {
             var nueva = $("#nueva").val();
             var confirmar = $("#confirmar").val();
@@ -55,10 +89,12 @@
                 },
                 success: function (result) {
                     if (result === "OK") {
-                        Mensaje("Su contraseña ha sido cambiada con éxito.");
-                        setTimeout(function () {
-                            $(location).attr('href', "/login");
-                        }, 6000);
+                        bootbox.alert({
+                            message: "Su contraseña ha sido cambiada con éxito.",
+                            callback: function (result) {
+                                $(location).attr('href', "/login");
+                            }
+                        });
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

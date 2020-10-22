@@ -39,6 +39,11 @@ public class Usuario implements Serializable {
 
     private String token;
 
+    @Column(name = "fecha_Recuperacion")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha_Recuperacion;
+
     @Column(name = "fecha_Registro")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)

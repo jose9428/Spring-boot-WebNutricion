@@ -4,6 +4,7 @@ import com.proyecto.spring.models.entity.ErrorEntity;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +17,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Utileria {
-
 
     public static Date ConvertirFecha(String cadena) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -65,15 +65,24 @@ public class Utileria {
     }
 
     public static String CodigoToken() {
-        String cadena = "0123456789";
+        String cadena = "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
         String token = "";
         int max = cadena.length() - 1;
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 25; i++) {
             int caracter = (int) (Math.random() * (max));
             token += cadena.charAt(caracter);
         }
         return token;
+    }
+
+    public static boolean Diferencia(Date inicio, Date fin) {
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+
+       // c1.setTime(inicio);
+        //c2.setTime(fin);
+        return true;
     }
 
 }

@@ -21,5 +21,15 @@ public class UsuarioServiceImpl implements IUsuarioService{
     public Usuario getById(Long id) {
         return usuarioRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public void Guardar(Usuario user) {
+        usuarioRepository.save(user);
+    }
+
+    @Override
+    public Usuario getByToken(String token) {
+        return usuarioRepository.findByToken(token);
+    }
     
 }
