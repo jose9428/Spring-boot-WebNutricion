@@ -17,6 +17,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +35,7 @@ import org.hibernate.annotations.Parameter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -96,7 +99,22 @@ public class IndexController {
 
     @GetMapping("/acceso")
     public String Acceso() {
-        return "redirect:/citas/medicos";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        String perfil = "";
+        for (GrantedAuthority gauth : authorities) {
+            perfil = gauth.getAuthority();
+        }
+
+        if (perfil.equalsIgnoreCase("Paciente")) {
+            return "redirect:/citas/medicos";
+        } else if (perfil.equalsIgnoreCase("Administrador")) {
+            return "redirect:/admin/";
+        } else {
+            return "redirect:/admin/";
+        }
     }
 
     @GetMapping("/servicios")
@@ -289,6 +307,7 @@ public class IndexController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
         String username = userDetail.getUsername();
+        //  String perfil = userDetail.getAuthorities().toString();
         return username;
     }
 

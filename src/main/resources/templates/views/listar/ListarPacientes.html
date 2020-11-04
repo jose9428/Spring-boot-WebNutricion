@@ -17,8 +17,8 @@
                 <tr th:each="paciente : ${listaPacientes}">
 
                     <td> 
-                        <img th:src="@{/paciente/verImagen/}+${paciente.id_Paciente}"  th:if="${paciente.genero=='M'}" width="80" onerror="src='../img/sin_foto_medico.png' ">
-                        <img th:src="@{/paciente/verImagen/}+${paciente.id_Paciente}" th:unless="${paciente.genero=='M'}"  width="80" onerror="src='../img/sin_foto-medico-mujer.jpg' ">
+                        <img th:src="@{/paciente/verImagen/}+${paciente.id_Paciente}"  th:if="${paciente.genero=='M'}" width="80" onerror="src='../img/sin_foto-paciente-hombre.jpg' ">
+                        <img th:src="@{/paciente/verImagen/}+${paciente.id_Paciente}" th:unless="${paciente.genero=='M'}"  width="80" onerror="src='../img/sin_foto-paciente-mujer.jpg' ">
                     </td>
 
                     <td th:text="${paciente.nombres}"></td>

@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
-@Configuration(proxyBeanMethods = true)
+@Configuration
 @EnableWebSecurity
 public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 
@@ -32,8 +32,8 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(data)
                 .usersByUsernameQuery("select username , pass , estado from usuario where username = ?")
-                .authoritiesByUsernameQuery("select username , nom_perfil "
-                        + " from usuario u inner join perfil p on p.id_perfil = u.id_perfil where username =?");
+                .authoritiesByUsernameQuery("select u.username , p.nom_perfil "
+                        + " from usuario u inner join perfil p on p.id_perfil = u.id_perfil where u.username =?");
 
     }
 

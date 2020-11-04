@@ -47,6 +47,7 @@
 
                 <li>
                     <div class="card text-center bg-dark text-white">
+                        <a href="#" th:text="${#authentication.getPrincipal().getAuthorities()}" style="font-size: 15px;"></a>
                         <a href="#" th:text="${#authentication.getPrincipal().getUsername()}" style="font-size: 15px;">
                         </a>
                         <div class="text-center">
