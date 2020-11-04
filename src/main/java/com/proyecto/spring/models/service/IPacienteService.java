@@ -14,4 +14,6 @@ public interface IPacienteService {
     public int getCantDisponibles();
 
     public List<Paciente> getListCorreo(String correo);
+
+    public Paciente ObtenerPorUsuario(String user);
 }

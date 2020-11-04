@@ -28,4 +28,6 @@ public interface INutricionistaService {
     public boolean ExisteCorreo(String correo);
     
     public boolean ExisteCorreoNotId(String correo , Long id);
+    
+       public Nutricionista ObtenerPorUsuario(String user);
 }

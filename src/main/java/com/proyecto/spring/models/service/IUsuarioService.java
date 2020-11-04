@@ -11,4 +11,6 @@ public interface IUsuarioService {
         public void Guardar(Usuario user);
         
         public Usuario getByToken(String token);
+        
+        public boolean ValidarFechas(Long idUsuario);
 }

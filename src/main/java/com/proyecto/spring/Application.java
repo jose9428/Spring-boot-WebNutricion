@@ -18,6 +18,9 @@ import com.proyecto.spring.models.service.IPacienteService;
 import com.proyecto.spring.models.service.IPerfilService;
 import com.proyecto.spring.models.service.ITurnoService;
 import com.proyecto.spring.models.service.IUsuarioService;
+import com.proyecto.spring.util.Utileria;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +52,7 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private IPacienteService pacienteService;
-    
+
     @Autowired
     private IAdministradorService adminService;
 
@@ -70,9 +73,10 @@ public class Application implements CommandLineRunner {
             Object[] o = (Object[]) lista.get(i);
             log.warn("" + o[0]+" \t"+o[1]+"\t"+o[2]);
         }
-        */
-   
-
+         */
+        Date fecha = new Date();
+       
+        log.info("Valor : " + fecha);
     }
 
 }

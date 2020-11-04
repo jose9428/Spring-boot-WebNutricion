@@ -46,7 +46,7 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
                 // Asignar permisos 
                 .antMatchers("/admin/**").hasAnyAuthority("Administrador")
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/staff").permitAll().
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/acceso").permitAll().
                 failureUrl("/login?error=true").and().
                 logout().permitAll().logoutSuccessUrl("/login?logout");
         

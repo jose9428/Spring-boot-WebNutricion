@@ -18,4 +18,6 @@ public interface IAdministradorService {
     public List<Administrador> getListCorreo(String correo);
     
     public boolean ExisteCorreo(String correo);
+    
+    public Administrador ObtenerPorUsuario(String user);
 }

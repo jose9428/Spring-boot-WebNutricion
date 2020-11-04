@@ -61,4 +61,9 @@ public class AdministradorServiceImpl implements IAdministradorService {
         }
     }
 
+    @Override
+    public Administrador ObtenerPorUsuario(String user) {
+        return administradorRepository.ObtenerPorUsuario(user);
+    }
+
 }

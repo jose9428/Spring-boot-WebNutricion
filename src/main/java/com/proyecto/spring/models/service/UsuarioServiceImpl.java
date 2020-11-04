@@ -31,5 +31,16 @@ public class UsuarioServiceImpl implements IUsuarioService{
     public Usuario getByToken(String token) {
         return usuarioRepository.findByToken(token);
     }
+
+    @Override
+    public boolean ValidarFechas(Long idUsuario) {
+        long tiempo = usuarioRepository.DiferenciaFechasCambio(idUsuario);
+        
+        if(tiempo >= 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
 }

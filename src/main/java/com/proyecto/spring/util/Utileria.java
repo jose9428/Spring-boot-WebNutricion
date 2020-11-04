@@ -76,13 +76,5 @@ public class Utileria {
         return token;
     }
 
-    public static boolean Diferencia(Date inicio, Date fin) {
-        Calendar c1 = Calendar.getInstance();
-        Calendar c2 = Calendar.getInstance();
-
-       // c1.setTime(inicio);
-        //c2.setTime(fin);
-        return true;
-    }
 
 }

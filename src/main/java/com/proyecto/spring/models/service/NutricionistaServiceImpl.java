@@ -99,4 +99,9 @@ public class NutricionistaServiceImpl implements INutricionistaService {
         }
     }
 
+    @Override
+    public Nutricionista ObtenerPorUsuario(String user) {
+        return nutricionistaRepository.ObtenerPorUsuario(user);
+    }
+
 }

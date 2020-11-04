@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 import org.hibernate.annotations.Parameter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +78,11 @@ public class IndexController {
     @GetMapping("/login")
     public String IniciarSesion() {
         return "/views/Login";
+    }
+
+    @GetMapping("/acceso")
+    public String Acceso() {
+        return "redirect:/admin/";
     }
 
     @GetMapping("/servicios")
@@ -136,20 +143,36 @@ public class IndexController {
         Usuario user = usuarioService.getByToken(token);
 
         if (user != null) {
-            mensaje = "OK";
-        } else if (token.equals("1")) {
-            //La fecha expiro
-            mensaje = "El código de recuperacion de contraseña ha expirado.Por favor intente denuevo.";
+            if (usuarioService.ValidarFechas(user.getId_Usuario())) {
+                mensaje = "OK";
+            } else {
+                mensaje = "El código de recuperacion de contraseña ha expirado.Por favor intente denuevo.";
+            }
         } else {
             mensaje = "El código de recuperacion de contraseña no es valido.Por favor intente denuevo.";
         }
+
         return mensaje;
     }
 
     @GetMapping("/reestablecer-clave")
     @ResponseBody
-    public String CambiarContraseñaUsuario() {
-        return "OK";
+    public String CambiarContraseñaUsuario(@RequestParam String token, @RequestParam String contrasenia) {
+        String mensaje = "";
+        Usuario user = usuarioService.getByToken(token);
+
+        if (!usuarioService.ValidarFechas(user.getId_Usuario())) {
+            mensaje = "El código de recuperacion de contraseña ha expirado.Por favor intente denuevo.";
+        } else if (user.getToken().equals(token)) {
+            user.setPass("{noop}" + contrasenia);
+            user.setToken(null);
+            usuarioService.Guardar(user);
+            mensaje = "OK";
+        } else {
+            mensaje = "No se ha podido cambiar la contraseña.Por favor pongase en contacto con un personal administrativo.";
+        }
+
+        return mensaje;
     }
 
     @GetMapping("/login/newPassword")
@@ -223,7 +246,7 @@ public class IndexController {
             MimeMessageHelper helper = new MimeMessageHelper(message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
 
-            Template t = freemarkerConfig.getTemplate("Plantilla-Recupear-Clave.html");
+            Template t = freemarkerConfig.getTemplate("Plantilla-Recuperar-Clave.html");
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
             SimpleMailMessage email = new SimpleMailMessage();
@@ -240,6 +263,45 @@ public class IndexController {
         }
 
         return estado;
+    }
+
+    public byte[] getObtenerFoto() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        String username = userDetail.getUsername();
+
+        Administrador a = adminService.ObtenerPorUsuario(username);
+
+        if (a.getFoto() != null) {
+            return a.getFoto();
+        } else {
+            Nutricionista n = nutricionistaService.ObtenerPorUsuario(username);
+            if (n.getFoto() != null) {
+                return n.getFoto();
+            } else {
+
+                Paciente p = pacienteService.ObtenerPorUsuario(username);
+                if (p.getFoto() != null) {
+                    return p.getFoto();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    @GetMapping("/verImagenLogeado")
+    @ResponseBody
+    public void showImage(HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+        byte[] foto = getObtenerFoto();
+
+        if (foto != null) {
+            response.getOutputStream().write(foto);
+        }
+
+        response.getOutputStream().close();
     }
 
 }

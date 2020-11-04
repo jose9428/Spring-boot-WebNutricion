@@ -37,4 +37,9 @@ public class PacienteServiceImpl implements IPacienteService {
         return pacienteRepository.findByCorreo(correo);
     }
 
+    @Override
+    public Paciente ObtenerPorUsuario(String user) {
+        return pacienteRepository.ObtenerPorUsuario(user);
+    }
+
 }
