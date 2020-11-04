@@ -1,31 +1,26 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <body >
+        
         <table id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Foto</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>DNI</th>
-                    <th>Fecha Nacimiento</th>
-                    <th>Correo</th>
-                    <th>Horarios</th>
+                    <td scope="col">Nro Cita</td>
+                    <td scope="col">Nombre</td>
+                    <td scope="col">Apellidos</td>
+                    <td scope="col">Hora Inicio</td>
+                    <td scope="col">Hora Fin</td>
+                    <td scope="col">Estado</td>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="medico : ${listaMedicos}">
+                <tr th:each="cita : ${listaCitas}">
+                     <td th:text="${cita.id_Cita}"></td>
+                    <td th:text="${cita.nutricionista.nombres}"></td>
+                    <td th:text="${cita.nutricionista.apellido_Paterno} +' ' +${cita.nutricionista.apellido_Materno}"></td>
+                    <td th:text="${cita.hora.hora_Inicio}"></td>
+                    <td th:text="${cita.hora.hora_Fin}"></td>
                     <td>
-                        <img th:src="@{/nutricionista/verImagen/}+${medico.id_Nutricionista}"  th:if="${medico.genero=='M'}" width="80" onerror="src='../img/sin_foto_medico.png' ">
-                        <img th:src="@{/nutricionista/verImagen/}+${medico.id_Nutricionista}" th:unless="${medico.genero=='M'}"  width="80" onerror="src='../img/sin_foto-medico-mujer.jpg' ">
-
-                    </td>
-                    <td th:text="${medico.nombres}"></td>
-                    <td th:text="${medico.apellido_Paterno} +' ' +${medico.apellido_Materno}"></td>
-                    <td th:text="${medico.dni}"></td>
-                    <td th:text="${#dates.format(medico.fecha_Nacimiento, 'dd-MM-yyyy')}"></td>
-                    <td th:text="${medico.correo}"></td>
-                    <td>
-                        <a th:href="@{/citas/horarios/}+${medico.id_Nutricionista}+'/'+${turno}" class="btn" style="background-color:  #407670;color: #ffffff;">Ver horarios</a>
+                        <a href="javascript:void(0)" th:text="${cita.estado}" class="btn btn-info"></a>
                     </td>
                 </tr>
             </tbody>

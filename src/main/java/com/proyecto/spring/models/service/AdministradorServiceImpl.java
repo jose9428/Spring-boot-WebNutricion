@@ -2,6 +2,7 @@ package com.proyecto.spring.models.service;
 
 import com.proyecto.spring.models.entity.*;
 import com.proyecto.spring.models.repository.*;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,5 +66,25 @@ public class AdministradorServiceImpl implements IAdministradorService {
     public Administrador ObtenerPorUsuario(String user) {
         return administradorRepository.ObtenerPorUsuario(user);
     }
+
+    @Override
+    public List<Reporte> ReportexEstados(String estado) {
+        List<Reporte> lista = new ArrayList<>();
+
+        List data = administradorRepository.ReporteCitasxEstado(estado);
+
+        for (int i = 0; i < data.size(); i++) {
+            Object[] o = (Object[]) data.get(i);
+            Reporte r = new Reporte();
+            r.setNroMes(Integer.parseInt(String.valueOf(o[0])));
+            r.setCantidad(Integer.parseInt(String.valueOf(o[1])));
+            r.NombreMes();
+            lista.add(r);
+        }
+
+        return lista;
+    }
+    
+    
 
 }

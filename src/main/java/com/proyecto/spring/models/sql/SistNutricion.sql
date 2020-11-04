@@ -278,6 +278,19 @@ DELIMITER ;
 
 
 
+DELIMITER @@ 
+DROP PROCEDURE IF EXISTS sp_reporte_citas_por_estado @@
+CREATE PROCEDURE sp_reporte_citas_por_estado(_estado varchar(50))
+BEGIN
+	select MONTH(fecha_cita) , count(*) 
+	from cita
+	where Year(fecha_cita) = Year(now()) and estado = _estado
+	group by MONTH(fecha_cita)
+    order by 1 asc;
+END @@
+DELIMITER ;
+
+
 SELECT * FROM Usuario;
 
 select * from paciente;

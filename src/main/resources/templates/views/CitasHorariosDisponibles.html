@@ -10,7 +10,7 @@
             opacity: 0.7;
         }
 
-          #loading-screen {
+        #loading-screen {
             background-color: rgba(25,25,25,0.7);
             height: 100%;
             width: 100%;
@@ -20,7 +20,7 @@
             top: 0;
             text-align: center;
         }
-        
+
         #loading-screen img {
             width: 100px;
             height: 100px;
@@ -119,7 +119,6 @@
                 data: {
                     hora: idHora,
                     nutricionista: idMedico,
-                    paciente: "1",
                     fecha: fechaCita,
                     accion: 'GenerarCita'
                 },
@@ -127,23 +126,20 @@
                     $("#loading-screen").fadeIn();
                 },
                 success: function (data) {
-                    alert(data);
                     if (data === "OK") {
                         setTimeout(function () {
                             $("#loading-screen").fadeOut();
-                            // $(location).attr('href', 'Pendientes.jsp');
-                        }, 1000);
-
+                            //      window.location.href =  "[[@{/citas/Pendientes}]]";
+                            $(location).attr('href', "[[@{/citas/pendientes}]]");
+                        }, 2000);
                     } else {
                         $("#loading-screen").fadeOut();
-                        alert(data);
+                        Mensaje(data);
                     }
                 }, error: function (jqXHR, textStatus, errorThrown) {
                     alert("No se ha podido procesar los datos...!!");
                 }
-
             });
-
         }
 
         function ListarHorarios() {

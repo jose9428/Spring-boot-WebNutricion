@@ -2,14 +2,17 @@ package com.proyecto.spring;
 
 import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
 import com.proyecto.spring.models.entity.Administrador;
+import com.proyecto.spring.models.entity.Cita;
 import com.proyecto.spring.models.entity.Hora;
 import com.proyecto.spring.models.entity.HorarioNutricionista;
 import com.proyecto.spring.models.entity.Nutricionista;
 import com.proyecto.spring.models.entity.Paciente;
 import com.proyecto.spring.models.entity.Perfil;
+import com.proyecto.spring.models.entity.Reporte;
 import com.proyecto.spring.models.entity.Usuario;
 import com.proyecto.spring.models.repository.ContexturaRepository;
 import com.proyecto.spring.models.service.IAdministradorService;
+import com.proyecto.spring.models.service.ICitaService;
 import com.proyecto.spring.models.service.IContexturaService;
 import com.proyecto.spring.models.service.IHoraService;
 import com.proyecto.spring.models.service.IHorarioNutricionistaService;
@@ -56,27 +59,17 @@ public class Application implements CommandLineRunner {
     @Autowired
     private IAdministradorService adminService;
 
+    @Autowired
+    private ICitaService citaService;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        //log.warn("Prueba..!!");
-        // log.warn(contexturaService.getAll().toString());
-        //   List<Perfil> lista = perfilService.getAll();
-
-        /*
-      
-
-        for (int i = 0; i < lista.size(); i++) {
-            Object[] o = (Object[]) lista.get(i);
-            log.warn("" + o[0]+" \t"+o[1]+"\t"+o[2]);
-        }
-         */
-        Date fecha = new Date();
-       
-        log.info("Valor : " + fecha);
+        List<Reporte> lista = adminService.ReportexEstados("Pendiente");
+        log.info(""+lista);
     }
 
 }

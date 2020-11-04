@@ -1,5 +1,6 @@
 package com.proyecto.spring.models.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,8 +40,20 @@ public class Cita {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha_registro;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fecha_cita;
 
     private String estado;
+
+    public String FechaConv() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha = null;
+
+        try {
+            fecha = df.format(getFecha_cita());
+        } catch (Exception ex) {
+        }
+
+        return fecha;
+    }
 }

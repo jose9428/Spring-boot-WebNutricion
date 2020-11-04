@@ -2,6 +2,7 @@ package com.proyecto.spring.models.service;
 
 import com.proyecto.spring.models.entity.Cita;
 import com.proyecto.spring.models.repository.CitaRepository;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,16 @@ public class CitaServiceImpl implements ICitaService {
     @Override
     public void ReservarCita(Cita c) {
         citaRepository.save(c);
+    }
+
+    @Override
+    public List<Cita> ListarCitasPendientesPorPaciente(Date fecha, String usuario) {
+        return citaRepository.ListarCitasPendientesPorPaciente(fecha, usuario , "Pendiente");
+    }
+
+    @Override
+    public int CitasPendientes() {
+        return citaRepository.CantCitasPendientes("Pendiente");
     }
 
 }

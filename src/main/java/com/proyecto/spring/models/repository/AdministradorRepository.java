@@ -11,13 +11,17 @@ public interface AdministradorRepository extends JpaRepository<Administrador, Lo
 
     @Query(value = "{call SP_CODIGO_ADMIN()}", nativeQuery = true)
     public String UsuarioGenerado();
-    
-         @Query(value = "SELECT  a FROM Administrador a "
+
+    @Query(value = "SELECT  a FROM Administrador a "
             + "  WHERE  a.usuario.estado = 1")
     public List<Administrador> ListadoAdministradoresDisponibles();
-    
+
     public List<Administrador> findByCorreo(String correo);
-    
+
     @Query(value = "SELECT  a FROM Administrador a  WHERE  a.usuario.username = ?1")
     public Administrador ObtenerPorUsuario(String user);
+
+    //Seccion de reportes
+    @Query(value = "{call sp_reporte_citas_por_estado(?1)}", nativeQuery = true)
+    public List ReporteCitasxEstado(String estado);
 }

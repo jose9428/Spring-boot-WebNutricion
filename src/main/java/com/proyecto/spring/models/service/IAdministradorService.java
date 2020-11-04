@@ -20,4 +20,6 @@ public interface IAdministradorService {
     public boolean ExisteCorreo(String correo);
     
     public Administrador ObtenerPorUsuario(String user);
+    
+    public List<Reporte> ReportexEstados(String estado);
 }

@@ -105,14 +105,16 @@
 
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"  style="color: white; text-decoration: none;font-size: 14px;font-weight: bold;">
-                                                GRAFICA 4
+                                                GRAFICA CITAS PENDIENTES
                                             </button>
                                         </h2>
                                     </div>
 
                                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                         <div class="card-body">
-                                            Datos de la grafica
+                                            <div class="col-sm-12" id="grafica1">
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -125,14 +127,16 @@
 
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo"  style="color: white; text-decoration: none;font-size: 14px;font-weight: bold;">
-                                                GRAFICA 4
+                                                GRAFICA CITAS ATENDIDAS
                                             </button>
                                         </h2>
                                     </div>
 
                                     <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                         <div class="card-body">
-                                            Datos de la grafica
+                                            <div class="col-sm-12" id="grafica2">
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -141,18 +145,7 @@
                         </div>
                     </div>
 
-
-
-
                 </div>
-
-
-
-
-
-
-
-
             </div>
 
         </div>
@@ -161,6 +154,76 @@
         <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
     </div>
 
+    <script>
+        $(function () {
+            CargarGrafica1("Pendiente", "grafica1", 'Porcentaje de citas pendientes por mes');
+            CargarGrafica1("Atendido", "grafica2", 'Porcentaje de citas atendidas por mes');
+        });
 
+        function CargarGrafica1(estado, div, titulo) {
+
+            $.ajax({
+                type: "GET",
+                url: "/admin/reportexEstado",
+                content: "application/json; charset=utf-8",
+                dataType: "json",
+                data: {
+                    estado: estado
+                }, beforeSend: function () {
+                    $("#" + div).html("Cargando...");
+                },
+                success: function (resultado) {
+                    var data = [];
+                    for (var i in resultado) {
+                        var serie = new Array(resultado[i].nombreMes, resultado[i].cantidad);
+                        data.push(serie);
+                    }
+                    Grafica1(data, div, titulo);
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Error al cargar datos");
+                }
+            }
+            );
+        }
+
+        function Grafica1(resultado, div, titulo) {
+            Highcharts.chart(div, {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: titulo
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                        type: 'pie',
+                        name: 'Porc Total ',
+                        data: resultado
+                    }]
+            });
+        }
+    </script>
 </body>
 </html>

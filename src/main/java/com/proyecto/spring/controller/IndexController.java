@@ -39,6 +39,7 @@ import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -306,7 +307,7 @@ public class IndexController {
     public String UsuarioLogeado() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        String username = userDetail.getUsername();
+        String username = userDetail.getUsername().trim();
         //  String perfil = userDetail.getAuthorities().toString();
         return username;
     }
@@ -347,12 +348,28 @@ public class IndexController {
     @GetMapping("/VerImagenAjaxLogeado")
     @ResponseBody
     public String showImageAjax() {
+        String username = UsuarioLogeado();
+
         String imagen = "";
 
-        byte[] foto = getObtenerFoto();
-
-        if (foto != null) {
-            imagen = Base64.getEncoder().encodeToString(foto);
+        try {
+            Administrador a = adminService.ObtenerPorUsuario(username.trim());
+            if (a != null) {
+                imagen = Base64.getEncoder().encodeToString(a.getFoto());
+            } else {
+                Nutricionista n = nutricionistaService.ObtenerPorUsuario(username.trim());
+                if (n != null) {
+                    imagen = Base64.getEncoder().encodeToString(n.getFoto());
+                } else {
+                    Paciente p = pacienteService.ObtenerPorUsuario(username);
+                    if (p != null) {
+                        imagen = Base64.getEncoder().encodeToString(p.getFoto());
+                    } else {
+                        imagen = "";
+                    }
+                }
+            }
+        } catch (Exception ex) {
         }
 
         return imagen;

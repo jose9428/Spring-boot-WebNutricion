@@ -38,12 +38,15 @@ public class AdministradorController {
 
     @Autowired
     private IAdministradorService adminService;
-    
+
     @Autowired
     private INutricionistaService nutricionistaService;
-    
+
     @Autowired
     private IPacienteService pacienteService;
+
+    @Autowired
+    private ICitaService citaService;
 
     @GetMapping("/")
     public String ViewAdmin(Model model) {
@@ -56,7 +59,7 @@ public class AdministradorController {
         model.addAttribute("cantPaciente", pacienteService.getCantDisponibles());
         model.addAttribute("cantMedico", nutricionistaService.getCantDisponibles());
         model.addAttribute("cantAdmin", adminService.getListDisponibles().size());
-        model.addAttribute("cantCitasPendiente", 26);
+        model.addAttribute("cantCitasPendiente", citaService.CitasPendientes());
         return "/views/PanelAdmin";
     }
 
@@ -92,9 +95,9 @@ public class AdministradorController {
 
                 return ResponseEntity.accepted().body(lista); // 202
             }
-            
-            if(adminService.ExisteCorreo(a.getCorreo())){
-                 return ResponseEntity.ok("El correo ya se encuentra registrado en el sistema");
+
+            if (adminService.ExisteCorreo(a.getCorreo())) {
+                return ResponseEntity.ok("El correo ya se encuentra registrado en el sistema");
             }
 
             if (!imagen.isEmpty()) {
@@ -122,6 +125,12 @@ public class AdministradorController {
             return ResponseEntity.badRequest().body("A ocurrido un error al momento de procesar la info : " + ex.getMessage()); // 400
         }
     }
-    
-  
+
+    @GetMapping("/reportexEstado")
+    @ResponseBody
+    public List<Reporte> getReportexEstado(@RequestParam("estado") String estado) {
+        List<Reporte> lista = adminService.ReportexEstados(estado);
+
+        return lista;
+    }
 }

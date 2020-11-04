@@ -48,7 +48,9 @@
                 <li>
                     <div class="card text-center bg-dark text-white">
                         <a href="#" th:text="${#authentication.getPrincipal().getAuthorities()}" style="font-size: 15px;"></a>
-                        <a href="#" th:text="${#authentication.getPrincipal().getUsername()}" style="font-size: 15px;">
+                        <!--
+                           <a href="#" th:text="${#authentication.getPrincipal().getUsername()}" style="font-size: 15px;">
+                        -->
                         </a>
                         <div class="text-center">
                             <!-- th:src="@{/verImagenLogeado}"  -->
@@ -61,7 +63,7 @@
                     <a th:href="@{/admin/}"><i class="fa fa-fw fa-table"></i> Administradores</a>
                 </li>
 
-                <li  sec:authorize='hasAnyAuthority("Administrador" , "Paciente")'>
+                <li  sec:authorize='hasAnyAuthority("Administrador" )'>
                     <a href="#sm_base" data-toggle="collapse">
                         <i class="fa fa-fw fa-cube"></i> Nutricionista
                     </a>
@@ -79,11 +81,14 @@
                     <a th:href="@{/contextura/}"><i class="fa fa-fw fa-table"></i> Contextura</a>
                 </li>
 
-                <li   th:classappend="(${#httpServletRequest.requestURI} == '/citas/medicos')?'active':'' ">
+                <li sec:authorize='hasAnyAuthority("Paciente")'  th:classappend="(${#httpServletRequest.requestURI} == '/citas/medicos')?'active':'' ">
                     <a th:href="@{/citas/medicos}"><i class="fa fa-fw fa-table"></i>Reservar Cita</a>
                 </li>
-                
-                   <li   th:classappend="(${#httpServletRequest.requestURI} == '/paciente/')?'active':'' ">
+                <li sec:authorize='hasAnyAuthority("Paciente")'  th:classappend="(${#httpServletRequest.requestURI} == '/citas/pendientes')?'active':'' ">
+                    <a th:href="@{/citas/pendientes}"><i class="fa fa-fw fa-table"></i>Mis Citas</a>
+                </li>
+
+                <li  sec:authorize='hasAnyAuthority("Administrador" , "Nutricionista")'  th:classappend="(${#httpServletRequest.requestURI} == '/paciente/')?'active':'' ">
                     <a th:href="@{/paciente/}"><i class="fa fa-fw fa-table"></i>Pacientes</a>
                 </li>
             </ul>
@@ -105,10 +110,12 @@
             <script th:src="@{/bootbox/bootbox.min.js}" type="text/javascript"></script>
             <script th:src="@{/js/funciones/Alerta.js}" type="text/javascript"></script>
 
+            <script th:src="@{/js/highcharts.js}" type="text/javascript"></script>
+            <script th:src="@{/js/exporting.js}" type="text/javascript"></script>
             <script type="text/javascript">
                 $(function () {
                     CargarDatos();
-                    CargaImagen();
+
                 });
 
                 function CargarDatos() {
@@ -117,7 +124,7 @@
                         url: "/datosUsuario",
                         data: {},
                         success: function (data) {
-alert(data.foto);
+                            CargaImagen();
                             $("#nombreCompletos").html(data.nombres + " " + data.apellido_Paterno + " " + data.apellido_Materno);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -134,16 +141,23 @@ alert(data.foto);
                     $.ajax({
                         type: 'GET',
                         url: "/VerImagenAjaxLogeado",
+                        contentType: 'application/json',
                         data: {},
                         success: function (data) {
-         
+
                             try {
-                                $("#ImagenLogeado").attr("src", "data:image/jpg;base64," + data.trim());
+                                if (data.trim().length > 0) {
+                                    $("#ImagenLogeado").attr("src", "data:image/[^;]+;base64," + data.trim());
+                                } else {
+                                    $("#ImagenLogeado").attr("src", "[[@{/img/Sinfoto-user.jpg}]]");
+                                }
                             } catch (e) {
                             }
                         },
+                        complete: function (xhr, textStatus) {
+                        },
                         error: function (jqXHR, textStatus, errorThrown) {
-                          $("#ImagenLogeado").attr("src" , "../img/Sinfoto-user.jpg");
+                            $("#ImagenLogeado").attr("src", "[[@{/img/Sinfoto-user.jpg}]]");
                         }
                     });
                 }
