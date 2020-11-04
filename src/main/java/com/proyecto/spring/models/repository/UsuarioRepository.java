@@ -12,5 +12,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     
     @Query(value = "{call sp_validar_fecha_cambio(?)}" , nativeQuery = true)
     public long DiferenciaFechasCambio(Long idUsuario);
+    
+    public Usuario findByUsername(String user);
 
 }

@@ -1,0 +1,90 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Activar Cuenta</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <style >
+        a:hover{
+            color: white;
+            padding:4px;
+            text-decoration: none;
+
+        }
+    </style>
+
+    <body>
+        <div th:replace="plantilla/templateIndex :: EstilosCss"></div>
+        <div th:replace="plantilla/templateIndex :: BarraHeader"></div>
+
+        <div class="container mt-3 ">
+            <img th:src="@{/img/fondo1.png}" width="290" height="150" class="img-blog"/>
+            <div class="card">
+                <div class="card-inner">
+                    <div class="header">
+                        <h2 id="texto">Cuenta Activada</h2>
+                        <hr>
+                    </div>
+
+                    <div class="content">
+
+                        <div id="Proceso3">
+                            <div class="alert alert-success" role="alert">
+                                <p class="help-block" style="font-size: 17px; text-shadow: #555 1px 4px 8px;" id="mensaje1">Su cuenta ha sido activada satisfactoriamente.</p>
+                                <hr>
+                                <p class="mb-0 help-block" style="font-size: 17px;" id="mensaje2">Ahora podras estar atento de nuestras novedades y de la atencion de nuestro personal medico.</p>
+                            </div>
+
+                            <div class=" row">
+                                <div class="col-sm-4">
+                                    <a th:href="@{/login}" style="color: #005593; font: oblique bold 120% cursive;">Iniciar Sesion</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <footer th:replace="plantilla/templateIndex :: footer"></footer>
+    </body>
+    <script type="text/javascript">
+        $(function () {
+            Validar();
+        });
+        function Validar() {
+            var token = "[[${token}]]";
+            var estado = "[[${estado}]]";
+            
+ 
+            if (parseInt(estado) === 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: "/confirmarActivarCuenta",
+                    data: {
+                        token: token
+                    },
+                    success: function (result) {
+                        if (result !== "OK") {
+                            bootbox.alert({
+                                message: result,
+                                callback: function (result) {
+                                    $(location).attr('href', "/NuevoPaciente");
+                                }
+                            });
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status === 500) {
+                            alert("Error : " + jqXHR.responseText);
+                        }
+                    }
+                });
+            }else{
+                Mensaje("<strong style='color: #004085;'>Su cuenta ya ha sido activa anteriormente.</strong>");
+                $("#mensaje1").html("Su cuenta ya ha sido activa anteriormente.");
+                $("#mensaje2").html("Puedes estar atento de nuestras novedades y de la atencion de nuestro personal medico.");
+            }
+        }
+    </script>
+</html>

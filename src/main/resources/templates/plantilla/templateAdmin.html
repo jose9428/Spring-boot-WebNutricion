@@ -28,10 +28,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
-                        <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Doe</a>
+                        <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown" th:src="@{/logeadoNombre}"><i class="fa fa-user"></i> <span id="nombreCompletos">Usuario</span></a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
                             <a href="#" class="dropdown-item">Perfil</a>
-                            <a href="#" th:href="@{/login?logout}" class="dropdown-item">Cerrar Sesion</a>
+                            <form th:action="@{/logout}" method="post" onsubmit="return CerrarSesion()"  id="frmCerrar">
+                                <a href="javascript:void(0)"   th:attr="onclick='javascript:return CerrarSesion()' "   class="dropdown-item">Cerrar Sesion</a>
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -43,12 +45,13 @@
         <div class="sidebar sidebar-dark bg-dark" th:fragment="BarraMenu">
             <ul class="list-unstyled">
 
-                <li >
+                <li>
                     <div class="card text-center bg-dark text-white">
                         <a href="#" th:text="${#authentication.getPrincipal().getUsername()}" style="font-size: 15px;">
                         </a>
                         <div class="text-center">
-                            <img  th:src="@{/verImagenLogeado}" width="100" height="110" style="border-radius: 50%;border-color: #008CBA;">
+                            <!-- th:src="@{/verImagenLogeado}"  -->
+                            <img  id="ImagenLogeado"  width="100" height="110" style="border-radius: 50%;border-color: #008CBA;">
                         </div>
                     </div>
                 </li>
@@ -57,9 +60,7 @@
                     <a th:href="@{/admin/}"><i class="fa fa-fw fa-table"></i> Administradores</a>
                 </li>
 
-
-
-                <li>
+                <li  sec:authorize='hasAnyAuthority("Administrador" , "Paciente")'>
                     <a href="#sm_base" data-toggle="collapse">
                         <i class="fa fa-fw fa-cube"></i> Nutricionista
                     </a>
@@ -73,14 +74,17 @@
                     </ul>
                 </li>
 
-                <li  th:classappend="(${#httpServletRequest.requestURI} == '/contextura/')?'active':'' ">
+                <li  sec:authorize='hasAnyAuthority("Administrador")' th:classappend="(${#httpServletRequest.requestURI} == '/contextura/')?'active':'' ">
                     <a th:href="@{/contextura/}"><i class="fa fa-fw fa-table"></i> Contextura</a>
                 </li>
 
-                <li  th:classappend="(${#httpServletRequest.requestURI} == '/citas/medicos')?'active':'' ">
+                <li   th:classappend="(${#httpServletRequest.requestURI} == '/citas/medicos')?'active':'' ">
                     <a th:href="@{/citas/medicos}"><i class="fa fa-fw fa-table"></i>Reservar Cita</a>
                 </li>
-
+                
+                   <li   th:classappend="(${#httpServletRequest.requestURI} == '/paciente/')?'active':'' ">
+                    <a th:href="@{/paciente/}"><i class="fa fa-fw fa-table"></i>Pacientes</a>
+                </li>
             </ul>
         </div>
         <!-- End Barra Menu-->
@@ -95,9 +99,55 @@
             <script th:src="@{/js/moment.min.js}"></script>
             <script th:src="@{/js/fullcalendar.min.js}"></script>
             <script th:src="@{/js/bootadmin.min.js}"></script>
+            <script th:src="@{/js/funciones/Logout.js}"></script>
 
             <script th:src="@{/bootbox/bootbox.min.js}" type="text/javascript"></script>
             <script th:src="@{/js/funciones/Alerta.js}" type="text/javascript"></script>
+
+            <script type="text/javascript">
+                $(function () {
+                    CargarDatos();
+                    CargaImagen();
+                });
+
+                function CargarDatos() {
+                    $.ajax({
+                        type: 'GET',
+                        url: "/datosUsuario",
+                        data: {},
+                        success: function (data) {
+alert(data.foto);
+                            $("#nombreCompletos").html(data.nombres + " " + data.apellido_Paterno + " " + data.apellido_Materno);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            if (jqXHR.status === 500) {
+                                console.log("Error : " + jqXHR.responseText);
+                            } else {
+                                console.log("Error inexpicable.");
+                            }
+                        }
+                    });
+                }
+
+                function CargaImagen() {
+                    $.ajax({
+                        type: 'GET',
+                        url: "/VerImagenAjaxLogeado",
+                        data: {},
+                        success: function (data) {
+         
+                            try {
+                                $("#ImagenLogeado").attr("src", "data:image/jpg;base64," + data.trim());
+                            } catch (e) {
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                          $("#ImagenLogeado").attr("src" , "../img/Sinfoto-user.jpg");
+                        }
+                    });
+                }
+
+            </script>
         </footer>
 
         <div th:fragment='script-js'>

@@ -81,7 +81,7 @@ public class CitasController {
             c.setEstado("Pendiente");
             citaService.ReservarCita(c);
             
-            return ResponseEntity.ok("OK");
+            return ResponseEntity.ok("OK"+c);
 
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body("A ocurrido un error al momento de procesar la info : " + ex.getMessage()); // 400

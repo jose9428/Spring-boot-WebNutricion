@@ -13,6 +13,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     public int CantPacientesDisponibles();
 
     public List<Paciente> findByCorreo(String correo);
+    
 
     @Query(value = "SELECT  p FROM Paciente p  WHERE  p.usuario.username = ?1")
     public Paciente ObtenerPorUsuario(String user);

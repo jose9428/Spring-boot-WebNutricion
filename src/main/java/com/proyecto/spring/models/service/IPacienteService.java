@@ -16,4 +16,8 @@ public interface IPacienteService {
     public List<Paciente> getListCorreo(String correo);
 
     public Paciente ObtenerPorUsuario(String user);
+
+    public boolean ExisteCorreo(String correo);
+    
+    public Paciente ObtenerDatosxCorreo(String correo);
 }

@@ -88,75 +88,82 @@
                         </div>
                         <div id="Proceso1">
                             <form id="frmRegistro" action="post">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label   class="help-block">Nombres</label>
+
+                                <div class="form-group row margin-top-10">
+                                    <div class="col-md-6">
+                                        <label class="help-block" >Nombres <strong style="color: #ff0000;">*</strong></label>
                                         <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Nombres Completos" maxlength="30">
+                                        <div id="error_nombres" style="color: #ff0000;"></div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label  class="help-block">Apellido Paterno</label>
+                                    <div class="col-md-6">
+                                        <label class="help-block">Apellido Paterno <strong style="color: #ff0000;">*</strong></label>
                                         <input type="text" class="form-control" id="apellido_Paterno" name="apellido_Paterno" placeholder="Apellido Paterno" maxlength="30">
+                                        <div id="error_apellido_Paterno" style="color: #ff0000;"></div>
                                     </div>
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label   class="help-block">Dni</label>
+                                <div class="form-group row margin-top-10">
+                                    <div class="col-md-6">
+                                        <label class="help-block" >DNI <strong style="color: #ff0000;">*</strong></label>
                                         <input type="text" class="form-control" id="dni" name="dni" placeholder="DNI" maxlength="8">
+                                        <div id="error_dni" style="color: #ff0000;"></div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label  class="help-block">Apellido Materno</label>
+                                    <div class="col-md-6">
+                                        <label class="help-block">Apellido Materno <strong style="color: #ff0000;">*</strong></label>
                                         <input type="text" class="form-control" id="apellido_Materno" name="apellido_Materno" placeholder="Apellido Materno" maxlength="30">
+                                        <div id="error_apellido_Materno" style="color: #ff0000;"></div>
                                     </div>
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label   class="help-block">Fecha de Nacimiento</label>
+                                <div class="form-group row margin-top-10">
+                                    <div class="col-md-6">
+                                        <label class="help-block" >Fecha de Nacimiento <strong style="color: #ff0000;">*</strong></label>
                                         <input type="date" class="form-control" id="fechaNac" name="fechaNac">
+                                        <div id="error_fechaNac" style="color: #ff0000;"></div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label  class="help-block">Correo</label>
+                                    <div class="col-md-6">
+                                        <label class="help-block">Correo <strong style="color: #ff0000;">*</strong></label>
                                         <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo Electronico" maxlength="40">
+                                        <div id="error_correo" style="color: #ff0000;"></div>
                                     </div>
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label   class="help-block">Telefono</label>
+                                <div class="form-group row margin-top-10">
+                                    <div class="col-md-6">
+                                        <label class="help-block" >Telefono</label>
                                         <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Telefono" maxlength="9">
+                                        <div id="error_telefono" style="color: #ff0000;"></div>
                                     </div>
-                                    <div class="form-group col-md-3">
-                                        <label  class="help-block">Contextura</label>
+                                    <div class="col-md-3">
+                                        <label class="help-block">Contextura <strong style="color: #ff0000;">*</strong></label>
                                         <select name="id_contextura" id="id_contextura" class="form-control" >
                                             <option th:each="contextura : ${contexturas}"
                                                     th:value="${contextura.id_contextura}" 
                                                     th:text="${contextura.nombreContextura}" ></option>
                                         </select>
                                     </div>
-
-                                    <div class="form-group col-md-3">
-                                        <label  class="help-block">Genero</label>
+                                    <div class="col-md-3">
+                                        <label class="help-block">Genero <strong style="color: #ff0000;">*</strong></label>
                                         <select name="genero" id="genero" class="form-control" >
                                             <option value="M">Masculino</option>
                                             <option value="F">Femenino</option>
                                         </select>
                                     </div>
-
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label  class="help-block">Usuario</label>
-                                        <input type="text" class="form-control" id="usuario.username" name="usuario.username" placeholder="Usuario" maxlength="20">
+                                <div class="form-group row margin-top-10">
+                                    <div class="col-md-6">
+                                        <label class="help-block" >Usuario <strong style="color: #ff0000;">*</strong></label>
+                                        <input type="text" class="form-control" id="usuario_username" name="usuario_username" placeholder="Usuario" maxlength="20">
+                                        <div id="error_usuario_username" style="color: #ff0000;"></div>
                                     </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label  class="help-block">Contraseña</label>
-                                        <input type="password" class="form-control" id="usuario.pass" name="usuario.pass" placeholder="Contraseña" maxlength="20">
+                                    <div class="col-md-6">
+                                        <label class="help-block">Contraseña <strong style="color: #ff0000;">*</strong></label>
+                                        <input type="password" class="form-control" id="usuario_pass" name="usuario_pass" placeholder="Contraseña" maxlength="20">
+                                        <div id="error_usuario_pass" style="color: #ff0000;"></div>
                                     </div>
-
                                 </div>
+
                                 <div class="form-row">
                                     <button type="button" class="btn btn-primary" style="background-color: #008CBA;" id="BtnGuardar">Registrarse</button>
                                     <button type="reset" class="btn btn-primary" style="background-color: #ff3333;" >Cancelar</button>
@@ -169,10 +176,9 @@
                                 <div class="alert alert-success" role="alert">
                                     <p class="help-block" style="font-size: 17px; text-shadow: #555 1px 4px 8px;" >En hora buena <a href="#" class="alert-link">Felicidades</a>. tu cuenta ya ha sido registrada.</p>
                                     <hr>
-                                    <p class="mb-0 help-block" style="font-size: 17px;">Para activar tu cuenta por favor ingresa el numero que se le ha enviado al correo : <span id="correoToken"  class="alert-link"></span></p>
+                                    <p class="mb-0 help-block" style="font-size: 17px;">Para activar tu cuenta por favor sigue los pasos que se le ha enviado al correo : <span id="correoToken"  class="alert-link"></span></p>
                                 </div>
-
-
+                             <!--
                                 <div class=" row">
                                     <div class="col-sm-4">
                                         <label class="help-block">Ingresa tu codigo de confirmacion: </label>
@@ -187,8 +193,8 @@
                                     <div class="col-sm-4">
                                         <button type="button" class="btn btn-primary" id="BtnActivarCuenta">Activar Cuenta</button>
                                     </div>
-
                                 </div>
+                             -->
                                 <strong class="help-block">
                                     ¿No haz recibido ningun correo?
 
@@ -228,7 +234,39 @@
             $("#Proceso2").hide();
             $("#Proceso3").hide();
             $("#texto").html("Cuenta nueva");
+            LimpiarErrorDiv();
+            LimpiarErrorInput();
         });
+
+        function isValidDate(dateString) {
+            var regEx = /^\d{4}-\d{2}-\d{2}$/;
+            return dateString.match(regEx) != null;
+        }
+
+        function ColorError(dato) {
+            $("#" + dato).css({
+                border: "1px solid #dd5144"
+            });
+        }
+
+        function ColorDefault(dato) {
+            $("#" + dato).css({
+                border: "1px solid #999"
+            });
+        }
+
+        function LimpiarErrorInput() {
+            $("#frmRegistro input").each(function () {
+                var dato = $(this).attr("id");
+                ColorDefault(dato);
+            });
+        }
+        function LimpiarErrorDiv() {
+            $("#frmRegistro div").each(function () {
+                var dato = $(this).attr("id");
+                $("#" + dato).html("");
+            });
+        }
 
         function DivError(estado) {
             if (estado === false) {
@@ -238,11 +276,92 @@
             }
         }
 
+        function ValidarCampos() {
+            var expresion = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/;
+            var contador = 0;
+            LimpiarErrorInput();
+            LimpiarErrorDiv();
+
+            if ($("#nombres").val().trim().length < 1) {
+                $("#error_nombres").html("Campo Obligatorio.");
+                ColorError("nombres");
+                contador++;
+            }
+
+            if ($("#apellido_Paterno").val().trim().length < 1) {
+                $("#error_apellido_Paterno").html("Campo Obligatorio.");
+                ColorError("apellido_Paterno");
+                contador++;
+            }
+
+            if ($("#apellido_Materno").val().trim().length < 1) {
+                $("#error_apellido_Materno").html("Campo Obligatorio.");
+                ColorError("apellido_Materno");
+                contador++;
+            }
+
+            if ($("#dni").val().trim().length < 1) {
+                $("#error_dni").html("Campo Obligatorio.");
+                ColorError("dni");
+                contador++;
+            } else if (isNaN($("#dni").val())) {
+                $("#error_dni").html("El formato del dni no es un numero.");
+                ColorError("dni");
+                contador++;
+            } else if ($("#dni").val().trim().length < 8) {
+                $("#error_dni").html("El DNI debe tener 8 digitos.");
+                ColorError("dni");
+                contador++;
+            }
+
+            if ($("#fechaNac").val().trim().length < 1) {
+                $("#error_fechaNac").html("Seleccione una fecha de nacimiento.");
+                ColorError("fechaNac");
+                contador++;
+            } else if (!isValidDate($("#fechaNac").val())) {
+                $("#error_fechaNac").html("El formato de la fecha no es valido (dd/MM/yyyy)");
+                ColorError("fechaNac");
+                contador++;
+            }
+
+            if ($("#correo").val().trim().length < 1) {
+                $("#error_correo").html("Campo obligatorio.");
+                ColorError("correo");
+                contador++;
+            } else if (!expresion.test($("#correo").val())) {
+                $("#error_correo").html("El Fomato no es valido.");
+                ColorError("correo");
+                contador++;
+            }
+
+            if ($("#usuario_username").val().trim().length < 1) {
+                $("#error_usuario_username").html("Campo Obligatorio.");
+                ColorError("usuario_username");
+                contador++;
+            }
+
+            if ($("#usuario_pass").val().trim().length < 1) {
+                $("#error_usuario_pass").html("Campo Obligatorio.");
+                ColorError("usuario_pass");
+                contador++;
+            }
+
+            if (contador > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
         $("#BtnGuardar").on("click", function () {
+
+            if (!ValidarCampos()) {
+                return false;
+            }
 
             $.ajax({
                 type: 'POST',
-                url: "/paciente/guardar",
+                url: "/guardar",
                 data: $("#frmRegistro").serialize(),
                 cache: false,
                 success: function (data, status, xhr) {
@@ -282,7 +401,7 @@
         function EnviarCorreo(correo) {
             $.ajax({
                 type: 'get',
-                url: "/paciente/enviarToken",
+                url: "/enviarTokenPac",
                 data: {
                     correo: correo
                 }, beforeSend: function (xhr) {
@@ -290,7 +409,7 @@
                     DivError(false);
                 },
                 success: function (data, status, xhr) {
-                    Mensaje("<strong style='color: #004085;'>Se ha enviado correctamente el codigo de confirmacion al correo : " + correo + " </strong>");
+                    Mensaje("<strong style='color: #004085;'>Se ha enviado correctamente un mensaje de confirmacion para activar tu cuenta al correo : " + correo + " </strong>");
                     $("#correoToken").html(correo);
                     $("#loading-screen").fadeOut();
 
@@ -315,7 +434,7 @@
 
             $.ajax({
                 type: 'get',
-                url: "/paciente/activarCuenta",
+                url: "/activarCuenta",
                 data: {
                     correo: correo,
                     token: codigo

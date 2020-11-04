@@ -3,23 +3,30 @@
         <table id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                <!--    <td scope="col">Id</td> -->
+                    <td scope="col">Foto</td>
                     <td scope="col">Nombre</td>
-                    <td scope="col">Descripcion</td>
-                    <td class="actions" scope="col">Acciones</td>
+                    <td scope="col">Apellidos</td>
+                    <td scope="col">DNI</td>
+                    <td scope="col">Fecha Nac.</td>
+                    <td scope="col">Correo</td>
+                    <td scope="col">Genero</td> 
                 </tr>
             </thead>
             <tbody>
 
-                <tr th:each="dato : ${listado}">
-                    <td th:text="${dato.nombreContextura}"></td>
-                    <td th:text="${dato.descripcion}"></td>
-                    <td>
-                        <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${dato.id_contextura} + ')'"  class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Editar"><i class="fa fa-fw fa-edit"></i></a>
-                        <!--
-                               <a href="#" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
-                        -->
+                <tr th:each="paciente : ${listaPacientes}">
+
+                    <td> 
+                        <img th:src="@{/paciente/verImagen/}+${paciente.id_Paciente}"  th:if="${paciente.genero=='M'}" width="80" onerror="src='../img/sin_foto_medico.png' ">
+                        <img th:src="@{/paciente/verImagen/}+${paciente.id_Paciente}" th:unless="${paciente.genero=='M'}"  width="80" onerror="src='../img/sin_foto-medico-mujer.jpg' ">
                     </td>
+
+                    <td th:text="${paciente.nombres}"></td>
+                    <td th:text="${paciente.apellido_Paterno} +' ' +${paciente.apellido_Materno}"></td>
+                    <td th:text="${paciente.dni}"></td>
+                    <td th:text="${#dates.format(paciente.fecha_Nacimiento, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${paciente.correo}"></td>
+                    <td th:text="${paciente.genero=='M'?'Masculino':'Femenino' }"></td> 
                 </tr>
             </tbody>
         </table>

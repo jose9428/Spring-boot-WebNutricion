@@ -17,12 +17,19 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.hibernate.annotations.Parameter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +48,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -60,6 +71,9 @@ public class IndexController {
 
     @Autowired
     private IPacienteService pacienteService;
+
+    @Autowired
+    private IContexturaService contexturaService;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -82,7 +96,7 @@ public class IndexController {
 
     @GetMapping("/acceso")
     public String Acceso() {
-        return "redirect:/admin/";
+        return "redirect:/citas/medicos";
     }
 
     @GetMapping("/servicios")
@@ -114,19 +128,6 @@ public class IndexController {
         model.addAttribute("anterior", page); // prev
         model.addAttribute("ultimo", totalPage); // last
         return "/views/staff";
-    }
-
-    //Nombre del usuario logeado
-    public String NomUsuario() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails loggedUser = null;
-        Object roles = null;
-        if (principal instanceof UserDetails) {
-            loggedUser = (UserDetails) principal;
-
-        }
-
-        return loggedUser.getUsername();
     }
 
     @GetMapping("/recuperar")
@@ -266,9 +267,7 @@ public class IndexController {
     }
 
     public byte[] getObtenerFoto() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        String username = userDetail.getUsername();
+        String username = UsuarioLogeado();
 
         Administrador a = adminService.ObtenerPorUsuario(username);
 
@@ -281,13 +280,35 @@ public class IndexController {
             } else {
 
                 Paciente p = pacienteService.ObtenerPorUsuario(username);
-                if (p.getFoto() != null) {
-                    return p.getFoto();
-                }
+                return p.getFoto();
             }
         }
+    }
 
-        return null;
+    public String UsuarioLogeado() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        String username = userDetail.getUsername();
+        return username;
+    }
+
+    @GetMapping("/datosUsuario")
+    @ResponseBody
+    public Object getDatosUsuario() {
+        String username = UsuarioLogeado();
+
+        Administrador a = adminService.ObtenerPorUsuario(username);
+        if (a != null) {
+            return a;
+        } else {
+            Nutricionista n = nutricionistaService.ObtenerPorUsuario(username);
+            if (n != null) {
+                return n;
+            } else {
+                Paciente p = pacienteService.ObtenerPorUsuario(username);
+                return p;
+            }
+        }
     }
 
     @GetMapping("/verImagenLogeado")
@@ -304,4 +325,155 @@ public class IndexController {
         response.getOutputStream().close();
     }
 
+    @GetMapping("/VerImagenAjaxLogeado")
+    @ResponseBody
+    public String showImageAjax() {
+        String imagen = "";
+
+        byte[] foto = getObtenerFoto();
+
+        if (foto != null) {
+            imagen = Base64.getEncoder().encodeToString(foto);
+        }
+
+        return imagen;
+    }
+
+    @GetMapping("/registrar")
+    public String AddPaciente(Model model) {
+        model.addAttribute("contexturas", contexturaService.getAll());
+        return "/views/NuevoPaciente";
+    }
+
+    @PostMapping("/guardar")
+    public ResponseEntity<Object> GuardarPaciente(@Valid Paciente p, BindingResult errores,
+            @RequestParam("fechaNac") String fechaNac,
+            @RequestParam("id_contextura") Long id_contextura,
+            @RequestParam("usuario_username") String usuario_username,
+            @RequestParam("usuario_pass") String usuario_pass) {
+
+        try {
+
+            Set<ErrorEntity> lista = null;
+            Date fechaNacimiento = Utileria.ConvertirFecha(fechaNac);
+
+            if (errores.hasErrors()) {
+                lista = Utileria.getListError(errores);
+            }
+
+            boolean existeUser = usuarioService.ExisteUsuario(usuario_username);
+            boolean existeCorreo = pacienteService.ExisteCorreo(p.getCorreo());
+
+            if (fechaNacimiento == null || lista != null || existeUser || existeCorreo) {
+                if (lista == null) {
+                    lista = new HashSet<>();
+                }
+
+                if (fechaNacimiento == null) {
+                    lista.add(new ErrorEntity("fechaNac", "El campo de la fecha de nacimiento es requerido."));
+                }
+
+                if (existeUser) {
+                    lista.add(new ErrorEntity("usuario_username", "El usuario " + usuario_username + " no se encuentra disponible."));
+                }
+
+                if (existeCorreo) {
+                    lista.add(new ErrorEntity("correo", "El correo " + p.getCorreo() + " no se encuentra disponible."));
+                }
+
+                return ResponseEntity.accepted().body(lista); // 202
+            }
+
+            Perfil per = new Perfil();
+            per.setId_Perfil(3L);
+
+            Usuario usuario = new Usuario();
+            usuario.setUsername(usuario_username);
+            usuario.setFecha_Registro(new Date());
+            usuario.setPerfil(per);
+            usuario.setToken(Utileria.CodigoToken());
+            usuario.setPass("{noop}" + usuario_pass); // Modificar con encoder
+
+            Contextura c = contexturaService.BuscarPorId(id_contextura);
+            p.setFecha_Nacimiento(fechaNacimiento);
+            p.setUsuario(usuario);
+            p.setContextura(c);
+
+            pacienteService.Guardar(p);
+            return ResponseEntity.ok("OK"); // 200
+
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("A ocurrido un error al momento de procesar la info : " + ex.getMessage() + "<br>" + p + "<br>User Name : " + usuario_username + "<br>Pass : " + usuario_pass); // 400
+        }
+    }
+
+    @GetMapping("/enviarTokenPac")
+    public ResponseEntity<Object> EnviarCorreoActivarCuenta(@RequestParam String correo) {
+        try {
+            Paciente p = pacienteService.ObtenerDatosxCorreo(correo);
+
+            if (p != null) {
+                Calendar c = Calendar.getInstance();
+                Map<String, Object> model = new HashMap<>();
+                model.put("anio", c.get(Calendar.YEAR));
+                model.put("nombres", p.getNombres() + " " + p.getApellido_Paterno() + " " + p.getApellido_Materno());
+                model.put("servidor", servidor);
+                model.put("ruta", "http://localhost:" + servidor + "/activarCuenta?token=" + p.getUsuario().getToken());
+
+                MimeMessage message = mailSender.createMimeMessage();
+
+                MimeMessageHelper helper = new MimeMessageHelper(message,
+                        MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+
+                Template t = freemarkerConfig.getTemplate("Plantilla-Activar-Cuenta.html");
+                String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
+
+                SimpleMailMessage email = new SimpleMailMessage();
+
+                helper.setTo(correo);
+                helper.setText(html, true);
+                helper.setSubject("Activar Cuenta");
+
+                mailSender.send(message);
+
+                return ResponseEntity.ok("OK"); // 200
+            } else {
+                return ResponseEntity.badRequest().body("No se ha podido enviar el la activacion para la cuenta al correo " + correo + " .Por favor pongase en contacto con algun personal administrativo."); // 400
+
+            }
+
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("No se ha podido enviar el la activacion para la cuenta al correo " + correo + " .Por favor pongase en contacto con algun personal administrativo. info : " + ex.getMessage()); // 400
+        }
+    }
+
+    @GetMapping("/activarCuenta")
+    public String ActivarMiCuenta(@RequestParam(required = false) String token, Model model) {
+        Usuario user = usuarioService.getByToken(token);
+        if (user != null) {
+            model.addAttribute("token", token);
+            model.addAttribute("estado", user.getEstado());
+            return "/views/ActivarCuenta";
+        }
+        return "redirect:/registrar";
+    }
+
+    @GetMapping("/confirmarActivarCuenta")
+    public ResponseEntity<Object> ConfirmarActivarCuenta(@RequestParam String token) {
+        try {
+            Usuario user = usuarioService.getByToken(token);
+
+            if (user != null) {
+                user.setEstado(1);
+                usuarioService.Guardar(user);
+                return ResponseEntity.ok("OK"); // 200
+            } else {
+                return ResponseEntity.ok("No se podido activar la cuenta.Pongase en contacto con algun personal administrativo."); // 200
+            }
+
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("No se ha podido activar la cuenta. Mas informacion : " + ex.getMessage()); // 400
+        }
+
+    }
 }

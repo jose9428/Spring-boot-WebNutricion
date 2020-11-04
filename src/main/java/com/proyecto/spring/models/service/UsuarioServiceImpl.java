@@ -7,11 +7,11 @@ import com.proyecto.spring.models.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class UsuarioServiceImpl implements IUsuarioService{
+public class UsuarioServiceImpl implements IUsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
+
     @Override
     public List<Usuario> getAll() {
         return usuarioRepository.findAll();
@@ -35,12 +35,22 @@ public class UsuarioServiceImpl implements IUsuarioService{
     @Override
     public boolean ValidarFechas(Long idUsuario) {
         long tiempo = usuarioRepository.DiferenciaFechasCambio(idUsuario);
-        
-        if(tiempo >= 0){
+
+        if (tiempo >= 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
+    @Override
+    public boolean ExisteUsuario(String user) {
+        Usuario u = usuarioRepository.findByUsername(user);
+        if (u != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

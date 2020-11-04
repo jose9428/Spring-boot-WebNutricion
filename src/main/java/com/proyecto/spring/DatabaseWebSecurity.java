@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 @Configuration(proxyBeanMethods = true)
@@ -40,15 +41,25 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable().authorizeRequests().antMatchers("/", "/staff", "/servicios", "/recuperar",
-                "/paciente/**", "/nutricionista/verImagen/**", "/enviarToken" ,"/login/newPassword/**",
-                "/reestablecer", "/reestablecer-clave","/validarToken",
-                "/css/**", "/js/**", "/img/**", "/bootbox/**" ,"/webfonts/**").permitAll()
+                "/guardar", "/registrar", "/nutricionista/verImagen/**", "/enviarToken", "/login/newPassword/**",
+                "/reestablecer", "/reestablecer-clave", "/validarToken", "/acceso", "/activarCuenta", "/enviarTokenPac",
+                "/verImagenLogeado", "/datosUsuario", "/VerImagenAjaxLogeado","/activarCuenta","/confirmarActivarCuenta",
+                "/css/**", "/js/**", "/img/**", "/bootbox/**", "/webfonts/**").permitAll()
                 // Asignar permisos 
-                .antMatchers("/admin/**").hasAnyAuthority("Administrador")
+
+                .antMatchers("/admin/**").hasAnyAuthority("Administrador", "Paciente", "Nutricionista")
+                .antMatchers("/citas/**").hasAnyAuthority("Paciente", "Administrador", "Nutricionista")
+                .antMatchers("/citas/horarios/**").hasAnyAuthority("Paciente", "Administrador", "Nutricionista")
+                .antMatchers("/paciente/**").hasAnyAuthority("Administrador", "Paciente", "Nutricionista")
+                .antMatchers("/nutricionista/**").hasAnyAuthority("Administrador", "Paciente", "Nutricionista")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/acceso").permitAll().
                 failureUrl("/login?error=true").and().
                 logout().permitAll().logoutSuccessUrl("/login?logout");
-        
+
+        /*
+                  .permitAll().clearAuthentication(true)
+                .invalidateHttpSession(true).logoutSuccessUrl("/login?logout");
+         */
     }
 }
