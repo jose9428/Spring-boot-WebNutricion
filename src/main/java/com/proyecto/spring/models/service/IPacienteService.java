@@ -20,4 +20,6 @@ public interface IPacienteService {
     public boolean ExisteCorreo(String correo);
     
     public Paciente ObtenerDatosxCorreo(String correo);
+    
+      public Paciente ObtenerPorIdPaciente(Long codigo);
 }

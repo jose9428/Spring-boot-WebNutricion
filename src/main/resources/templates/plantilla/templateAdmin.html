@@ -25,7 +25,7 @@
      
             <a class="navbar-brand"  sec:authorize='hasAnyAuthority("Administrador")'  th:href="@{/admin/reporte}">Sistema Nutricion</a>
             <a class="navbar-brand"  sec:authorize='hasAnyAuthority("Paciente")'   th:href="@{/citas/CitaHoy}">Sistema Nutricion</a>
-            <a class="navbar-brand"  sec:authorize='hasAnyAuthority("Nutricionista")'  th:href="@{/admin/reporte}">Sistema Nutricion</a>
+            <a class="navbar-brand"  sec:authorize='hasAnyAuthority("Nutricionista")'  th:href="@{/citas/Pendientes-Paciente}">Sistema Nutricion</a>
 
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav ml-auto">
@@ -92,7 +92,10 @@
                 </li>
 
                 <li  sec:authorize='hasAnyAuthority("Administrador" , "Nutricionista")'  th:classappend="(${#httpServletRequest.requestURI} == '/paciente/')?'active':'' ">
-                    <a th:href="@{/paciente/}"><i class="fa fa-fw fa-user"></i>Pacientes</a>
+                    <a th:href="@{/paciente/}"><i class="fa fa-fw fa-user"></i> Pacientes</a>
+                </li>
+                    <li  sec:authorize='hasAnyAuthority( "Nutricionista")'  th:classappend="(${#httpServletRequest.requestURI} == '/citas/Pendientes-Paciente')?'active':'' ">
+                    <a th:href="@{/citas/Pendientes-Paciente}"><i class="fa fa-calendar-plus"></i> Citas Pendientes</a>
                 </li>
                 
                   <li  sec:authorize='hasAnyAuthority("Administrador" )'  th:classappend="(${#httpServletRequest.requestURI} == '/admin/reporte')?'active':'' ">

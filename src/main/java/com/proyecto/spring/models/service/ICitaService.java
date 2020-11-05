@@ -13,4 +13,6 @@ public interface ICitaService {
     public List<Cita> ListarCitasPendientesPorPaciente(Date fecha , String usuario );
     
     public int CitasPendientes();
+    
+     public List<Cita> ListarCitasPendientesPorNutricionista(Date fecha , String usuario );
 }

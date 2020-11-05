@@ -1,35 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <body >
+
         <table id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <td scope="col">Foto</td>
+                    <td scope="col">Foto </td>
+                    <td scope="col">Nro Cita</td>
                     <td scope="col">Nombre</td>
                     <td scope="col">Apellidos</td>
-                    <td scope="col">DNI</td>
-                    <td scope="col">Fecha Nac.</td>
-                    <td scope="col">Correo</td>
-                    <td scope="col">Genero</td> 
-                    <td scope="col">Detalle</td> 
+                    <td scope="col">Hora Inicio</td>
+                    <td scope="col">Hora Fin</td>
+                    <td scope="col">Estado</td>
                 </tr>
             </thead>
             <tbody>
-
-                <tr th:each="paciente : ${listaPacientes}">
-
-                    <td> 
-                        <img th:src="@{/paciente/verImagen/}+${paciente.id_Paciente}"  th:if="${paciente.genero=='M'}" width="80" onerror="src='../img/sin_foto-paciente-hombre.jpg' ">
-                        <img th:src="@{/paciente/verImagen/}+${paciente.id_Paciente}" th:unless="${paciente.genero=='M'}"  width="80" onerror="src='../img/sin_foto-paciente-mujer.jpg' ">
-                    </td>
-
-                    <td th:text="${paciente.nombres}"></td>
-                    <td th:text="${paciente.apellido_Paterno} +' ' +${paciente.apellido_Materno}"></td>
-                    <td th:text="${paciente.dni}"></td>
-                    <td th:text="${#dates.format(paciente.fecha_Nacimiento, 'dd-MM-yyyy')}"></td>
-                    <td th:text="${paciente.correo}"></td>
-                    <td th:text="${paciente.genero=='M'?'Masculino':'Femenino' }"></td> 
+                <tr th:each="cita : ${listaCitas}">
                     <td>
-                        <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${paciente.id_Paciente} + ')'"   class="btn btn-primary" > Ver detalle</a>
+                        <img th:src="@{/paciente/verImagen/}+${cita.paciente.id_Paciente}"  th:if="${cita.paciente.genero=='M'}" width="80" onerror="src='../img/sin_foto-paciente-hombre.jpg' ">
+                        <img th:src="@{/paciente/verImagen/}+${cita.paciente.id_Paciente}" th:unless="${cita.paciente.genero=='M'}"  width="80" onerror="src='../img/sin_foto-paciente-mujer.jpg' ">
+                    </td>
+                    <td th:text="${cita.id_Cita}"></td>
+                    <td th:text="${cita.paciente.nombres}"></td>
+                    <td th:text="${cita.paciente.apellido_Paterno} +' ' +${cita.paciente.apellido_Materno}"></td>
+                    <td th:text="${cita.hora.hora_Inicio}"></td>
+                    <td th:text="${cita.hora.hora_Fin}"></td>
+                    <td>
+                        <a href="javascript:void(0)" th:text="${cita.estado}" class="btn btn-info"></a>
                     </td>
                 </tr>
             </tbody>

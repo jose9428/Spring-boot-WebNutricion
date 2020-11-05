@@ -41,7 +41,7 @@ public class Paciente {
     @Size(min = 8, max = 8, message = "El campo del dni debe tener 8 digitos numericos")
     private String dni;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fecha_Nacimiento;
 
     @Email(message = "El correo electronico debe tener el formato correspondiente")

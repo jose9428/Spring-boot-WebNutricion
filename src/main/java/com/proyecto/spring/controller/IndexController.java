@@ -114,7 +114,7 @@ public class IndexController {
         } else if (perfil.equalsIgnoreCase("Administrador")) {
             return "redirect:/admin/reporte";
         } else {
-            return "redirect:/admin/";
+            return "redirect:/citas/Pendientes-Paciente";
         }
     }
 

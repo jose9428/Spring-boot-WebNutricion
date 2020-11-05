@@ -15,5 +15,8 @@ public interface CitaRepository extends  JpaRepository<Cita, Long>{
     
       @Query(value = "SELECT count(c) FROM Cita c  WHERE  c.estado = ?1")
     public int CantCitasPendientes(String estado);
+    
+       @Query(value = "SELECT  c FROM Cita c  WHERE  c.fecha_cita =?1  and  c.nutricionista.usuario.username = ?2 and c.estado=?3")
+    public List<Cita> ListarCitasPendientesPorNutricionista(Date fecha , String usuario,String estado);
 
 }

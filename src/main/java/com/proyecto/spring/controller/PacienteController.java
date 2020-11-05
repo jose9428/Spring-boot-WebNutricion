@@ -19,6 +19,7 @@ import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
@@ -44,19 +45,24 @@ public class PacienteController {
     @Autowired
     private JavaMailSender mailSender;
 
-  
     @GetMapping(value = "/")
     public String ViewPaciente(Model model) {
         return "/views/HistoriaPacientes";
     }
-    
-      @GetMapping(value = "/listarPacientes")
+
+    @GetMapping(value = "/listarPacientes")
     public String ListadoPacientes(Model model) {
         model.addAttribute("listaPacientes", pacienteService.getAll());
         return "/views/listar/ListarPacientes";
     }
-    
-     @GetMapping("/verImagen/{id}")
+
+    @GetMapping("/detallePaciente")
+    @ResponseBody
+    public Paciente DetallePaciente(@RequestParam("codigo") Long codigo) {
+        return pacienteService.ObtenerPorIdPaciente(codigo);
+    }
+
+    @GetMapping("/verImagen/{id}")
     @ResponseBody
     public void showImage(@PathVariable("id") Long id, HttpServletResponse response, Paciente paciente)
             throws ServletException, IOException {
@@ -70,6 +76,5 @@ public class PacienteController {
 
         response.getOutputStream().close();
     }
-
 
 }

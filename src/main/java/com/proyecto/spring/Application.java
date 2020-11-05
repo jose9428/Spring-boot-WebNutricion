@@ -68,7 +68,8 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<Reporte> lista = adminService.ReportexEstados("Pendiente");
+        Date fechaConv = Utileria.ConvertirFecha("2020-12-16");
+        List<Cita> lista = citaService.ListarCitasPendientesPorNutricionista(fechaConv, "C002");
         log.info(""+lista);
     }
 

@@ -76,4 +76,9 @@ public class PacienteServiceImpl implements IPacienteService {
 
     }
 
+    @Override
+    public Paciente ObtenerPorIdPaciente(Long codigo) {
+        return pacienteRepository.ObtenerPorIdPaciente(codigo);
+    }
+
 }

@@ -51,6 +51,22 @@ public class CitasController {
     @Autowired
     private IPacienteService pacienteService;
 
+    @GetMapping("/Pendientes-Paciente")
+    public String CitasPendientesMedico() {
+        return "/views/NutricionistaCitasPendientes";
+    }
+    
+      @GetMapping(value = "/listarPendientes-Paciente")
+    public String ListarCitasNutricionista(@RequestParam("fecha") String fecha, Model model) {
+
+        Date fechaConv = Utileria.ConvertirFecha(fecha);
+        List<Cita> listaCitas = citaService.ListarCitasPendientesPorNutricionista(fechaConv, UsuarioLogeado());
+
+        model.addAttribute("fecha", fecha);
+        model.addAttribute("listaCitas", listaCitas);
+        return "/views/listar/ListarNutricionistaCitasPendientes";
+    }
+
     @GetMapping("/medicos")
     public String CitasMedicos(Model model) {
 
