@@ -79,33 +79,43 @@
 
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="card mb-4">
-                                    <div class="card-header font-weight-bold" style="background-color:  #005580;color: white;">
-                                        GRAFICA 1
-                                    </div>
-                                    <div class="card-body">
+                                    <div class="card-header text-center font-weight-bold" style="background-color:  #005580;"  id="headingThree">
 
+                                        <h2 class="mb-0 ">
+                                            <div class="text-center">
+                                                <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree"  style="color: white; text-decoration: none;font-size: 14px;font-weight: bold;">
+                                                    TOTAL CITAS ATENDIDAS
+                                                </button>
+                                            </div>
+                                        </h2>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card mb-4">
-                                    <div class="card-header  font-weight-bold" style="background-color:  #005580;color: white;">
-                                        GRAFICA 2
-                                    </div>
-                                    <div class="card-body">
 
+                                    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="col-sm-12" id="grafica3">
+
+                                            </div>
+                                            <div class="text-center">
+                                                <button id="plain" class="btn btn-info">Normal</button>
+                                                <button id="inverted" class="btn btn-primary">Invertido</button>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
+
                             </div>
-                            <div class="col-md-6">
+
+
+                            <div class="col-md-6 mt-3">
                                 <div class="card mb-4">
                                     <div class="card-header  font-weight-bold" style="background-color:  #005580;"  id="headingOne">
 
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"  style="color: white; text-decoration: none;font-size: 14px;font-weight: bold;">
-                                                GRAFICA CITAS PENDIENTES
+                                                PORCENTAJE CITAS PENDIENTES
                                             </button>
                                         </h2>
                                     </div>
@@ -121,13 +131,13 @@
                             </div>
 
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 mt-3">
                                 <div class="card mb-4">
                                     <div class="card-header  font-weight-bold" style="background-color:  #005580;"  id="headingTwo">
 
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo"  style="color: white; text-decoration: none;font-size: 14px;font-weight: bold;">
-                                                GRAFICA CITAS ATENDIDAS
+                                                PORCENTAJE CITAS ATENDIDAS
                                             </button>
                                         </h2>
                                     </div>
@@ -158,7 +168,84 @@
         $(function () {
             CargarGrafica1("Pendiente", "grafica1", 'Porcentaje de citas pendientes por mes');
             CargarGrafica1("Atendido", "grafica2", 'Porcentaje de citas atendidas por mes');
+            CargarGrafica3("Atendido");
         });
+
+
+        function CargarGrafica3(estado) {
+
+            $.ajax({
+                type: "GET",
+                url: "/admin/reportexEstado",
+                content: "application/json; charset=utf-8",
+                dataType: "json",
+                data: {
+                    estado: estado
+                }, beforeSend: function () {
+                    $("#grafica3").html("Cargando...");
+                },
+                success: function (resultado) {
+                    var dataMes = [];
+                    var dataTotal = [];
+                    for (var i in resultado) {
+                        dataMes.push(resultado[i].nombreMes);
+                        dataTotal.push(resultado[i].cantidad);
+                    }
+                    Grafica3(dataMes, dataTotal);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                   console.log("Error al cargar datos");
+                }
+            });
+        }
+
+        function Grafica3(mes, totales) {
+            chart = Highcharts.chart('grafica3', {
+
+                title: {
+                    text: 'CANTIDAD TOTAL DE CITAS ATENTIDAS DEL AÑO 2020'
+                },
+                subtitle: {
+                    text: 'Total citas por mes'
+                },
+                xAxis: {
+                    categories: mes
+                },
+                series: [{
+                        type: 'column',
+                        colorByPoint: true,
+                        data: totales,
+                        name: 'Total ',
+                        showInLegend: false
+                    }]
+            });
+        }
+
+        $('#plain').click(function () {
+            chart.update({
+                chart: {
+                    inverted: false,
+                    polar: false
+                },
+                subtitle: {
+                    text: 'Total por mes'
+                }
+            });
+        });
+
+        $('#inverted').click(function () {
+            chart.update({
+                chart: {
+                    inverted: true,
+                    polar: false
+                },
+                subtitle: {
+                    text: 'Total por mes'
+                }
+            });
+        });
+
+
 
         function CargarGrafica1(estado, div, titulo) {
 
@@ -182,7 +269,7 @@
 
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    alert("Error al cargar datos");
+                    console.log("Error al cargar datos");
                 }
             }
             );

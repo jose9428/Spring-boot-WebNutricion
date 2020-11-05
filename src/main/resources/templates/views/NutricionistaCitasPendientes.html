@@ -1,0 +1,96 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Citas Pendientes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+    <style>
+        a:hover {
+            opacity: 0.7;
+        }
+    </style>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/templateAdmin :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/templateAdmin :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white font-weight-bold">
+                        <div class="bg-light p-3 row form-group">
+                            <label  class="col-sm-2 col-form-label">Seleccione Fecha : </label>
+                            <div class="col-sm-5 bg-light">
+                                <form>
+                                    <input name="fecha" id="fecha" type="date" class="form-control" onchange="Listar()">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="resultado" ></div>
+                    </div>
+                </div>
+
+
+                <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
+            </div>
+
+        </div>
+    </body>
+    <script type="text/javascript">
+        $(function () {
+            FechaActual();
+            Listar();
+        });
+        function Listar() {
+            var fecha = $("#fecha").val();
+
+            $.ajax({
+                type: 'GET',
+                url: "/citas/listarPendientesPaciente",
+                data: {
+                    fecha: fecha
+                }, beforeSend: function (xhr) {
+                    $("#resultado").html("Cargando..");
+                },
+                success: function (result) {
+                    $("#resultado").html(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        alert("Error inexpicable.");
+                    }
+                }
+            });
+        }
+
+        function FechaActual() {
+            var fecha = new Date();
+            var dia, mes, anio;
+            dia = fecha.getDate();
+            mes = (fecha.getMonth() + 1);
+            anio = fecha.getFullYear();
+            if (dia < 10) {
+                dia = "0" + dia;
+            }
+
+            if (mes < 10) {
+                mes = "0" + mes;
+            }
+
+            var cadena = (anio + "-" + mes + "-" + dia);
+            document.getElementById("fecha").value = cadena;
+        }
+
+    </script>
+
+</html>

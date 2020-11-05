@@ -18,12 +18,14 @@
             <link th:href="@{/css/fullcalendar.min.css}" rel="stylesheet">
             <link th:href="@{/css/bootadmin.min.css}" rel="stylesheet">
 
-
         </div>
         <!-- Barra Header-->
         <nav class="navbar navbar-expand navbar-dark " th:fragment = "BarraHeader" style="background: #005593;">
             <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
-            <a class="navbar-brand" th:href="@{/admin/reporte}">Sistema Nutricion</a>
+     
+            <a class="navbar-brand"  sec:authorize='hasAnyAuthority("Administrador")'  th:href="@{/admin/reporte}">Sistema Nutricion</a>
+            <a class="navbar-brand"  sec:authorize='hasAnyAuthority("Paciente")'   th:href="@{/citas/CitaHoy}">Sistema Nutricion</a>
+            <a class="navbar-brand"  sec:authorize='hasAnyAuthority("Nutricionista")'  th:href="@{/admin/reporte}">Sistema Nutricion</a>
 
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav ml-auto">
@@ -47,6 +49,7 @@
 
                 <li>
                     <div class="card text-center bg-dark text-white">
+                        <a href="#"  style="font-size: 15px;">PERFIL</a>
                         <a href="#" th:text="${#authentication.getPrincipal().getAuthorities()}" style="font-size: 15px;"></a>
                         <!--
                            <a href="#" th:text="${#authentication.getPrincipal().getUsername()}" style="font-size: 15px;">
@@ -65,7 +68,7 @@
 
                 <li  sec:authorize='hasAnyAuthority("Administrador" )'>
                     <a href="#sm_base" data-toggle="collapse">
-                        <i class="fa fa-fw fa-cube"></i> Nutricionista
+                        <i class="fa fa-fw fa-users"></i> Nutricionista
                     </a>
                     <ul id="sm_base" class="list-unstyled collapse" >
                         <li  th:classappend="(${#httpServletRequest.requestURI} == '/nutricionista/')?'active':'' ">
@@ -78,18 +81,22 @@
                 </li>
 
                 <li  sec:authorize='hasAnyAuthority("Administrador")' th:classappend="(${#httpServletRequest.requestURI} == '/contextura/')?'active':'' ">
-                    <a th:href="@{/contextura/}"><i class="fa fa-fw fa-table"></i> Contextura</a>
+                    <a th:href="@{/contextura/}"><i class="fa fa-fw fa-child"></i> Contextura</a>
                 </li>
 
                 <li sec:authorize='hasAnyAuthority("Paciente")'  th:classappend="(${#httpServletRequest.requestURI} == '/citas/medicos')?'active':'' ">
-                    <a th:href="@{/citas/medicos}"><i class="fa fa-fw fa-table"></i>Reservar Cita</a>
+                    <a th:href="@{/citas/medicos}"><i class="fa fa-fw fa-table"></i> Reservar Cita</a>
                 </li>
                 <li sec:authorize='hasAnyAuthority("Paciente")'  th:classappend="(${#httpServletRequest.requestURI} == '/citas/pendientes')?'active':'' ">
-                    <a th:href="@{/citas/pendientes}"><i class="fa fa-fw fa-table"></i>Mis Citas</a>
+                    <a th:href="@{/citas/pendientes}"><i class="fa fa-calendar-plus"></i>  Mis Citas</a>
                 </li>
 
                 <li  sec:authorize='hasAnyAuthority("Administrador" , "Nutricionista")'  th:classappend="(${#httpServletRequest.requestURI} == '/paciente/')?'active':'' ">
-                    <a th:href="@{/paciente/}"><i class="fa fa-fw fa-table"></i>Pacientes</a>
+                    <a th:href="@{/paciente/}"><i class="fa fa-fw fa-user"></i>Pacientes</a>
+                </li>
+                
+                  <li  sec:authorize='hasAnyAuthority("Administrador" )'  th:classappend="(${#httpServletRequest.requestURI} == '/admin/reporte')?'active':'' ">
+                    <a th:href="@{/admin/reporte}"><i class="fa fa-fw fa-pie-chart"></i>Reportes</a>
                 </li>
             </ul>
         </div>

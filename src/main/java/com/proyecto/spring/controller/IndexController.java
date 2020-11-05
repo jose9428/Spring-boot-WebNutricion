@@ -110,9 +110,9 @@ public class IndexController {
         }
 
         if (perfil.equalsIgnoreCase("Paciente")) {
-            return "redirect:/citas/medicos";
+            return "redirect:/citas/CitaHoy";
         } else if (perfil.equalsIgnoreCase("Administrador")) {
-            return "redirect:/admin/";
+            return "redirect:/admin/reporte";
         } else {
             return "redirect:/admin/";
         }

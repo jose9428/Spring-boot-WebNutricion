@@ -35,7 +35,7 @@
                                 th:attr="onclick='CambiarEstado('+${medico.id_Nutricionista} +', 1,\' '  +${medico.nomCompletos()}+ '\'  )' " >Inactivo</button>
                     </td>
                     <td>
-                        <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${medico.id_Nutricionista} + ')'"  class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Editar"><i class="fa fa-fw fa-edit"></i></a>
+                        <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${medico.id_Nutricionista} + ')'"  class="btn btn-primary" data-toggle="tooltip" title="Editar"><i class="fa fa-fw fa-edit"></i> Editar</a>
                     </td>
                 </tr>
             </tbody>

@@ -132,4 +132,13 @@ public class CitasController {
 
         return username;
     }
+
+    @GetMapping("/CitaHoy")
+    public String MiCitaHoy(Model model) {
+
+        List<Cita> listaCitas = citaService.ListarCitasPendientesPorPaciente(new Date(), UsuarioLogeado());
+        model.addAttribute("listaCitas", listaCitas);
+        return "/views/PacienteMiCitaHoy";
+    }
+
 }

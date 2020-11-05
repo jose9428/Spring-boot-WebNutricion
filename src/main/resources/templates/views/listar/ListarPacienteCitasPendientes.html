@@ -1,9 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <body >
-        
+
         <table id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
+                    <td scope="col">Foto</td>
                     <td scope="col">Nro Cita</td>
                     <td scope="col">Nombre</td>
                     <td scope="col">Apellidos</td>
@@ -14,7 +15,11 @@
             </thead>
             <tbody>
                 <tr th:each="cita : ${listaCitas}">
-                     <td th:text="${cita.id_Cita}"></td>
+                    <td>
+                        <img th:src="@{/nutricionista/verImagen/}+${cita.nutricionista.id_Nutricionista}"  th:if="${cita.nutricionista.genero=='M'}" width="80" onerror="src='../img/sin_foto_medico.png' ">
+                        <img th:src="@{/nutricionista/verImagen/}+${cita.nutricionista.id_Nutricionista}" th:unless="${cita.nutricionista.genero=='M'}"  width="80" onerror="src='../img/sin_foto-medico-mujer.jpg' ">
+                    </td>
+                    <td th:text="${cita.id_Cita}"></td>
                     <td th:text="${cita.nutricionista.nombres}"></td>
                     <td th:text="${cita.nutricionista.apellido_Paterno} +' ' +${cita.nutricionista.apellido_Materno}"></td>
                     <td th:text="${cita.hora.hora_Inicio}"></td>

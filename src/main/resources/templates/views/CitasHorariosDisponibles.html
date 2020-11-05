@@ -130,7 +130,12 @@
                         setTimeout(function () {
                             $("#loading-screen").fadeOut();
                             //      window.location.href =  "[[@{/citas/Pendientes}]]";
-                            $(location).attr('href', "[[@{/citas/pendientes}]]");
+                            bootbox.alert({
+                                message: "Cita registrada correctamente.",
+                                callback: function (result) {
+                                    $(location).attr('href', "[[@{/citas/pendientes}]]");
+                                }
+                            });
                         }, 2000);
                     } else {
                         $("#loading-screen").fadeOut();
