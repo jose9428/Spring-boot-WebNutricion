@@ -1,6 +1,20 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <style>
+
+        .dataTables_length{
+            position:relative;
+            top: 23px;
+        }
+
+        @media only screen and (max-width: 800px) {
+            .dataTables_length{
+                position:relative;
+                top: -10px;
+            }
+        }
+    </style>
     <body >
-        <table id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+        <table  id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <td scope="col">Foto</td>
@@ -42,10 +56,10 @@
         </table>
     </body>
 
-
     <script>
         $(document).ready(function () {
             var table = $('#example').DataTable({
+
                 language: {
                     "lengthMenu": "Mostrar _MENU_ registros",
                     "zeroRecords": "No se encontraron resultados",
@@ -53,17 +67,62 @@
                     "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
                     "infoFiltered": "(filtrado de un total de _MAX_ registros)",
                     "sSearch": "Buscar:",
+
                     "oPaginate": {
                         "sFirst": "Primero",
                         "sLast": "Último",
                         "sNext": "Siguiente",
                         "sPrevious": "Anterior"
                     },
-                    "sProcessing": "Procesando...",
-                },
-                //para usar los botones   
 
-                responsive: "true"
+                    "sProcessing": "Procesando..."
+                },
+
+                // Original : Bfrtilp
+                //     responsive: "true", // Bfrtip
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Excell ',
+                        title: "Reporte de medicos nutricionistas",
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success mb-3',
+                        exportOptions: {
+                            // columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'PDF ',
+                        title: "Reporte de medicos nutricionistas",
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Imprimir ',
+                        title: "Reporte de medicos nutricionistas",
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-info mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'Filtrar ',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-primary mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ]
             });
         });
     </script>

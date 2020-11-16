@@ -42,7 +42,7 @@ public class Administrador {
      @NotEmpty(message = "El campo del dni es requerido")
     private String dni;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fecha_Nacimiento;
 
     @Email(message = "El email es obligatorio y debe tener el correspondiente formato.")

@@ -23,6 +23,9 @@ import java.util.Base64;
 import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 @RequestMapping("/nutricionista")
@@ -50,6 +53,24 @@ public class NutricionistaController {
         return "/views/MantNutricionista";
     }
 
+    @GetMapping("/config")
+    public String CambiarClave(Model model) {
+        return "/views/CambiarClave";
+    }
+
+    @GetMapping("/perfil")
+    public String MiPerfil(Model model) {
+        Nutricionista nutricionista = nutricionistaService.ObtenerPorUsuario(UsuarioLogeado());
+
+        if (nutricionista == null) {
+            return "redirect:/nutricionista";
+        } else {
+
+            model.addAttribute("nutricionista", nutricionista);
+            return "/views/Perfil";
+        }
+    }
+
     @GetMapping(value = "/horarios")
     public String ViewHorarios(Model model) {
         List<Turno> lista = turnoService.getAll();
@@ -74,11 +95,10 @@ public class NutricionistaController {
             }
 
             if (n.getId_Nutricionista() != 0) {
-                 if (nutricionistaService.ExisteCorreoNotId(n.getCorreo(), n.getId_Nutricionista())) {
+                if (nutricionistaService.ExisteCorreoNotId(n.getCorreo(), n.getId_Nutricionista())) {
                     return ResponseEntity.ok("El correo ya se encuentra registrado en el sistema");
                 }
-                
-                
+
                 if (imagen.isEmpty()) {
                     Nutricionista n2 = nutricionistaService.getById(n.getId_Nutricionista());
                     n.setFoto(n2.getFoto());
@@ -199,4 +219,13 @@ public class NutricionistaController {
         }
 
     }
+
+    public String UsuarioLogeado() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        String username = userDetail.getUsername().trim();
+
+        return username;
+    }
+
 }

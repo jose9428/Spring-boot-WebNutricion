@@ -1,0 +1,192 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Contextura</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    </head>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/templateAdmin :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/templateAdmin :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white font-weight-bold">
+                        <div class="bg-light p-3 mb-3">
+                            <h3><i class="fa fa-wrench"></i> Cambiar contraseña</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-block">
+                            <legend class="text-bold margin-top-12">
+                                <br>
+                                <p style="font-size: 14px;">   Se recomienda usar una contraseña segura que no uses en ningún otro sitio.</p>
+                            </legend>
+                            <form  class="form-horizontal" id="frmCambiar">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group row margin-top-10">
+                                            <div class="col-md-4">
+                                                <label class="control-label col-form-label">Contraseña actual</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="password" class="form-control" id="actual" name="actual">
+                                                <div id="error_actual" style="color: #ff0000;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <label class="control-label col-form-label">Contraseña nueva</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="password" class="form-control"  id="nueva" name="nueva" >
+                                                <div id="error_nueva" style="color: #ff0000;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <label class="control-label col-form-label">Repetir contraseña nueva</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="password" class="form-control"  id="repetir" name="repetir">
+                                                <div id="error_repetir" style="color: #ff0000;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="pull-right">
+                                            <input type="hidden" name="codigo" value="<%=codigo%>">
+                                            <input type="hidden" name="accion" value="CambiarClave">
+                                            <button type="reset" class="btn btn-secondary" id="BtnResetear">
+                                                Resetear
+                                                <i class="fa fa-refresh position-right"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-primary" id="BtnCambiar">
+                                                Guardar cambios
+                                                <i class="fa fa-arrow-right position-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
+            </div>
+
+        </div>
+
+    </body>
+    <script type="text/javascript">
+        $("#BtnCambiar").on("click", function () {
+            if (!ValidarCamposVacios()) {
+                return false;
+            }
+
+            var form = $("#frmCambiar").serialize();
+
+            $.ajax({
+                type: 'get',
+                url: "/usuario/cambiar",
+                data: form,
+                success: function (data) {
+                    if (data === "OK") {
+                        Mensaje("Se actualizo correctamente la contraseña.");
+                        $("#actual").val("");
+                        $("#nueva").val("");
+                        $("#repetir").val("");
+                    } else {
+                        Mensaje(data);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        Mensaje("Error.!" + jqXHR.responseText);
+                    } else {
+                        Mensaje("Error.!Error inexpicable.");
+                    }
+                }
+            });
+
+        });
+
+        $("#BtnResetear").on("click", function () {
+            LimpiarErrorInput();
+            LimpiarErrorDiv();
+        });
+
+        function ValidarCamposVacios() {
+            var contador = 0;
+            LimpiarErrorInput();
+            LimpiarErrorDiv();
+
+            if ($("#actual").val().length < 1) {
+                $("#error_actual").html("El campo de la contraseña actual es obligatorio.");
+                ColorError("actual");
+                contador++;
+            }
+
+            if ($("#nueva").val().length < 1) {
+                $("#error_nueva").html("El campo de la nueva contraseña es obligatorio.");
+                ColorError("nueva");
+                contador++;
+            }
+
+            if ($("#repetir").val().length < 1) {
+                $("#error_repetir").html("El campo de la contraseña a repetir es obligatorio.");
+                ColorError("repetir");
+                contador++;
+            } else if ($("#repetir").val() !== $("#nueva").val()) {
+                $("#error_repetir").html("La contraseña no coincide");
+                ColorError("repetir");
+                contador++;
+            }
+
+            if (contador > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function LimpiarErrorInput() {
+            $("#frmCambiar input").each(function () {
+                var dato = $(this).attr("id");
+                ColorDefault(dato);
+            });
+        }
+        function LimpiarErrorDiv() {
+            $("#frmCambiar div").each(function () {
+                var dato = $(this).attr("id");
+                $("#" + dato).html("");
+            });
+        }
+
+        function ColorError(dato) {
+            $("#" + dato).css({
+                border: "1px solid #dd5144"
+            });
+        }
+
+        function ColorDefault(dato) {
+            $("#" + dato).css({
+                border: "1px solid #999"
+            });
+        }
+
+    </script>
+</html>

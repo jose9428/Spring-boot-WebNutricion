@@ -18,8 +18,8 @@ public interface IPacienteService {
     public Paciente ObtenerPorUsuario(String user);
 
     public boolean ExisteCorreo(String correo);
-    
+
     public Paciente ObtenerDatosxCorreo(String correo);
-    
-      public Paciente ObtenerPorIdPaciente(Long codigo);
+
+    public Paciente ObtenerPorIdPaciente(Long codigo);
 }

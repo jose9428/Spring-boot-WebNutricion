@@ -17,5 +17,5 @@ public interface IUsuarioService {
 
     public boolean ExisteUsuario(String user);
 
-
+    public Usuario getByUsuario(String user);
 }

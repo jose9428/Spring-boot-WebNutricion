@@ -39,7 +39,7 @@ public class Nutricionista implements Serializable {
 
     private String dni;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fecha_Nacimiento;
 
     private String correo;

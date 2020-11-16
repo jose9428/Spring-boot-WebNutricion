@@ -6,6 +6,27 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     </head>
 
+    <style>
+        input[readonly].classname{
+            background-color:transparent;
+            /*   border: 0 */
+            font-size: 1em;
+        }
+        
+         select[disabled].classname{
+            background-color:transparent;
+            /*   border: 0 */
+            font-size: 1em;
+        }
+
+        textarea[readonly].classname{
+            background-color:transparent;
+            /*   border: 0 */
+            font-size: 1em;
+        }
+    </style>
+
+
     <body class="bg-light">
         <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
 
@@ -41,61 +62,61 @@
                                     <div class="form-group row margin-top-10">
                                         <div class="col-md-6">
                                             <label >Nombres Completos</label>
-                                            <input type="text" class="form-control" id="nombres"   maxlength="30">
+                                            <input type="text" class="form-control classname" id="nombres"   maxlength="30" readonly="">
                                         </div>
                                         <div class="col-md-6">
                                             <label>Fecha Nacimiento</label>
-                                            <input type="date" class="form-control" id="fechaN"  name="fechaN" >
+                                            <input type="date" class="form-control classname" id="fechaN"  name="fechaN"  readonly="">
                                         </div>
                                     </div>
 
                                     <div class="form-group row margin-top-10">
                                         <div class="col-md-6">
                                             <label >Apellido Paterno</label>
-                                            <input type="text" class="form-control" id="apellido_Paterno"   maxlength="30">
+                                            <input type="text" class="form-control classname" id="apellido_Paterno"   maxlength="30"  readonly="">
                                         </div>
 
                                         <div class="col-sm">
                                             <label>Genero</label>
-                                            <select class="form form-control" id="genero" >
+                                            <select class="form-control classname" id="genero"  disabled="">
                                                 <option value="M">Masculino</option>
                                                 <option value="F">Femenino</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="form-group row margin-top-10">
+                                    <div class="form-group row margin-top-10" >
                                         <div class="col-md-6">
                                             <label >Apellido Materno</label>
-                                            <input type="text" class="form-control" id="apellido_Materno"  maxlength="30">
+                                            <input type="text" class="form-control classname" id="apellido_Materno"  maxlength="30"  readonly="">
                                         </div>
                                         <div class="col-md-6">
                                             <label>Usuario</label>
-                                            <input type="text" class="form-control" id="usuario" name="usuario">
+                                            <input type="text" class="form-control classname" id="usuario" name="usuario"  readonly="">
                                         </div>
 
                                     </div>
                                     <div class="form-group row margin-top-10">
                                         <div class="col-md-6">
                                             <label >DNI</label>
-                                            <input type="text" class="form-control" id="dni" maxlength="8">
+                                            <input type="text" class="form-control classname" id="dni" maxlength="8"  readonly="">
                                         </div>
                                         <div class="col-md-6">
                                             <label>Correo</label>
-                                            <input type="email" class="form-control" id="correo"  maxlength="30">
+                                            <input type="email" class="form-control classname" id="correo"  maxlength="30"  readonly="">
                                         </div>
                                     </div>
                                     <div class="form-group row margin-top-10">
                                         <div class="col-md-6">
                                             <label >Telefono</label>
-                                            <input type="text" class="form-control" id="telefono" maxlength="8">
+                                            <input type="text" class="form-control classname" id="telefono" maxlength="8"  readonly="">
                                         </div>
                                         <div class="col-md-6">
                                             <label>Contextura</label>
-                                            <input type="text" class="form-control" id="contextura"  maxlength="30">
+                                            <input type="text" class="form-control classname" id="contextura"  maxlength="30"  readonly="">
                                         </div>
                                     </div>
-
+                                    <hr>
                                 </form>
                             </div>
                         </div>

@@ -48,10 +48,31 @@ public class AdministradorController {
     @Autowired
     private ICitaService citaService;
 
+    @Autowired
+    private IUsuarioService usuarioService;
+
     @GetMapping("/")
     public String ViewAdmin(Model model) {
         model.addAttribute("admin", new Administrador());
         return "/views/MantAdmin";
+    }
+
+    @GetMapping("/config")
+    public String CambiarClave(Model model) {
+        return "/views/CambiarClave";
+    }
+
+    @GetMapping("/perfil")
+    public String MiPerfil(Model model) {
+        Administrador admin = adminService.ObtenerPorUsuario(UsuarioLogeado());
+
+        if (admin == null) {
+            return "redirect:/admin";
+        } else {
+
+            model.addAttribute("admin", admin);
+            return "/views/Perfil";
+        }
     }
 
     @GetMapping("/reporte")
@@ -96,33 +117,46 @@ public class AdministradorController {
                 return ResponseEntity.accepted().body(lista); // 202
             }
 
-            if (adminService.ExisteCorreo(a.getCorreo())) {
-                return ResponseEntity.ok("El correo ya se encuentra registrado en el sistema");
+            if (a.getId_Admi() == null) {
+                if (adminService.ExisteCorreo(a.getCorreo())) {
+                    return ResponseEntity.ok("El correo ya se encuentra registrado en el sistema");
+                }
             }
 
             if (!imagen.isEmpty()) {
                 a.setFoto(Utileria.ConvertirImagen(imagen));
+            } else {
+                if (a.getId_Admi() != null) {
+                    Administrador admAux = adminService.getById(a.getId_Admi());
+                    a.setFoto(admAux.getFoto());
+                }
             }
 
-            Usuario user = null;
-            Perfil p = new Perfil();
-            p.setId_Perfil(1L);
-            user = new Usuario();
-            user.setUsername(adminService.UsuarioGenerado());
-            user.setPass(a.getDni());
-            user.setFecha_Registro(new Date());
-            user.setEstado(1);
-            user.setPerfil(p);
+            if (a.getId_Admi() == null) {
+                Usuario user = null;
+                Perfil p = new Perfil();
+                p.setId_Perfil(1L);
+                user = new Usuario();
+                user.setUsername(adminService.UsuarioGenerado());
+                user.setPass("{noop}"+a.getDni()); // Cambiar contraseña
+                user.setFecha_Registro(new Date());
+                user.setEstado(1);
+                user.setPerfil(p);
+
+                a.setUsuario(user);
+            } else {
+                Usuario user = usuarioService.getByUsuario(UsuarioLogeado());
+                a.setUsuario(user);
+            }
 
             a.setFecha_Nacimiento(Utileria.ConvertirFecha(fecha));
-            a.setUsuario(user);
 
             adminService.Guardar(a);
 
             return ResponseEntity.ok("OK"); // 200
 
         } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("A ocurrido un error al momento de procesar la info : " + ex.getMessage()); // 400
+            return ResponseEntity.badRequest().body("A ocurrido un error al momento de procesar la info : " + ex); // 400
         }
     }
 
@@ -132,5 +166,13 @@ public class AdministradorController {
         List<Reporte> lista = adminService.ReportexEstados(estado);
 
         return lista;
+    }
+
+    public String UsuarioLogeado() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        String username = userDetail.getUsername().trim();
+
+        return username;
     }
 }
