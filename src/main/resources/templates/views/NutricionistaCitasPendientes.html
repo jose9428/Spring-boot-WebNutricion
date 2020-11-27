@@ -39,17 +39,217 @@
                     </div>
                 </div>
 
-
                 <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
             </div>
 
         </div>
+
+        <div class="modal fade"  id="ModalModificar">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="NomModal"> <strong>Modificar Cita</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body"> 
+                        <form id="frmRegistro" method="POST" >  
+                            <div class="form-group row ">
+                                <div class="col-md-12">
+                                    <label >Fecha Cita</label>
+                                    <input type="date" class="form-control"  id="fechaCita" name="fechaCita"  onchange="ListarHorariosDisponibles()">
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+                                <div class="col-md-12">
+                                    <label>Turno</label>
+                                    <select  name="turno" id="turno" class="form-control" onchange="ListarMedicos()">
+                                        <option th:each="turno : ${turnos}" th:value="${turno.id_Turno}"
+                                                th:text="${turno.nombre_Turno}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+                                <div class="col-md-12">
+                                    <label>Medicos</label>
+                                    <select  name="medico" id="medico" class="form-control" onchange="ListarHorariosDisponibles()">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+                                <div class="col-md-12">
+                                    <label>Horarios</label>
+                                    <select  name="horarios" id="horarios" class="form-control">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row margin-top-10">
+                                <div class="col-md-6 mt-4">
+                                    <input type="hidden" id="idCita" name="idCita">
+                                    <input type="hidden" id="idPaciente" name="idPaciente">
+                                    <button class="btn btn-primary" type="button" id="BtnModificarCita">Modificar</button>
+                                </div>
+                            </div> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
     <script type="text/javascript">
         $(function () {
             FechaActual();
             Listar();
         });
+
+        $("#BtnModificarCita").on("click", function () {
+            var medico = $("#medico").val();
+            var fecha = $("#fechaCita").val();
+            var horarios = $("#horarios").val();
+            var idPaciente = $("#idPaciente").val();
+            var cita = $("#idCita").val();
+
+            $.ajax({
+                type: 'GET',
+                url: "/citas/modificar-datos",
+                data: {
+                    fecha: fecha,
+                    id_Cita: cita,
+                    nutricionista: medico,
+                    hora: horarios,
+                    paciente: idPaciente
+                },
+                success: function (data) {
+                    if (data === "OK") {
+                        $("#ModalModificar").modal("hide");
+                        Mensaje("Cita modificada correctamente.");
+                        Listar();
+                    } else {
+                        Mensaje(data);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        Mensaje("No se pudieron guardar los datos.");
+                    }
+                }
+            });
+
+        });
+
+        function ModificarCita(idCita) {
+            $.ajax({
+                type: 'GET',
+                url: "/citas/modificarCita",
+                dataType: 'json',
+                data: {
+                    idCita: idCita
+                },
+                success: function (data) {
+                    $("#fechaCita").val(data.fecha_cita);
+                    $("#idCita").val(data.id_Cita);
+                    $("#idPaciente").val(data.paciente.id_Paciente);
+                    ListarMedicos();
+                    $("#ModalModificar").modal("show");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        alert("Error inexpicable.");
+                    }
+                }
+            });
+        }
+
+        function ListarMedicos() {
+            var turno = $("#turno").val();
+            var medico = $("#medico");
+            var cuenta = 0;
+
+            medico.find('option').remove();
+            $.ajax({
+                type: 'GET',
+                url: "/citas/listarMedicosTurno",
+                dataType: 'json',
+                data: {
+                    idTurno: turno
+                },
+                success: function (data) {
+                    $(data).each(function (i, v) { // indice, valor
+                        medico.append('<option value="' + v.id_Nutricionista + '">' + v.nombres + " " +
+                                v.apellido_Paterno + " " + v.apellido_Materno + '</option>');
+                        cuenta++;
+                    });
+
+                    ListarHorariosDisponibles();
+
+                    if (cuenta === 0) {
+                        medico.append('<option>No se encontraron medicos disponibles para este horario.</option>');
+                        $("#BtnModificarCita").prop('disabled', true);
+                    } else {
+                        $("#BtnModificarCita").prop('disabled', false);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        alert("Error inexpicable.");
+                    }
+                }
+            });
+        }
+
+        function ListarHorariosDisponibles() {
+            var medico = $("#medico").val();
+            var turno = $("#turno").val();
+            var fecha = $("#fechaCita").val();
+            var horarios = $("#horarios");
+
+            var cuenta = 0;
+
+            horarios.find('option').remove();
+
+            $.ajax({
+                type: 'GET',
+                url: "/citas/listarHorariosDispon",
+                dataType: 'json',
+                data: {
+                    idTurno: turno,
+                    fecha: fecha,
+                    idMedico: medico
+                },
+                success: function (data) {
+                    $(data).each(function (i, v) { // indice, valor
+                        horarios.append('<option value="' + v.id_hora + '">' + v.hora_Inicio + " - " + v.hora_Fin + '</option>');
+                        cuenta++;
+                    });
+
+                    if (cuenta === 0) {
+                        horarios.append('<option>No se encontraron horarios disponibles.</option>');
+                        $("#BtnModificarCita").prop('disabled', true);
+                    } else {
+                        $("#BtnModificarCita").prop('disabled', false);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 500) {
+                        alert("Error : " + jqXHR.responseText);
+                    } else {
+                        alert("Error inexpicable.");
+                    }
+                }
+            });
+        }
+
         function Listar() {
             var fecha = $("#fecha").val();
 

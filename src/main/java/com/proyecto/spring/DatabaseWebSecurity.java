@@ -43,12 +43,14 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests().antMatchers("/", "/staff", "/servicios", "/recuperar",
                 "/guardar", "/registrar", "/nutricionista/verImagen/**", "/enviarToken", "/login/newPassword/**",
                 "/reestablecer", "/reestablecer-clave", "/validarToken", "/acceso", "/activarCuenta", "/enviarTokenPac",
-                "/verImagenLogeado", "/datosUsuario", "/VerImagenAjaxLogeado","/confirmarActivarCuenta",
+                "/verImagenLogeado", "/datosUsuario", "/VerImagenAjaxLogeado", "/confirmarActivarCuenta",
                 "/css/**", "/js/**", "/img/**", "/bootbox/**", "/webfonts/**").permitAll()
                 // Asignar permisos 
 
                 .antMatchers("/admin/**").hasAnyAuthority("Administrador")
                 .antMatchers("/citas/**").hasAnyAuthority("Paciente", "Administrador", "Nutricionista")
+                .antMatchers("/alimentos/**").hasAnyAuthority("Administrador", "Nutricionista")
+                .antMatchers("/antropometrico/**").hasAnyAuthority("Administrador", "Nutricionista", "Paciente")
                 .antMatchers("/paciente/**").hasAnyAuthority("Administrador", "Paciente", "Nutricionista")
                 .antMatchers("/nutricionista/**").hasAnyAuthority("Administrador", "Paciente", "Nutricionista")
                 .anyRequest().authenticated()

@@ -8,15 +8,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CitaRepository extends  JpaRepository<Cita, Long>{
-    
-    @Query(value = "SELECT  c FROM Cita c  WHERE  c.fecha_cita =?1  and  c.paciente.usuario.username = ?2 and c.estado=?3")
-    public List<Cita> ListarCitasPendientesPorPaciente(Date fecha , String usuario,String estado);
-    
-      @Query(value = "SELECT count(c) FROM Cita c  WHERE  c.estado = ?1")
-    public int CantCitasPendientes(String estado);
-    
-       @Query(value = "SELECT  c FROM Cita c  WHERE  c.fecha_cita =?1  and  c.nutricionista.usuario.username = ?2 and c.estado=?3")
-    public List<Cita> ListarCitasPendientesPorNutricionista(Date fecha , String usuario,String estado);
+public interface CitaRepository extends JpaRepository<Cita, Long> {
 
+    @Query(value = "SELECT  c FROM Cita c  WHERE  c.fecha_cita =?1  and  c.paciente.usuario.username = ?2 and c.estado=?3")
+    public List<Cita> ListarCitasPendientesPorPaciente(Date fecha, String usuario, String estado);
+
+    @Query(value = "SELECT count(c) FROM Cita c  WHERE  c.estado = ?1")
+    public int CantCitasPendientes(String estado);
+
+    @Query(value = "SELECT  c FROM Cita c  WHERE  c.fecha_cita =?1  and  c.nutricionista.usuario.username = ?2 and c.estado=?3")
+    public List<Cita> ListarCitasPendientesPorNutricionista(Date fecha, String usuario, String estado);
+
+    @Query(value = "SELECT  c FROM Cita c  WHERE  c.id_Cita = ?1 and c.estado=?2")
+    public Cita CitaDetalle(Long idCita, String estado);
 }

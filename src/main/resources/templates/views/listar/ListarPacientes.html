@@ -11,6 +11,7 @@
                     <td scope="col">Correo</td>
                     <td scope="col">Genero</td> 
                     <td scope="col">Detalle</td> 
+                    <td scope="col">Historia</td> 
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +31,9 @@
                     <td th:text="${paciente.genero=='M'?'Masculino':'Femenino' }"></td> 
                     <td>
                         <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${paciente.id_Paciente} + ')'"   class="btn btn-primary" > Ver detalle</a>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)"    class="btn btn-success" > Ver historia</a>
                     </td>
                 </tr>
             </tbody>
@@ -57,7 +61,51 @@
                 },
                 //para usar los botones   
 
-                responsive: "true"
+
+                responsive: "true",
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Excell ',
+                        title: "Reporte de pacientes",
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success mb-3',
+                        exportOptions: {
+                            // columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'PDF ',
+                        title: "Reporte de pacientes",
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Imprimir ',
+                        title: "Reporte de pacientes",
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-info mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'Filtrar ',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-primary mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ]
             });
         });
     </script>

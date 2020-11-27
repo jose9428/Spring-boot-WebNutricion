@@ -7,12 +7,14 @@ import java.util.List;
 public interface ICitaService {
 
     public List<Cita> getList();
-    
+
     public void ReservarCita(Cita c);
-    
-    public List<Cita> ListarCitasPendientesPorPaciente(Date fecha , String usuario );
-    
+
+    public List<Cita> ListarCitasPendientesPorPaciente(Date fecha, String usuario);
+
     public int CitasPendientes();
-    
-     public List<Cita> ListarCitasPendientesPorNutricionista(Date fecha , String usuario );
+
+    public List<Cita> ListarCitasPendientesPorNutricionista(Date fecha, String usuario);
+
+    public Cita CitaDetalle(Long idCita, String estado);
 }

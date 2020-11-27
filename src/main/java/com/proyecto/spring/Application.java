@@ -2,6 +2,7 @@ package com.proyecto.spring;
 
 import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
 import com.proyecto.spring.models.entity.Administrador;
+import com.proyecto.spring.models.entity.Antropometrico;
 import com.proyecto.spring.models.entity.Cita;
 import com.proyecto.spring.models.entity.Hora;
 import com.proyecto.spring.models.entity.HorarioNutricionista;
@@ -12,6 +13,7 @@ import com.proyecto.spring.models.entity.Reporte;
 import com.proyecto.spring.models.entity.Usuario;
 import com.proyecto.spring.models.repository.ContexturaRepository;
 import com.proyecto.spring.models.service.IAdministradorService;
+import com.proyecto.spring.models.service.IAntropometricoService;
 import com.proyecto.spring.models.service.ICitaService;
 import com.proyecto.spring.models.service.IContexturaService;
 import com.proyecto.spring.models.service.IHoraService;
@@ -62,6 +64,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     private ICitaService citaService;
 
+    @Autowired
+    private IAntropometricoService antropService;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -69,8 +74,8 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Date fechaConv = Utileria.ConvertirFecha("2020-12-16");
-        List<Cita> lista = citaService.ListarCitasPendientesPorNutricionista(fechaConv, "C002");
-        log.info(""+lista);
+        List<Antropometrico> lista = antropService.getAll();
+        log.info("" + lista);
     }
 
 }

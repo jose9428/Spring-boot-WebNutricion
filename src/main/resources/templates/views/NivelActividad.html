@@ -1,0 +1,257 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Nivel Actividad</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" type="image/png" th:href="@{/img/fondo-manzana.png}" />
+    </head>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/templateAdmin :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/templateAdmin :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white font-weight-bold">
+                        <div class="bg-light p-3 mb-3">
+                            <a th:href="@{/citas/atender/}+${idCita}" class="btn btn-success" title="Regresar a citas del paciente">Volver atras</a>
+
+                            <h3 class="mt-3">Calculo Nivel Actividad - Sistema Metrico</h3>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        <!--<p th:text="${paciente}"></p> -->
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <form>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 col-form-label">Altura (cm)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" class="form-control" id="altura" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 col-form-label">Peso (Kg)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="peso" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 col-form-label">Cintura (Cm)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" class="form-control" id="cintura" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 col-form-label">Cuello (Cm)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" class="form-control" id="cuello" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row" id="EvaluarGenero">
+                                                <label class="col-sm-4 col-form-label">Cadera (Cm)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" class="form-control" id="cadera" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 col-form-label">Estado</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="estadoCondPeso" name="estadoCondPeso">
+                                                        <option value="Bajar Peso">Bajar de Peso</option>
+                                                        <option value="Mantener Peso">Mantener de Peso</option>
+                                                        <option value="Aumentar Peso">Aumentar de Peso</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <button type="button" id="BtnCalcular" class="btn btn-primary" onclick="CalcularDatos()">Calcular</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-7">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Resultados</h5>
+                                        <form>
+                                            <table class="table">
+                                                <tr>
+                                                    <td>
+                                                        <p>Índice de Masa Corporal (kg/m^2)</p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="imc" readonly="" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Condicion : </p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="condicion" readonly="" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Índice cintura/altura </p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="indice_cintura_altura" readonly="" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Grasa Corporal (%)</p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="grasa_corporal" readonly="" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Masa Corporal magra (Kg)</p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="masa_corporal_magra" readonly="" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Calorias (kcals)</p>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="calorias" readonly="" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="text-align: end;">
+                                                        <button type="button"  id="BtnCambiosGuardar" class="btn btn-info">Guardar datos</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
+            </div>
+
+        </div>
+
+    </body>
+    <script>
+        $(function () {
+            OcultarCadera();
+            $("#peso").val("62");
+            $("#altura").val("172");
+            $("#cintura").val("50");
+            $("#cuello").val("20");
+            $("#cadera").val("120");
+        });
+
+        function OcultarCadera() {
+            var genero = "[[${paciente.genero}]]";
+
+            if (genero === "F" || genero === "f") {
+                $("#EvaluarGenero").show();
+            } else {
+                $("#EvaluarGenero").hide();
+            }
+        }
+
+        function CalcularDatos() {
+            var genero = "[[${paciente.genero}]]";
+            var peso = $("#peso").val();
+            var altura = $("#altura").val() / 100.0;
+            var cintura = $("#cintura").val();
+            var cuello = $("#cuello").val();
+            var cadera = $("#cadera").val();
+            var fecha_Nacimiento = "[[${paciente.fecha_Nacimiento}]]";
+            var edad = getEdad(fecha_Nacimiento);
+
+            var IMC = (peso) / (altura * altura);
+            var indiceCA = (cintura / altura) / 100;
+            var grasaCorporal = 0;
+            var masaCorporalMagra = 0;
+
+            if (genero === "F" || genero === "f") {
+                grasaCorporal = 1.2 * IMC + 0.23 * edad - 10.8 * (0) - 5.4;
+            } else {
+                grasaCorporal = 1.2 * IMC + 0.23 * edad - 10.8 * (1) - 5.4;
+            }
+
+            masaCorporalMagra = (peso * (100 - grasaCorporal)) / 100.0;
+
+            $("#imc").val(IMC.toFixed(2));
+            $("#indice_cintura_altura").val(indiceCA.toFixed(2));
+            $("#grasa_corporal").val(grasaCorporal.toFixed(2));
+            $("#masa_corporal_magra").val(masaCorporalMagra.toFixed(2));
+            $("#condicion").val(EstadoIMC(IMC));
+            $("#calorias").val(CalcularCalorias(peso));
+        }
+
+        function getEdad(dateString) {
+            var hoy = new Date();
+            var fechaNacimiento = new Date(dateString);
+            var edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+            var diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth();
+            if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+                edad--;
+            }
+            return edad;
+        }
+
+        function EstadoIMC(imc) {
+
+            if (imc < 18.5) {
+                return "Peso Bajo";
+            } else if (imc < 24.9) {
+                return "Peso Normal";
+            } else if (imc < 29.9) {
+                return "Sobrepeso";
+            } else if (imc < 34.9) {
+                return "Obesidad Grado I";
+            } else if (imc < 39.9) {
+                return "Obesidad Grado II";
+            } else {
+                return "Obesidad Grado III";
+            }
+        }
+
+        function CalcularCalorias(pesoActual) {
+            var indice = $("select[name='estadoCondPeso'] option:selected").index();
+            var calorias = 0;
+            
+            if(indice === 0){
+                calorias = 25 * pesoActual;
+            }else if(indice === 1){
+                calorias = 30 * pesoActual;
+            }else{
+                calorias = 35 * pesoActual;
+            }
+            
+            return calorias;
+        }
+    </script>
+</html>

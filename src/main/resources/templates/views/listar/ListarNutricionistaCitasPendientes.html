@@ -11,6 +11,7 @@
                     <td scope="col">Hora Inicio</td>
                     <td scope="col">Hora Fin</td>
                     <td scope="col">Estado</td>
+                    <td scope="col">Cita</td>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +26,10 @@
                     <td th:text="${cita.hora.hora_Inicio}"></td>
                     <td th:text="${cita.hora.hora_Fin}"></td>
                     <td>
-                        <a href="javascript:void(0)" th:text="${cita.estado}" class="btn btn-info"></a>
+                        <a th:href="@{/citas/atender/}+${cita.id_Cita}" class="btn btn-info">Atender</a>
+                    </td>
+                    <td>
+                        <a  href="javascript:void(0)"  th:attr="onclick='ModificarCita( ' + ${cita.id_Cita} + ')'"   class="btn btn-primary">Modificar</a>
                     </td>
                 </tr>
             </tbody>
@@ -53,7 +57,50 @@
                 },
                 //para usar los botones   
 
-                responsive: "true"
+                responsive: "true",
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Excell ',
+                        title: "Reporte de citas pendientes",
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success mb-3',
+                        exportOptions: {
+                            // columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'PDF ',
+                        title: "Reporte de citas pendientes",
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Imprimir ',
+                        title: "Reporte de citas pendientes",
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-info mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'Filtrar ',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-primary mb-3',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }
+                ]
             });
         });
     </script>

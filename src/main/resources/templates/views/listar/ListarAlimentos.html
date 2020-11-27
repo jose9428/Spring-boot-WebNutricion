@@ -1,31 +1,32 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <body >
-
         <table id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <td scope="col">Foto</td>
-                    <td scope="col">Nro Cita</td>
-                    <td scope="col">Nombre</td>
-                    <td scope="col">Apellidos</td>
-                    <td scope="col">Hora Inicio</td>
-                    <td scope="col">Hora Fin</td>
-                    <td scope="col">Estado</td>
+                    <!--    <td scope="col">Id</td> -->
+                    <td scope="col">Alimento</td>
+                    <td scope="col">Calorias</td>
+                    <td scope="col">Carbohidratos</td>
+                    <td scope="col">Proteinas</td>
+                    <td scope="col">Grasas</td>
+                    <td scope="col">Fibra</td>
+                    <td class="actions" scope="col" sec:authorize='hasAnyAuthority("Administrador" )' >Acciones</td>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="cita : ${listaCitas}">
-                    <td>
-                        <img th:src="@{/nutricionista/verImagen/}+${cita.nutricionista.id_Nutricionista}"  th:if="${cita.nutricionista.genero=='M'}" width="80" onerror="src='../img/sin_foto_medico.png' ">
-                        <img th:src="@{/nutricionista/verImagen/}+${cita.nutricionista.id_Nutricionista}" th:unless="${cita.nutricionista.genero=='M'}"  width="80" onerror="src='../img/sin_foto-medico-mujer.jpg' ">
-                    </td>
-                    <td th:text="${cita.id_Cita}"></td>
-                    <td th:text="${cita.nutricionista.nombres}"></td>
-                    <td th:text="${cita.nutricionista.apellido_Paterno} +' ' +${cita.nutricionista.apellido_Materno}"></td>
-                    <td th:text="${cita.hora.hora_Inicio}"></td>
-                    <td th:text="${cita.hora.hora_Fin}"></td>
-                    <td>
-                        <a href="javascript:void(0)" th:text="${cita.estado}" class="btn btn-info"></a>
+
+                <tr th:each="dato : ${listado}">
+                    <td th:text="${dato.nombre_Alimento}"></td>
+                    <td th:text="${dato.calorias}"></td>
+                    <td th:text="${dato.carbohidratos}"></td>
+                    <td th:text="${dato.proteinas}"></td>
+                    <td th:text="${dato.grasas}"></td>
+                    <td th:text="${dato.fibra}"></td>
+                    <td sec:authorize='hasAnyAuthority("Administrador" )' >
+                        <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${dato.id_Alimento} + ')'"   class="btn btn-primary" data-toggle="tooltip" title="Editar"><i class="fa fa-fw fa-edit"></i> Editar</a>
+                        <!--
+                               <a href="#" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                        -->
                     </td>
                 </tr>
             </tbody>
@@ -52,14 +53,13 @@
                     "sProcessing": "Procesando...",
                 },
                 //para usar los botones   
-
                 responsive: "true",
                 dom: 'Blfrtip',
                 buttons: [
                     {
                         extend: 'excelHtml5',
                         text: 'Excell ',
-                        title: "Reporte de citas pendientes",
+                        title: "Reporte de alimentos",
                         titleAttr: 'Exportar a Excel',
                         className: 'btn btn-success mb-3',
                         exportOptions: {
@@ -70,7 +70,7 @@
                     {
                         extend: 'pdfHtml5',
                         text: 'PDF ',
-                        title: "Reporte de citas pendientes",
+                        title: "Reporte de alimentos",
                         titleAttr: 'Exportar a PDF',
                         className: 'btn btn-danger mb-3',
                         exportOptions: {
@@ -80,7 +80,7 @@
                     {
                         extend: 'print',
                         text: 'Imprimir ',
-                        title: "Reporte de citas pendientes",
+                        title: "Reporte de alimentos",
                         titleAttr: 'Imprimir',
                         className: 'btn btn-info mb-3',
                         exportOptions: {

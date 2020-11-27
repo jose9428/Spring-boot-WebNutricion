@@ -1,6 +1,7 @@
 package com.proyecto.spring.controller;
 
 import com.proyecto.spring.models.entity.Cita;
+import com.proyecto.spring.models.entity.Hora;
 import com.proyecto.spring.models.entity.Nutricionista;
 import com.proyecto.spring.models.entity.Paciente;
 import com.proyecto.spring.models.entity.Turno;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/citas")
@@ -52,11 +54,12 @@ public class CitasController {
     private IPacienteService pacienteService;
 
     @GetMapping("/Pendientes-Paciente")
-    public String CitasPendientesMedico() {
+    public String CitasPendientesMedico(Model model) {
+        model.addAttribute("turnos", turnoService.getAll());
         return "/views/NutricionistaCitasPendientes";
     }
-    
-      @GetMapping(value = "/listarPendientes-Paciente")
+
+    @GetMapping(value = "/listarPendientes-Paciente")
     public String ListarCitasNutricionista(@RequestParam("fecha") String fecha, Model model) {
 
         Date fechaConv = Utileria.ConvertirFecha(fecha);
@@ -97,6 +100,13 @@ public class CitasController {
         model.addAttribute("listaMedicos", horarioService.ListadoNutricionistaPorTurno(idTurno));
         model.addAttribute("turno", idTurno);
         return "/views/listar/ListarCitasNutricionista";
+    }
+
+    @GetMapping(value = "/listarMedicosTurno")
+    @ResponseBody
+    public List<Nutricionista> ListarMedicosPorTurno(@RequestParam("idTurno") Long idTurno) {
+        List<Nutricionista> lista = horarioService.ListadoNutricionistaPorTurno(idTurno);
+        return lista;
     }
 
     @GetMapping("/horarios/{idMedico}/{idTurno}")
@@ -157,4 +167,59 @@ public class CitasController {
         return "/views/PacienteMiCitaHoy";
     }
 
+    @GetMapping(value = "/atender/{id}")
+    public String ViewAtenderCitas(Model model, @PathVariable("id") Long id) {
+
+        if (id > 0) {
+            model.addAttribute("cita", citaService.CitaDetalle(id, "Pendiente"));
+            model.addAttribute("idCita", id);
+            return "/views/AtenderCita";
+        }
+
+        return "redirect:/citas/Pendientes-Paciente";
+    }
+
+    @GetMapping(value = "/actividad/{id}")
+    public String ViewNivelActividad(Model model, @PathVariable("id") Long id) {
+        Cita c = citaService.CitaDetalle(id, "Pendiente");
+
+        if (c != null) {
+            model.addAttribute("idCita", id);
+            model.addAttribute("paciente", c.getPaciente());
+            return "/views/NivelActividad";
+        }
+        return "redirect:/citas/Pendientes-Paciente";
+    }
+
+    @GetMapping("/modificarCita")
+    @ResponseBody
+    public Cita DetalleCita(@RequestParam("idCita") Long idCita) {
+        Cita d = citaService.CitaDetalle(idCita, "Pendiente");
+
+        return d;
+    }
+
+    @GetMapping(value = "/listarHorariosDispon")
+    @ResponseBody
+    public List<Hora> ListarHorarios(@RequestParam("idTurno") Long idTurno,
+            @RequestParam("fecha") String fecha, @RequestParam("idMedico") Long idMedico) {
+        List<Hora> lista = horaService.HorariosDisp(idTurno, idMedico, fecha);
+        return lista;
+    }
+
+    @GetMapping(value = "/modificar-datos")
+    @ResponseBody
+    public String ModificarCita(Cita cita , @RequestParam("fecha") String fecha) {
+
+        try {
+            cita.setFecha_cita(Utileria.ConvertirFecha(fecha));
+            cita.setFecha_registro(new Date());
+            cita.setEstado("Pendiente");
+            citaService.ReservarCita(cita);
+            
+            return "OK";
+        } catch (Exception ex) {
+            return "No se ha podido modificar la cita : "+ex.getMessage();
+        }
+    }
 }

@@ -199,6 +199,7 @@ public class NutricionistaController {
     public List ListaMedicosDispTurnos(@Param("id") Long id) {
         return horarioService.ListadoNutricionistaDispTurno(id);
     }
+   
 
     @PostMapping(value = "/GuardarHorario")
     @ResponseBody

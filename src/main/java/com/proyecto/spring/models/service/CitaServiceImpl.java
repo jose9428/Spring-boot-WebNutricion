@@ -38,4 +38,9 @@ public class CitaServiceImpl implements ICitaService {
         return citaRepository.ListarCitasPendientesPorNutricionista(fecha, usuario , "Pendiente");
     }
 
+    @Override
+    public Cita CitaDetalle(Long idCita, String estado) {
+        return citaRepository.CitaDetalle(idCita, estado);
+    }
+
 }

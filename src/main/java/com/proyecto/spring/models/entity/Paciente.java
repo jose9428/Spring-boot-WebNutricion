@@ -64,4 +64,13 @@ public class Paciente {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_contextura")
     private Contextura contextura;
+
+    public String nomCompletos() {
+        return nombres + " " + apellido_Paterno + " " + apellido_Materno;
+    }
+    
+    public String Genero(){
+        return "F".equals(genero)?"Femenino":"Masculino";
+    }
+    
 }

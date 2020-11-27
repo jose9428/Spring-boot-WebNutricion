@@ -1,0 +1,72 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Atender Cita</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" type="image/png" th:href="@{/img/fondo-manzana.png}" />
+    </head>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/templateAdmin :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/templateAdmin :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white font-weight-bold">
+                        <div class="bg-light p-3 mb-3">
+                            <a th:href="@{/citas/Pendientes-Paciente}" class="btn btn-success margin" id="btn-add" title="Volver atras" >Mis citas Pendientes</a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card-body">
+                                <div class="card" >
+                                    <img th:src="@{/paciente/verImagen/}+${cita.paciente.id_Paciente}"  th:if="${cita.paciente.genero=='M'}" width="200" onerror="src='../../img/sin_foto-paciente-hombre.jpg' "  >
+                                    <img th:src="@{/paciente/verImagen/}+${cita.paciente.id_Paciente}" th:unless="${cita.paciente.genero=='M'}"  width="200" onerror="src='../../img/sin_foto-paciente-mujer.jpg' "  >
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">Datos Paciente :</h5>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Nombres completos : <span th:text="${cita.paciente.nomCompletos()}"></span></li>
+                                        <li class="list-group-item">Fecha Nacimiento : <span th:text="${cita.paciente.fecha_Nacimiento}"></span></li>
+                                        <li class="list-group-item">Genero : <span th:text="${cita.paciente.Genero()}"></span></li>
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="card-body">
+                                <div class="card" >
+                                    <div class="card-body">
+                                        <h5 class="card-title">Pruebas a realizar</h5>
+                                     </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <a th:href="@{/citas/actividad/}+${idCita}" class="btn btn-info">Realizar datos antropométricos</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
+            </div>
+
+        </div>
+
+    </body>
+</html>
