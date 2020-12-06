@@ -35,11 +35,11 @@ public class Antropometrico {
     private int altura;
 
     private int peso;
-    
+
     private int cintura;
-    
+
     private int cuello;
-    
+
     private int cadera;
 
     private String estado;
@@ -51,6 +51,8 @@ public class Antropometrico {
     private double grasa_corporal;
 
     private double masa_corporal;
+
+    private double indice_cintura_altura;
 
     private int calorias;
 }

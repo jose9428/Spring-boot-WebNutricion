@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <body >
+        <table id="example" class="table table-hover table-striped table-bordered table-responsive" >
+            <thead>
+                <tr>
+                    <td>Altura (cm)</td>
+                    <td>Peso (Kg)</td>
+                    <td>Cintura (cm)</td>
+                    <td>Cuello (cm)</td>
+                    <td>Cadera (cm)</td>
+                    <td style="width: 125px;">Estado</td>
+                    <td>IMC (kg/m^2)</td> 
+                    <td>Condicion</td>       
+                    <td>Grasa Corporal (%)</td> 
+                    <td>Masa Corporal (Kg)</td>       
+                    <td>Indice Cintura Altura</td> 
+                    <td>Calorias (Kcals)</td>     
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="dato : ${listado}">
+                    <td th:text="${dato.altura}"></td>
+                    <td th:text="${dato.peso}"></td>
+                    <td th:text="${dato.cintura}"></td>
+                    <td th:text="${dato.cuello}"></td>
+                    <td th:text="${dato.cadera}"></td>
+                    <td th:text="${dato.estado}" style="width: 45px;"></td>
+                    <td th:text="${dato.imc}"></td>
+                    <td th:text="${dato.condicion}"></td>
+                    <td th:text="${dato.grasa_corporal}"></td>
+                    <td th:text="${dato.masa_corporal}"></td>
+                    <td th:text="${dato.indice_cintura_altura}"></td>
+                    <td th:text="${dato.calorias}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

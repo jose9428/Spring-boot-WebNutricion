@@ -8,4 +8,6 @@ public interface IAntropometricoService {
     public List<Antropometrico> getAll();
     
     public void Guardar(Antropometrico a);
+    
+    public List<Antropometrico> ListadoPorPaciente(Long idPaciente);
 }

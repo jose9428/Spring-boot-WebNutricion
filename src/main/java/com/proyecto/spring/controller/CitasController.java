@@ -16,6 +16,7 @@ import com.proyecto.spring.models.service.IUsuarioService;
 import com.proyecto.spring.util.Utileria;
 import java.util.Date;
 import java.util.List;
+import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +53,12 @@ public class CitasController {
 
     @Autowired
     private IPacienteService pacienteService;
+    
+    @GetMapping("/DietaNutricional/{id}")
+    public String ViewDietaNutricional(@PathVariable("id") Long idCita , Model model){
+        model.addAttribute("idCita", idCita);
+        return "/views/DietaNutricional";
+    }
 
     @GetMapping("/Pendientes-Paciente")
     public String CitasPendientesMedico(Model model) {

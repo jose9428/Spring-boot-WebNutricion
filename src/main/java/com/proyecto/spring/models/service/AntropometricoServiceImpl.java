@@ -22,4 +22,9 @@ public class AntropometricoServiceImpl implements IAntropometricoService {
         antropRepository.save(a);
     }
 
+    @Override
+    public List<Antropometrico> ListadoPorPaciente(Long idPaciente) {
+        return antropRepository.ListarPorPaciente(idPaciente);
+    }
+
 }
