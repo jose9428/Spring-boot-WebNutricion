@@ -1,0 +1,99 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Success</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" type="image/png" th:href="@{/img/fondo-manzana.png}" />
+    </head>
+    <style>
+        a:hover {
+            opacity: 0.7;
+        }
+    </style>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/templateAdmin :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/templateAdmin :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+
+                    <div class="card-body">
+                        <div id="resultado" >
+
+                            <div class="card " >
+                                <div class="card-body">
+
+                                    <div class="container" id="idcuerpo">
+                                   <br>
+                                        <div class="row" style="border: 1px solid #c3c3c3;border-radius: 6px;padding: 20px;background: rgba(255,255,255,1);
+                                             background: -moz-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                             background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+                                             background: -webkit-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                             background: -o-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                             background: -ms-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                             background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );">
+                                            <div class="col-sm-12 col-md-12  col-lg-12 text-center" style="margin-bottom:  32px;margin-top: 12px;font-size: 23px;font-weight: 700;color: #1257a1">
+                                                PAGO REALIZADO CORRECTAMENTE
+                                            </div>
+                                            <div class="col-sm-12 col-md-12  col-lg-4 text-center" style="margin-bottom: 40px">
+                                                <img th:src="@{/img/aceptado.png}" style="width: 170px;display: block;">
+                                            </div>
+                                            <div class="col-sm-12 col-md-12  col-lg-8 text-center">
+
+
+                                                <div id="idForm" style="border: 1px solid #c3c3c3;padding: 15px;width: 90%;margin-top: 5px;text-align: left;border-radius: 4px;background: rgba(255,255,255,1);
+                                                     background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                                     background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+                                                     background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                                     background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                                     background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                                     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+                                                     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );" >
+                                                    <form action="" method="POST" autocomplete="off">
+                                                        <!-- -------------------------------------------------------------------------------------- -->
+
+                                                        <div class="row">
+                                                            <div class="form-group has-feedback col-lg-12">
+                                                                <label>Tu pago fue realizado con exito.</label>
+                                                                <label>Para poder consultar tus citas haga click en el enlace de abajo.</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group has-feedback col-lg-12 text-right">        
+                                                                <a th:href="@{/citas/pendientes}" class="btn btn-primary" title="Ir a mis citas">Consultar mis citas</a>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
+                </div>
+
+            </div>
+    </body>
+    <script type="text/javascript">
+
+    </script>
+
+</html>

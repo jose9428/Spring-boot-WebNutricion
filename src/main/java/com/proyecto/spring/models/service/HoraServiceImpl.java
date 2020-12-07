@@ -31,4 +31,9 @@ public class HoraServiceImpl implements IHoraService {
         return lista;
     }
 
+    @Override
+    public Hora getById(Long idHora) {
+        return horaRepository.getById(idHora);
+    }
+
 }

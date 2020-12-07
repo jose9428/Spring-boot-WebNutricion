@@ -44,7 +44,7 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
                 "/guardar", "/registrar", "/nutricionista/verImagen/**", "/enviarToken", "/login/newPassword/**",
                 "/reestablecer", "/reestablecer-clave", "/validarToken", "/acceso", "/activarCuenta", "/enviarTokenPac",
                 "/verImagenLogeado", "/datosUsuario", "/VerImagenAjaxLogeado", "/confirmarActivarCuenta",
-                "/css/**", "/js/**", "/img/**", "/bootbox/**", "/webfonts/**").permitAll()
+                "/css/**", "/js/**", "/img/**", "/bootbox/**", "/webfonts/**" , "paypal/**").permitAll()
                 // Asignar permisos 
 
                 .antMatchers("/admin/**").hasAnyAuthority("Administrador")

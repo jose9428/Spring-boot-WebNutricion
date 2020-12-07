@@ -115,6 +115,36 @@
             var fechaCita = $("#fechaCita").val();
 
             $.ajax({
+                url: "/paypal/pagarCita",
+                type: 'POST',
+                data: {
+                   idMedico:idMedico,
+                   fechaCita:fechaCita,
+                   idHora:idHora
+                },
+                beforeSend: function (xhr) {
+                    $("#loading-screen").fadeIn();
+                },
+                success: function (data) {
+                    if(data.length === 0){
+                        $("#loading-screen").fadeOut();
+                        Mensaje("No se puede reservar la cita, hubo un problema en el sistema de pago.");
+                    }else{
+                        $(location).attr("href",data);
+                    }
+                  
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    Mensaje("No se ha podido procesar los datos xd...!!");
+                }
+            });
+        }
+        
+        /*
+        function GenerarCita(idHora) {
+            var idMedico = "[[${medico.id_Nutricionista}]]";
+            var fechaCita = $("#fechaCita").val();
+
+            $.ajax({
                 url: "/citas/generarCita",
                 type: 'POST',
                 data: {
@@ -147,6 +177,7 @@
                 }
             });
         }
+         */
 
         function ListarHorarios() {
             var NomTurno = "[[${turno.nombre_Turno}]]";

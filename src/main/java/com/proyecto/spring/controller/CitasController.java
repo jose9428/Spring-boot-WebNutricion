@@ -143,7 +143,7 @@ public class CitasController {
                 c.setPaciente(paciente);
                 c.setFecha_registro(new Date());
                 c.setFecha_cita(Utileria.ConvertirFecha(fecha));
-                c.setEstado("Pendiente");
+                c.setEstado("PENDIENTE");
                 citaService.ReservarCita(c);
 
                 return ResponseEntity.ok("OK");

@@ -14,4 +14,7 @@ public interface HoraRepository extends JpaRepository<Hora, Long> {
     @Query(value = "{call sp_horarios_disponibles(:idTurno , :idMedico , :fecha)}", nativeQuery = true)
     public List<Hora> ListadoHorariosDisp(@Param("idTurno") Long idTurno,
             @Param("idMedico") Long idMedico, @Param("fecha") String fecha);
+
+    @Query(value = "SELECT  n FROM Hora n  WHERE  n.id_hora = ?1")
+    public Hora getById(Long idHora);
 }

@@ -162,9 +162,6 @@ calorias INT,
 FOREIGN KEY(id_Cita) REFERENCES Cita(id_Cita)
 );
 
-INSERT INTO Antropometrico VALUES(NULL , 1 , '2020-03-19' ,172,62,50,20,120,'Bajar de Peso',20.96,'Peso Normal',0.29,28.49,44.34,1550);
-INSERT INTO Antropometrico VALUES(NULL , 2 , '2020-05-16' ,170,64,50,20,120,'Bajar de Peso',22.15,'Peso Normal',0.29,29.91,44.85,1600);
-
 
 INSERT INTO Contexturas VALUES(NULL ,'Grande' , 'Peso Corporal de la mujer menos de 10 y hombres de 9.6 ');
 INSERT INTO Contexturas VALUES(NULL ,'Normal' , 'Peso Corporal de la mujer entre 10 a 11 y hombres de 9.6 a 10.4');
@@ -623,6 +620,9 @@ INSERT INTO CITA VALUES(NULL , 1 , 3 , 2 ,NOW() , '2020-11-23','PENDIENTE');
 INSERT INTO CITA VALUES(NULL , 1 , 2 , 5 ,NOW() , '2020-12-11','PENDIENTE');
 INSERT INTO CITA VALUES(NULL , 1 , 3 , 4 ,NOW() , '2020-12-16','PENDIENTE');
 INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,NOW() , '2020-12-24','PENDIENTE');
+
+INSERT INTO Antropometrico VALUES(NULL , 1 , '2020-03-19' ,172,62,50,20,120,'Bajar de Peso',20.96,'Peso Normal',0.29,28.49,44.34,1550);
+INSERT INTO Antropometrico VALUES(NULL , 2 , '2020-05-16' ,170,64,50,20,120,'Bajar de Peso',22.15,'Peso Normal',0.29,29.91,44.85,1600);
 
 
 DELIMITER @@ 

@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Cancelado</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" type="image/png" th:href="@{/img/fondo-manzana.png}" />
+    </head>
+    <style>
+        a:hover {
+            opacity: 0.7;
+        }
+    </style>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/templateAdmin :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/templateAdmin :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+
+                    <div class="card-body">
+                        <div id="resultado" >
+
+                            <div class="card " >
+                                <div class="card-text text-center" style="background-color: #d62b2b">
+                                    <br>
+                                    <img th:src="@{/img/cancel.png}" width="120" height="100"/>
+                                    <h5 class="text-center" style="color: #fceded">Pago cancelado</h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <label>No se ha podido generar ninguna cita, el pago fue cancelado.</label>
+                                    <div class="row">
+                                        <div class="form-group has-feedback col-lg-12 text-center">        
+                                            <a th:href="@{/citas/medicos}" class="btn btn-primary btn-lg" title="Ir a reserva de citas">Reservar una cita</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
+            </div>
+
+        </div>
+    </body>
+    <script type="text/javascript">
+
+    </script>
+
+</html>
