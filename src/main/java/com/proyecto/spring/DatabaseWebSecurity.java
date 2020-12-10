@@ -44,10 +44,11 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
                 "/guardar", "/registrar", "/nutricionista/verImagen/**", "/enviarToken", "/login/newPassword/**",
                 "/reestablecer", "/reestablecer-clave", "/validarToken", "/acceso", "/activarCuenta", "/enviarTokenPac",
                 "/verImagenLogeado", "/datosUsuario", "/VerImagenAjaxLogeado", "/confirmarActivarCuenta",
-                "/css/**", "/js/**", "/img/**", "/bootbox/**", "/webfonts/**" , "paypal/**").permitAll()
+                "/css/**", "/js/**", "/img/**", "/bootbox/**", "/webfonts/**", "paypal/**").permitAll()
                 // Asignar permisos 
-
+                .antMatchers("/historia/**").hasAnyAuthority("Paciente", "Administrador", "Nutricionista")
                 .antMatchers("/admin/**").hasAnyAuthority("Administrador")
+                .antMatchers("/contextura/**").hasAnyAuthority("Administrador", "Nutricionista")
                 .antMatchers("/citas/**").hasAnyAuthority("Paciente", "Administrador", "Nutricionista")
                 .antMatchers("/alimentos/**").hasAnyAuthority("Administrador", "Nutricionista")
                 .antMatchers("/antropometrico/**").hasAnyAuthority("Administrador", "Nutricionista", "Paciente")

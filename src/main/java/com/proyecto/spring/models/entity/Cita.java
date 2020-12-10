@@ -42,6 +42,9 @@ public class Cita {
 
     @Temporal(TemporalType.DATE)
     private Date fecha_cita;
+    
+     @Temporal(TemporalType.DATE)
+    private Date fecha_proxima_cita;
 
     private String estado;
 

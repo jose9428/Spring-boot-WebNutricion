@@ -12,4 +12,7 @@ public interface AntropometricoRepository extends JpaRepository<Antropometrico, 
 
     @Query(value = "SELECT  c FROM Antropometrico c  WHERE  c.cita.paciente.id_Paciente =?1 ORDER BY fecha_atencion desc")
     public List<Antropometrico> ListarPorPaciente(Long idPaciente);
+
+    @Query(value = "SELECT  c FROM Antropometrico c  WHERE  c.cita.id_Cita=?1")
+    public Antropometrico getById(Long idCita);
 }

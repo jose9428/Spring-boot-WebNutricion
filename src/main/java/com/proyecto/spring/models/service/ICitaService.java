@@ -17,4 +17,8 @@ public interface ICitaService {
     public List<Cita> ListarCitasPendientesPorNutricionista(Date fecha, String usuario);
 
     public Cita CitaDetalle(Long idCita, String estado);
+
+    public List<Cita> ListarCitasPorPaciente(String usuario, String estado);
+
+    public List<Cita> ListarCitasPorIdPaciente(Long idPaciente, String estado);
 }

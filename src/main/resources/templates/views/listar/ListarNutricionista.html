@@ -24,6 +24,7 @@
                     <td scope="col">Fecha Nac.</td>
                     <td scope="col">Correo</td>
                     <td scope="col">Genero</td> 
+                    <td scope="col">Usuario</td>
                     <td scope="col">Estado</td>
                     <td scope="col">Accion</td>
                 </tr>
@@ -41,7 +42,7 @@
                     <td th:text="${#dates.format(medico.fecha_Nacimiento, 'dd-MM-yyyy')}"></td>
                     <td th:text="${medico.correo}"></td>
                     <td th:text="${medico.genero=='M'?'Masculino':'Femenino' }"></td> 
-
+                    <td th:text="${medico.usuario.username}"></td>
                     <td>
                         <button th:if="${medico.usuario.estado==1}"  class="btn btn-info" 
                                 th:attr="onclick='CambiarEstado('+${medico.id_Nutricionista} +', 0,\' '  +${medico.nomCompletos()}+ '\'  )' " >Activo</button>

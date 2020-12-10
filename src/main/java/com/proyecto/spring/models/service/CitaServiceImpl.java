@@ -43,4 +43,14 @@ public class CitaServiceImpl implements ICitaService {
         return citaRepository.CitaDetalle(idCita, estado);
     }
 
+    @Override
+    public List<Cita> ListarCitasPorPaciente(String usuario, String estado) {
+        return citaRepository.ListarCitasPorPaciente(usuario, estado);
+    }
+
+    @Override
+    public List<Cita> ListarCitasPorIdPaciente(Long idPaciente, String estado) {
+        return citaRepository.ListarCitasPorIdPaciente(idPaciente, estado);
+    }
+
 }

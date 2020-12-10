@@ -9,6 +9,7 @@
                     <td scope="col">DNI</td>
                     <td scope="col">Fecha Nac.</td>
                     <td scope="col">Correo</td>
+                    <td scope="col">Usuario</td>
                     <td scope="col">Genero</td> 
                 </tr>
             </thead>
@@ -22,6 +23,7 @@
                     <td th:text="${admin.dni}"></td>
                     <td th:text="${#dates.format(admin.fecha_Nacimiento, 'dd-MM-yyyy')}"></td>
                     <td th:text="${admin.correo}"></td>
+                     <td th:text="${admin.usuario.username}"></td>
                     <td th:text="${admin.genero=='M'?'Masculino':'Femenino' }"></td> 
                 </tr>
             </tbody>

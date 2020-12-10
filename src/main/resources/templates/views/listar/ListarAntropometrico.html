@@ -32,6 +32,9 @@
                     <td th:text="${dato.indice_cintura_altura}"></td>
                     <td th:text="${dato.calorias}"></td>
                 </tr>
+                <tr th:if="${listado == null or listado.empty}" class="text-center">
+                    <td colspan="12">No se encontraron registros</td>
+                </tr>
             </tbody>
         </table>
     </body>

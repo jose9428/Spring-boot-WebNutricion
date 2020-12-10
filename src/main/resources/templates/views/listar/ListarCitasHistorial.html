@@ -1,0 +1,99 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Historial</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" type="image/png" th:href="@{/img/fondo-manzana.png}" />
+    </head>
+
+    <body class="bg-light">
+        <div th:replace="plantilla/templateAdmin :: EstilosCss"></div>
+
+        <nav th:replace="plantilla/templateAdmin :: BarraHeader"></nav>
+
+        <div class="d-flex">
+            <div th:replace="plantilla/templateAdmin :: BarraMenu"></div>
+
+            <div class="content p-4">
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white font-weight-bold">
+                        <div class="bg-light p-3 mb-3"  sec:authorize='hasAnyAuthority("Administrador" , "Nutricionista")' >
+                            <a th:href="@{/paciente/}" class="btn btn-success">Volver atras</a>
+                            <br>
+                            <h3 th:text=" 'Paciente : ' + ${paciente.nomCompletos()}" class="mt-3"></h3>
+                        </div >
+                        <div sec:authorize='hasAnyAuthority("Paciente")'  class="bg-light p-3 mb-3">
+                            <h4>Mi Historia</h4>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <table id="example" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th># Cita</th>
+                                    <th>Medico</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Detalle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="dato : ${citas}">
+                                    <td th:text="${dato.id_Cita}"></td>
+                                    <td th:text="${dato.nutricionista.nomCompletos()}"></td>
+                                    <td th:text="${dato.fecha_cita}"></td>
+                                    <td th:text="${dato.hora.hora_Inicio} + ' - ' +${dato.hora.hora_Fin}"></td>
+                                    <td >
+                                        <a th:href="@{/historia/paciente/detalle/}+${dato.id_Cita}" class="btn btn-info">Ver detalle</a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
+            </div>
+
+        </div>
+
+
+
+    </body>
+
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+                language: {
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "zeroRecords": "No se encontraron resultados",
+                    "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sSearch": "Buscar:",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "sProcessing": "Procesando...",
+                },
+                //para usar los botones   
+
+                responsive: "true"
+            });
+        });
+    </script>
+
+</html>

@@ -103,35 +103,12 @@ CREATE TABLE Cita(
     id_Hora int NULL,
     fecha_registro datetime NULL ,
     fecha_cita date NULL,
+    fecha_proxima_cita date,
     estado varchar(40) NULL,
     FOREIGN KEY(id_Paciente)REFERENCES Paciente(id_Paciente) ,
     FOREIGN KEY(id_Hora)REFERENCES hora(id_Hora) ,
     FOREIGN KEY(id_Nutricionista)REFERENCES Nutricionista(id_Nutricionista)
 );
-
-/*TABLAS IMPLEMENTADAS */
-
-CREATE TABLE SEGUIMIENTO(
-Id_Seguimiento INT AUTO_INCREMENT PRIMARY KEY ,
-Id_Paciente INT ,
-Talla DECIMAL(5,2),
-Peso DECIMAL(5,2),
-Masa_Corporal DECIMAL(5,2),
-Fecha_seguimiento datetime,
-FOREIGN KEY(Id_Paciente) REFERENCES PACIENTE(Id_Paciente)
-);
-
-
-CREATE TABLE Detalle_HistoriaClinica(
-	Id_Detalle_HistoriaClinica INT AUTO_INCREMENT PRIMARY KEY ,
-	Id_Historia_clinica int NULL,
-	Id_Seguiemiento int ,
-    receta varchar(250) NULL ,
-	Duracion varchar(50) NULL,
-	Observacion varchar(150) NULL,
-	FOREIGN KEY(Id_Historia_clinica)REFERENCES Historia_clinica(Id_Historia_clinica)
-);
-
 
 CREATE TABLE Alimentos(
 	id_Alimento INT AUTO_INCREMENT PRIMARY KEY ,
@@ -144,24 +121,38 @@ CREATE TABLE Alimentos(
 );
 
 CREATE TABLE Antropometrico(
-id_Antropometrico INT AUTO_INCREMENT PRIMARY KEY ,
-id_Cita int,
-fecha_atencion date,
-altura INT ,
-peso INT,
-cintura INT,
-cuello INT,
-cadera INT,
-estado varchar(60),
-imc decimal(8,2),
-condicion varchar(60),
-indice_cintura_altura decimal(8,2),
-grasa_corporal decimal(8,2),
-masa_corporal decimal(8,2),
-calorias INT,
-FOREIGN KEY(id_Cita) REFERENCES Cita(id_Cita)
+	id_Antropometrico INT AUTO_INCREMENT PRIMARY KEY ,
+	id_Cita int,
+	fecha_atencion date,
+	altura INT ,
+	peso INT,
+	cintura INT,
+	cuello INT,
+	cadera INT,
+	estado varchar(60),
+	imc decimal(8,2),
+	condicion varchar(60),
+	indice_cintura_altura decimal(8,2),
+	grasa_corporal decimal(8,2),
+	masa_corporal decimal(8,2),
+	calorias INT,
+	FOREIGN KEY(id_Cita) REFERENCES Cita(id_Cita)
 );
 
+create table seguimiento(
+	id_seguimiento INT AUTO_INCREMENT PRIMARY KEY ,
+    id_Cita int,
+    hora_Desayuno time,
+    hora_Media_Mañana time,
+    hora_Almuerzo time,
+    hora_Cena time,
+    desayuno varchar(500),
+    media_Mañana varchar(500),
+    almuerzo varchar(500),
+    cena varchar(500),
+    recomendacion varchar(500),
+    FOREIGN KEY(id_Cita) REFERENCES Cita(id_Cita)
+);
 
 INSERT INTO Contexturas VALUES(NULL ,'Grande' , 'Peso Corporal de la mujer menos de 10 y hombres de 9.6 ');
 INSERT INTO Contexturas VALUES(NULL ,'Normal' , 'Peso Corporal de la mujer entre 10 a 11 y hombres de 9.6 a 10.4');
@@ -605,24 +596,6 @@ INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 6,3);
 INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 7,2);
 INSERT INTO HORARIO_NUTRICIONISTA VALUES(NULL , 7,3);
 
-INSERT INTO CITA VALUES(NULL , 1 , 2 , 5 ,'2020-02-22' , '2020-03-19','ATENDIDO');
-INSERT INTO CITA VALUES(NULL , 1 , 7 , 4 ,'2020-02-25' , '2020-03-16','ATENDIDO');
-INSERT INTO CITA VALUES(NULL , 1 , 6 , 2 ,'2020-04-21', '2020-04-21','ATENDIDO');
-
-INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,'2020-06-19', '2020-06-24','ATENDIDO');
-INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,'2020-06-19', '2020-06-24','ATENDIDO');
-INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,'2020-06-19', '2020-06-24','ATENDIDO');
-
-INSERT INTO CITA VALUES(NULL , 2 , 9 , 7 ,'2020-07-19', '2020-07-28','ATENDIDO');
-
-INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,NOW() , '2020-11-20','PENDIENTE');
-INSERT INTO CITA VALUES(NULL , 1 , 3 , 2 ,NOW() , '2020-11-23','PENDIENTE');
-INSERT INTO CITA VALUES(NULL , 1 , 2 , 5 ,NOW() , '2020-12-11','PENDIENTE');
-INSERT INTO CITA VALUES(NULL , 1 , 3 , 4 ,NOW() , '2020-12-16','PENDIENTE');
-INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,NOW() , '2020-12-24','PENDIENTE');
-
-INSERT INTO Antropometrico VALUES(NULL , 1 , '2020-03-19' ,172,62,50,20,120,'Bajar de Peso',20.96,'Peso Normal',0.29,28.49,44.34,1550);
-INSERT INTO Antropometrico VALUES(NULL , 2 , '2020-05-16' ,170,64,50,20,120,'Bajar de Peso',22.15,'Peso Normal',0.29,29.91,44.85,1600);
 
 
 DELIMITER @@ 
@@ -720,13 +693,56 @@ END @@
 DELIMITER ;
 
 
+
+/*
+
+INSERT INTO CITA VALUES(NULL , 1 , 2 , 5 ,'2020-02-22' , '2020-03-19','2020-03-29' ,'PENDIENTE');
+INSERT INTO CITA VALUES(NULL , 1 , 7 , 4 ,'2020-02-25' , '2020-03-16','2020-03-29' ,'PENDIENTE');
+INSERT INTO CITA VALUES(NULL , 1 , 6 , 2 ,'2020-04-21', '2020-04-21','2020-04-28' ,'PENDIENTE');
+INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,'2020-06-19', '2020-06-24','2020-06-29' ,'PENDIENTE');
+INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,'2020-06-19', '2020-06-24','2020-03-28', 'PENDIENTE');
+INSERT INTO CITA VALUES(NULL , 1 , 2 , 2 ,'2020-06-19', '2020-06-24','2020-03-28' ,'PENDIENTE');
+INSERT INTO CITA VALUES(NULL , 2 , 9 , 7 ,'2020-07-19', '2020-07-28','2020-08-03' ,'PENDIENTE');
+
+
+INSERT INTO Antropometrico VALUES(NULL , 1 , '2020-03-19' ,172,62,50,20,120,'Bajar de Peso',20.96,'Peso Normal',0.29,28.49,44.34,1550);
+INSERT INTO Antropometrico VALUES(NULL , 2 , '2020-05-16' ,170,64,50,20,120,'Bajar de Peso',22.15,'Peso Normal',0.29,29.91,44.85,1600);
+
+*/
+INSERT INTO cita(id_Cita, id_Paciente, id_Nutricionista, id_Hora, fecha_registro, fecha_cita, fecha_proxima_cita, estado) VALUES
+(1, 1, 1, 29, '2020-12-10 00:28:28', '2020-08-09', '2020-08-13', 'ATENDIDO'),
+(2, 1, 2, 2, '2020-12-09 19:43:29', '2020-09-20', '2020-09-24', 'ATENDIDO'),
+(3, 1, 3, 2, '2020-12-09 19:43:29', '2020-11-23', '2020-12-29', 'ATENDIDO'),
+(4, 2, 1, 5, '2020-12-09 19:43:29', '2020-12-11', '2020-12-18', 'ATENDIDO'),
+(5, 2, 1, 4, '2020-12-09 19:43:29', '2020-12-16', NULL, 'PENDIENTE'),
+(6, 1, 2, 2, '2020-12-09 19:43:29', '2020-12-24', NULL, 'PENDIENTE');
+
+INSERT INTO antropometrico (id_Antropometrico, id_Cita, fecha_atencion, altura, peso, cintura, cuello, cadera, estado, 
+imc, condicion, indice_cintura_altura, grasa_corporal, masa_corporal, calorias) VALUES
+(1, 1, '2020-08-09', 162, 54, 73, 42, 99, 'Bajar Peso', '20.58', 'Peso Normal', '0.45', '28.03', '38.86', 1350),
+(2, 2, '2020-09-20', 163, 53, 71, 42, 101, 'Bajar Peso', '19.95', 'Peso Normal', '0.44', '27.28', '38.54', 1325),
+(3, 3, '2020-12-29', 164, 56, 78, 43, 99, 'Bajar Peso', '20.82', 'Peso Normal', '0.48', '28.33', '40.14', 1400),
+(4, 4, '2020-12-18', 172, 65, 103, 42, 0, 'Aumentar Peso', '21.97', 'Peso Normal', '0.60', '16.84', '54.06', 2275);
+
+
+INSERT INTO seguimiento (id_seguimiento, id_Cita, hora_Desayuno,hora_Media_Mañana, hora_Almuerzo, hora_Cena, desayuno, media_Mañana, almuerzo, cena, recomendacion) VALUES
+(1, 1, '07:00:00', '12:00:00', '14:30:00', '19:30:00', '.1 Batido de avena y frutas.', '.1 Manzana \r\n.1 Plátano', '.1 Patata hervida\r\n.1 Atún.', '.1 Ensalada de frutas', '.Tomar agua 3 veces al día.\r\n.Dormir 8 horas diarias\r\n.Hacer ejercicio 3 veces a la semana'),
+(2, 2, '08:00:00', '12:00:00', '13:50:00', '21:00:00', '.1 Yogurt\r\n.1 cereal chocolate ,fresa', '.1 Plátano\r\n.1 Manzana', '.1 Pollo pechuga blanca sin fritura\r\n.1 Ensalada de verduras', '.Atún  ', 'La paciente se encuentra bien de salud, pero seguir la recomendaciones, ando algo bajo de peso.'),
+(3, 3, '07:00:00', '12:00:00', '13:30:00', '20:00:00', '.Jugo de naranja\r\n.Pan integral', '.Papa , camote o yuca', '. Carne blanca\r\n. Menestras', '. Caldo de pollo', 'Tomar bastante agua, mínimo 1 litro diario,\r\nDe peso se encuentra muy bien, pero debe hacer ejercicio 3 a 4 veces por semana'),
+(4, 4, '07:00:00', '12:00:00', '14:00:00', '22:00:00', '.1 Pan integral\r\n.1 Choclo o quinua', '.1 Carne blanca o pescado\r\n', '. Menestra\r\n. Ensalada de frutas', '. Carne con verduras', 'Hacer ejercicio 3 a 4 veces por semana, tomar bastante agua');
+
+/*
+PACIENTES
+user001    123456
+user002    123456
+
+MEDICOS
+C001       21232123   -- Arturo Perez
+C002       51223577     Jessica  Montesinos  Cardenas
+*/
+
 SELECT * FROM Usuario;
 select * from paciente;
 select * from nutricionista;
-select * from cita;
-select * from usuario;
-
-
-
-
+select * from administrador;
 

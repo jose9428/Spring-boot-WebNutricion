@@ -73,9 +73,8 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Date fechaConv = Utileria.ConvertirFecha("2020-12-16");
-        List<Antropometrico> lista = antropService.getAll();
-        log.info("" + lista);
+      
+        log.info("Edad " + Utileria.CalcularEdad(new Date()));
     }
 
 }

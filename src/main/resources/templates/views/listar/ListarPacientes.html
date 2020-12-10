@@ -33,7 +33,7 @@
                         <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${paciente.id_Paciente} + ')'"   class="btn btn-primary" > Ver detalle</a>
                     </td>
                     <td>
-                        <a href="javascript:void(0)"    class="btn btn-success" > Ver historia</a>
+                        <a th:href="@{/historia/paciente/}+${paciente.id_Paciente}"    class="btn btn-success" > Ver historia</a>
                     </td>
                 </tr>
             </tbody>

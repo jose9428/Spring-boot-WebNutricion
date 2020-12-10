@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
-        <title>Atender Cita</title>
+        <title>Detalle Historia</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +20,7 @@
                 <div class="card mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         <div class="bg-light p-3 mb-3">
-                            <a th:href="@{/citas/Pendientes-Paciente}" class="btn btn-success margin" id="btn-add" title="Volver atras" >Mis citas Pendientes</a>
+                            <a th:href="@{/historia/paciente/}+${idPaciente}" class="btn btn-success margin" id="btn-add" title="Ir a historia medica" >Volver atras</a>
                         </div>
                     </div>
 
@@ -30,8 +30,8 @@
                                 <div class="card" >
                                     <div class="text-center">
                                         <br>
-                                        <img th:src="@{/paciente/verImagen/}+${cita.paciente.id_Paciente}"  th:if="${cita.paciente.genero=='M'}" width="200" onerror="src='../../img/sin_foto-paciente-hombre.jpg' "  class="text-center">
-                                        <img th:src="@{/paciente/verImagen/}+${cita.paciente.id_Paciente}" th:unless="${cita.paciente.genero=='M'}"  width="200" onerror="src='../../img/sin_foto-paciente-mujer.jpg' "   class="text-center" >
+                                        <img th:src="@{/paciente/verImagen/}+${cita.paciente.id_Paciente}"  th:if="${cita.paciente.genero=='M'}" width="200" onerror="src='../../../img/sin_foto-paciente-hombre.jpg' "  class="text-center">
+                                        <img th:src="@{/paciente/verImagen/}+${cita.paciente.id_Paciente}" th:unless="${cita.paciente.genero=='M'}"  width="200" onerror="src='../../../img/sin_foto-paciente-mujer.jpg' "   class="text-center" >
 
                                     </div>
                                     <div class="card-body">
@@ -50,14 +50,14 @@
                             <div class="card-body">
                                 <div class="card" >
                                     <div class="card-body">
-                                        <h5 class="card-title">Pruebas a realizar</h5>
+                                        <h5 class="card-title">Mis Examenes</h5>
                                     </div>
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
-                                            <a th:href="@{/citas/actividad/}+${idCita}" class="btn btn-info btn-lg btn-block" >Realizar datos antropométricos</a>
+                                            <a th:href="@{/historia/paciente/antropometrico/}+${idCita}" class="btn btn-info btn-lg btn-block" >Examen Antropométricos</a>
                                         </li>
                                         <li class="list-group-item">
-                                            <a th:href="@{/citas/DietaNutricional/}+${idCita}" class="btn btn-info btn-lg btn-block">Realizar dieta nutricional</a>
+                                            <a th:href="@{/historia/paciente/dieta/}+${idCita}" class="btn btn-info btn-lg btn-block">Dieta nutricional</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -65,7 +65,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <footer th:replace="plantilla/templateAdmin :: footer"></footer> 
             </div>

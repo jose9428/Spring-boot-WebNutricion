@@ -137,6 +137,7 @@ public class PaypalController {
         c.setHora(h);
         c.setFecha_registro(new Date());
         c.setFecha_cita(Utileria.ConvertirFecha(fecha));
+        c.setFecha_proxima_cita(null);
         c.setEstado("PENDIENTE");
         citaService.ReservarCita(c);
     }

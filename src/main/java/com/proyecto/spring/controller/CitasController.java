@@ -1,16 +1,21 @@
 package com.proyecto.spring.controller;
 
+import com.proyecto.spring.models.entity.Antropometrico;
 import com.proyecto.spring.models.entity.Cita;
 import com.proyecto.spring.models.entity.Hora;
 import com.proyecto.spring.models.entity.Nutricionista;
 import com.proyecto.spring.models.entity.Paciente;
+import com.proyecto.spring.models.entity.Seguimiento;
 import com.proyecto.spring.models.entity.Turno;
 import com.proyecto.spring.models.entity.Usuario;
+import com.proyecto.spring.models.service.IAlimentosService;
+import com.proyecto.spring.models.service.IAntropometricoService;
 import com.proyecto.spring.models.service.ICitaService;
 import com.proyecto.spring.models.service.IHoraService;
 import com.proyecto.spring.models.service.IHorarioNutricionistaService;
 import com.proyecto.spring.models.service.INutricionistaService;
 import com.proyecto.spring.models.service.IPacienteService;
+import com.proyecto.spring.models.service.ISeguimientoService;
 import com.proyecto.spring.models.service.ITurnoService;
 import com.proyecto.spring.models.service.IUsuarioService;
 import com.proyecto.spring.util.Utileria;
@@ -19,11 +24,13 @@ import java.util.List;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,11 +60,67 @@ public class CitasController {
 
     @Autowired
     private IPacienteService pacienteService;
-    
+
+    @Autowired
+    private IAlimentosService alimentoService;
+
+    @Autowired
+    private IAntropometricoService antropService;
+
+    @Autowired
+    private ISeguimientoService seguimientoService;
+
     @GetMapping("/DietaNutricional/{id}")
-    public String ViewDietaNutricional(@PathVariable("id") Long idCita , Model model){
-        model.addAttribute("idCita", idCita);
-        return "/views/DietaNutricional";
+    public String ViewDietaNutricional(@PathVariable("id") Long idCita, Model model) {
+        Cita c = citaService.CitaDetalle(idCita, "Pendiente");
+
+        if (c != null) {
+            Paciente p = c.getPaciente();
+            List<Antropometrico> lista = antropService.ListadoPorPaciente(p.getId_Paciente());
+            Antropometrico a = null;
+            if (lista.size() > 0) {
+                a = lista.get(0);
+            } else {
+                a = new Antropometrico();
+            }
+
+            model.addAttribute("idCita", idCita);
+            model.addAttribute("paciente", p);
+            model.addAttribute("antropometrico", a);
+            model.addAttribute("medico", c.getNutricionista());
+            model.addAttribute("edad", Utileria.CalcularEdad(p.getFecha_Nacimiento()));
+            model.addAttribute("fechaRegistro", new Date());
+            model.addAttribute("alimentos", alimentoService.getAll());
+            return "/views/DietaNutricional";
+        } else {
+
+            return "redirect:/citas/Pendientes-Paciente";
+        }
+    }
+
+    @PostMapping("/GuardarDietaNutricional")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<String> GuardarDietaNutricional(Seguimiento s,
+            @RequestParam("fechaProxima") String fechaProxima) {
+
+        try {
+            Cita c = citaService.CitaDetalle(s.getCita().getId_Cita(), "PENDIENTE");
+
+            if (c != null) {
+                seguimientoService.Guardar(s);
+                c.setEstado("ATENDIDO");
+                c.setFecha_proxima_cita(Utileria.ConvertirFecha(fechaProxima));
+                citaService.ReservarCita(c);
+
+                return ResponseEntity.ok("OK");
+            } else {
+                return ResponseEntity.ok("El estado de la cita ya ha sido registrada anteriormente.");
+            }
+
+        } catch (Exception ex) {
+            return ResponseEntity.ok("Los datos ingresados son incorrectos.");
+        }
     }
 
     @GetMapping("/Pendientes-Paciente")
@@ -176,9 +239,9 @@ public class CitasController {
 
     @GetMapping(value = "/atender/{id}")
     public String ViewAtenderCitas(Model model, @PathVariable("id") Long id) {
-
-        if (id > 0) {
-            model.addAttribute("cita", citaService.CitaDetalle(id, "Pendiente"));
+        Cita c = citaService.CitaDetalle(id, "Pendiente");
+        if (id > 0 && c !=null) {
+            model.addAttribute("cita", c);
             model.addAttribute("idCita", id);
             return "/views/AtenderCita";
         }
@@ -216,17 +279,18 @@ public class CitasController {
 
     @GetMapping(value = "/modificar-datos")
     @ResponseBody
-    public String ModificarCita(Cita cita , @RequestParam("fecha") String fecha) {
+    public String ModificarCita(Cita cita, @RequestParam("fecha") String fecha) {
 
         try {
             cita.setFecha_cita(Utileria.ConvertirFecha(fecha));
             cita.setFecha_registro(new Date());
             cita.setEstado("Pendiente");
             citaService.ReservarCita(cita);
-            
+
             return "OK";
         } catch (Exception ex) {
-            return "No se ha podido modificar la cita : "+ex.getMessage();
+            return "No se ha podido modificar la cita : " + ex.getMessage();
         }
     }
+
 }

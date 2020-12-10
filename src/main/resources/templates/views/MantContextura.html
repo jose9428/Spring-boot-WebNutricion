@@ -20,7 +20,7 @@
                 <div class="card mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         <div class="bg-light p-3 mb-3">
-                            <button class="btn btn-success margin" id="btn-add" title="Nuevo" onclick="BuscarPorId(0)"><i class="fa fa-plus"></i> Nuevo</button>
+                            <button class="btn btn-success margin" id="btn-add" title="Nuevo" onclick="BuscarPorId(0)"  sec:authorize='hasAnyAuthority("Administrador" )'><i class="fa fa-plus"></i> Nuevo</button>
 
                             <h3 class="mt-3">Lista de Contextura</h3>
                         </div>

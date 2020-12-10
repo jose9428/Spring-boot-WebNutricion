@@ -6,7 +6,7 @@
                 <!--    <td scope="col">Id</td> -->
                     <td scope="col">Nombre</td>
                     <td scope="col">Descripcion</td>
-                    <td class="actions" scope="col">Acciones</td>
+                    <td class="actions" scope="col"  sec:authorize='hasAnyAuthority("Administrador" )'>Acciones</td>
                 </tr>
             </thead>
             <tbody>
@@ -14,8 +14,8 @@
                 <tr th:each="dato : ${listado}">
                     <td th:text="${dato.nombreContextura}"></td>
                     <td th:text="${dato.descripcion}"></td>
-                    <td>
-                        <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${dato.id_contextura} + ')'"   class="btn btn-primary" data-toggle="tooltip" title="Editar"><i class="fa fa-fw fa-edit"></i> Editar</a>
+                    <td sec:authorize='hasAnyAuthority("Administrador" )'>
+                        <a href="javascript:void(0)"  th:attr="onclick='BuscarPorId( ' + ${dato.id_contextura} + ')'"   class="btn btn-primary" data-toggle="tooltip" title="Editar"  ><i class="fa fa-fw fa-edit"></i> Editar</a>
                         <!--
                                <a href="#" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
                         -->

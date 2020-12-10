@@ -87,8 +87,8 @@
                 <li  sec:authorize='hasAnyAuthority("Administrador")' th:classappend="(${#httpServletRequest.requestURI} == '/contextura/')?'active':'' ">
                     <a th:href="@{/contextura/}"><i class="fa fa-fw fa-child"></i> Contextura</a>
                 </li>
-                
-                   <li  sec:authorize='hasAnyAuthority("Administrador" , "Nutricionista")' th:classappend="(${#httpServletRequest.requestURI} == '/alimentos/')?'active':'' ">
+
+                <li  sec:authorize='hasAnyAuthority("Administrador" , "Nutricionista")' th:classappend="(${#httpServletRequest.requestURI} == '/alimentos/')?'active':'' ">
                     <a th:href="@{/alimentos/}"><i class="fa fa-fw fa-child"></i> Alimentos</a>
                 </li>
 
@@ -97,6 +97,10 @@
                 </li>
                 <li sec:authorize='hasAnyAuthority("Paciente")'  th:classappend="(${#httpServletRequest.requestURI} == '/citas/pendientes')?'active':'' ">
                     <a th:href="@{/citas/pendientes}"><i class="fa fa-calendar-plus"></i>  Mis Citas</a>
+                </li>
+
+                <li  sec:authorize='hasAnyAuthority("Paciente")' th:classappend="(${#httpServletRequest.requestURI} == '/historia/')?'active':'' ">
+                    <a th:href="@{/historia/medico}"><i class="fa fa-fw fa-child"></i> Mi Historia</a>
                 </li>
 
                 <li  sec:authorize='hasAnyAuthority("Administrador" , "Nutricionista")'  th:classappend="(${#httpServletRequest.requestURI} == '/paciente/')?'active':'' ">

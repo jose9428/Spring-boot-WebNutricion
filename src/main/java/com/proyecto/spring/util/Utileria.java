@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -76,5 +77,17 @@ public class Utileria {
         return token;
     }
 
+    public static int CalcularEdad(Date fecha) {
+        Calendar ahora = Calendar.getInstance();
+        Calendar fechaNacimiento =Calendar.getInstance();
+        fechaNacimiento.setTime(fecha);
 
+        long edadEnDias = (ahora.getTimeInMillis() - fechaNacimiento.getTimeInMillis())
+                / 1000 / 60 / 60 / 24;
+
+        int anios = Double.valueOf(edadEnDias / 365.25d).intValue();
+    //    int dias = Double.valueOf(edadEnDias % 365.25d).intValue();
+
+        return anios;
+    }
 }

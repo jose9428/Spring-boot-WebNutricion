@@ -27,4 +27,9 @@ public class AntropometricoServiceImpl implements IAntropometricoService {
         return antropRepository.ListarPorPaciente(idPaciente);
     }
 
+    @Override
+    public Antropometrico getById(Long idCita) {
+        return antropRepository.getById(idCita);
+    }
+
 }

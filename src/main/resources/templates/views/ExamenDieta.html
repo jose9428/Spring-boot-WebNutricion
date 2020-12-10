@@ -13,6 +13,20 @@
             font-size: 29px;
             font: message-box;
         }
+
+        input[readonly].classname{
+            background-color:transparent;
+            /*   border: 0 */
+            font-size: 1em;
+        }
+
+        textarea[readonly].classname{
+            background-color:transparent;
+            /*   border: 0 */
+            font-size: 1em;
+        }
+
+
     </style>
     <body class="bg-light">
 
@@ -28,26 +42,13 @@
                 <div class="card mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         <div class="bg-light p-3 mb-3">
-                            <a th:href="@{/citas/atender/}+${idCita}" class="btn btn-success" title="Regresar a citas del paciente"> <i class="fa fa-fw fa-arrow-alt-circle-left"></i> Volver atras</a>
+                            <a th:href="@{/historia/paciente/detalle/}+${idCita}" class="btn btn-success" title="Regresar a citas del paciente"> <i class="fa fa-fw fa-arrow-alt-circle-left"></i> Volver atras</a>
                         </div>
                     </div>
                     <div class="card-header bg-white font-weight-bold">
-              <!--
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div class="bg-light p-3 row form-group">
-                                    <label  class="col-sm-4 col-form-label">Seleccione Alimento : </label>
-                                    <div class="col-sm-8 bg-light">
-                                        <select  name="alimento" id="alimento" class="form-control" >
-                                            <option th:each="alimento : ${alimentos}" th:value="${alimento.id_Alimento}"
-                                                    th:text="${alimento.nombre_Alimento}"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-              
-              -->
+                        <!--
+                          <p th:text='${seguimiento}'></p>
+                        -->
                         <div class="row">
                             <div class="col-sm-12">
                                 <form id="FrmGuardar" method="post">
@@ -78,57 +79,48 @@
                                             <td colspan="5" th:text='${medico.nomCompletos()}'></td>
                                             <td  class="fondo">Proxima Fecha</td>
                                             <td>
-                                                <input type="date" name="fechaProxima" id="fechaProxima" class="form-control">
+                                                <input type="date" th:value='${fecha_proxima_cita}'  name="fechaProxima" id="fechaProxima" class="form-control classname" readonly="">
                                             </td>
                                         </tr>
 
                                         <tr class="fondo">
                                             <td><p>Desayuno </p>
                                                 <br>
-                                                <input type="time" id="hora_Desayuno" name="hora_Desayuno" class="form-control">
+                                                <input style="background-color:white;" type="time" id="hora_Desayuno" name="hora_Desayuno" class="form-control classname" th:value='${seguimiento.hora_Desayuno}'  readonly="">
                                             </td>
                                             <td colspan="9">
-                                                <textarea class="form-control" id="desayuno" name="desayuno" rows="4"></textarea>
+                                                <textarea style="background-color:white;" class="form-control classname" id="desayuno" name="desayuno" rows="5" th:text='${seguimiento.desayuno}'  readonly=""></textarea>
                                             </td>
                                         </tr>
                                         <tr class="fondo">
                                             <td><p>Media Mañana </p>
                                                 <br>
-                                                <input type="time" id="hora_Media_Mañana" name="hora_Media_Mañana" class="form-control">
+                                                <input style="background-color:white;" type="time" th:value="${seguimiento.hora_Desayuno}"  class="form-control classname"  readonly="">
                                             </td>
                                             <td colspan="9">
-                                                <textarea class="form-control" id="media_Mañana" name="media_Mañana" rows="4"></textarea>
+                                                <textarea style="background-color:white;" class="form-control" id="media_Mañana" name="media_Mañana" rows="5" th:text="${seguimiento.descManiana()}"  readonly=""></textarea>
                                             </td>
                                         </tr>
                                         <tr class="fondo">
                                             <td><p>Almuerzo </p>
                                                 <br>
-                                                <input type="time" id="hora_Almuerzo" name="hora_Almuerzo" class="form-control">
+                                                <input style="background-color:white;" type="time" id="hora_Almuerzo" name="hora_Almuerzo" class="form-control classname" th:value='${seguimiento.hora_Almuerzo}'  readonly="">
                                             <td colspan="9">
-                                                <textarea class="form-control" id="almuerzo" name="almuerzo" rows="4"></textarea>
+                                                <textarea style="background-color:white;" class="form-control classname" id="almuerzo" name="almuerzo" rows="5"  th:text='${seguimiento.almuerzo}'  readonly=""></textarea>
                                             </td>
                                         </tr>
                                         <tr class="fondo">
                                             <td><p>Cena </p>
                                                 <br>
-                                                <input type="time" id="hora_Cena" name="hora_Cena" class="form-control">
-
+                                                <input style="background-color:white;" type="time" id="hora_Cena" name="hora_Cena"  th:value='${seguimiento.hora_Cena}'  class="form-control classname"  readonly>
                                             <td colspan="9">
-                                                <textarea class="form-control" id="cena" name="cena" rows="4"></textarea>
+                                                <textarea style="background-color:white;" class="form-control classname" id="cena" name="cena"   th:text='${seguimiento.cena}'  rows="5"  readonly></textarea>
                                             </td>
                                         </tr>
                                         <tr class="fondo">
                                             <td>Recomendacion </td>
                                             <td colspan="9">
-                                                <textarea class="form-control" name="recomendacion" id="recomendacion" rows="4"></textarea>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td></td>
-                                            <td colspan="8">
-                                                <button type="button" class="btn btn-primary" id="BtnGuardarDieta">Guardar</button>
-                                                <button type="reset" class="btn btn-danger">Nuevo</button>
+                                                <textarea style="background-color:white;" class="form-control classname" name="recomendacion" id="recomendacion" th:text='${seguimiento.recomendacion}'  rows="5"  readonly=""></textarea>
                                             </td>
                                         </tr>
 
@@ -152,16 +144,16 @@
         $("#BtnGuardarDieta").on("click", function () {
             var fecha = $("#fechaProxima").val();
             var cita = "[[${idCita}]]";
-            var form = $("#FrmGuardar").serialize()+"&fechaProxima="+fecha+"&cita="+cita;
+            var form = $("#FrmGuardar").serialize() + "&fechaProxima=" + fecha + "&cita=" + cita;
             $.ajax({
                 type: 'POST',
                 url: "/citas/GuardarDietaNutricional",
                 data: form,
                 success: function (data, status, xhr) {
-                    if(data ==="OK"){
+                    if (data === "OK") {
                         $("#FrmGuardar")[0].reset();
                         Mensaje("Datos guardados correctamente.");
-                    }else{
+                    } else {
                         Mensaje(data);
                     }
                 }
