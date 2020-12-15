@@ -52,79 +52,82 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <form id="FrmGuardar" method="post">
-                                    <table class="table table-bordered">
-                                        <tr class="text-center" >
-                                            <td colspan="9" class="fondo">FICHA DIETETICA</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fondo">Paciente</td>
-                                            <td th:text="${paciente.nomCompletos()}" colspan="3"></td>
-                                            <td class="fondo">Edad</td>
-                                            <td th:text="${edad}"></td>
-                                            <td class="fondo">Fecha Registro</td>
-                                            <td  th:text="${#dates.format(fechaRegistro, 'dd-MM-yyyy')}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fondo">Peso</td>
-                                            <td th:text="${antropometrico.peso}+' Kg'"></td>
-                                            <td class="fondo">Talla</td>
-                                            <td th:text="${antropometrico.altura} +' cm' "></td>
-                                            <td class="fondo">IMC</td>
-                                            <td th:text="${antropometrico.imc}"></td>
-                                            <td class="fondo">Estado</td>
-                                            <td th:text="${antropometrico.condicion}"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fondo">Nutricionista</td>
-                                            <td colspan="5" th:text='${medico.nomCompletos()}'></td>
-                                            <td  class="fondo">Proxima Fecha</td>
-                                            <td>
-                                                <input type="date" th:value='${fecha_proxima_cita}'  name="fechaProxima" id="fechaProxima" class="form-control classname" readonly="">
-                                            </td>
-                                        </tr>
+                                    <div id="areaImprimir">
+                                        <table class="table table-bordered">
+                                            <tr class="text-center" >
+                                                <td colspan="9" class="fondo">FICHA DIETETICA</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fondo">Paciente</td>
+                                                <td th:text="${paciente.nomCompletos()}" colspan="3"></td>
+                                                <td class="fondo">Edad</td>
+                                                <td th:text="${edad}"></td>
+                                                <td class="fondo">Fecha Registro</td>
+                                                <td  th:text="${#dates.format(fechaRegistro, 'dd-MM-yyyy')}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fondo">Peso</td>
+                                                <td th:text="${antropometrico.peso}+' Kg'"></td>
+                                                <td class="fondo">Talla</td>
+                                                <td th:text="${antropometrico.altura} +' cm' "></td>
+                                                <td class="fondo">IMC</td>
+                                                <td th:text="${antropometrico.imc}"></td>
+                                                <td class="fondo">Estado</td>
+                                                <td th:text="${antropometrico.condicion}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fondo">Nutricionista</td>
+                                                <td colspan="5" th:text='${medico.nomCompletos()}'></td>
+                                                <td  class="fondo">Proxima Fecha</td>
+                                                <td>
+                                                    <input type="date" th:value='${fecha_proxima_cita}'  name="fechaProxima" id="fechaProxima" class="form-control classname" readonly="">
+                                                </td>
+                                            </tr>
 
-                                        <tr class="fondo">
-                                            <td><p>Desayuno </p>
-                                                <br>
-                                                <input style="background-color:white;" type="time" id="hora_Desayuno" name="hora_Desayuno" class="form-control classname" th:value='${seguimiento.hora_Desayuno}'  readonly="">
-                                            </td>
-                                            <td colspan="9">
-                                                <textarea style="background-color:white;" class="form-control classname" id="desayuno" name="desayuno" rows="5" th:text='${seguimiento.desayuno}'  readonly=""></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr class="fondo">
-                                            <td><p>Media Mañana </p>
-                                                <br>
-                                                <input style="background-color:white;" type="time" th:value="${seguimiento.hora_Desayuno}"  class="form-control classname"  readonly="">
-                                            </td>
-                                            <td colspan="9">
-                                                <textarea style="background-color:white;" class="form-control" id="media_Mañana" name="media_Mañana" rows="5" th:text="${seguimiento.descManiana()}"  readonly=""></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr class="fondo">
-                                            <td><p>Almuerzo </p>
-                                                <br>
-                                                <input style="background-color:white;" type="time" id="hora_Almuerzo" name="hora_Almuerzo" class="form-control classname" th:value='${seguimiento.hora_Almuerzo}'  readonly="">
-                                            <td colspan="9">
-                                                <textarea style="background-color:white;" class="form-control classname" id="almuerzo" name="almuerzo" rows="5"  th:text='${seguimiento.almuerzo}'  readonly=""></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr class="fondo">
-                                            <td><p>Cena </p>
-                                                <br>
-                                                <input style="background-color:white;" type="time" id="hora_Cena" name="hora_Cena"  th:value='${seguimiento.hora_Cena}'  class="form-control classname"  readonly>
-                                            <td colspan="9">
-                                                <textarea style="background-color:white;" class="form-control classname" id="cena" name="cena"   th:text='${seguimiento.cena}'  rows="5"  readonly></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr class="fondo">
-                                            <td>Recomendacion </td>
-                                            <td colspan="9">
-                                                <textarea style="background-color:white;" class="form-control classname" name="recomendacion" id="recomendacion" th:text='${seguimiento.recomendacion}'  rows="5"  readonly=""></textarea>
-                                            </td>
-                                        </tr>
+                                            <tr class="fondo">
+                                                <td><p>Desayuno </p>
+                                                    <br>
+                                                    <input style="background-color:white;" type="time" id="hora_Desayuno" name="hora_Desayuno" class="form-control classname" th:value='${seguimiento.hora_Desayuno}'  readonly="">
+                                                </td>
+                                                <td colspan="9">
+                                                    <textarea style="background-color:white;" class="form-control classname" id="desayuno" name="desayuno" rows="5" th:text='${seguimiento.desayuno}'  readonly=""></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr class="fondo">
+                                                <td><p>Media Mañana </p>
+                                                    <br>
+                                                    <input style="background-color:white;" type="time" th:value="${seguimiento.hora_Desayuno}"  class="form-control classname"  readonly="">
+                                                </td>
+                                                <td colspan="9">
+                                                    <textarea style="background-color:white;" class="form-control" id="media_Mañana" name="media_Mañana" rows="5" th:text="${seguimiento.descManiana()}"  readonly=""></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr class="fondo">
+                                                <td><p>Almuerzo </p>
+                                                    <br>
+                                                    <input style="background-color:white;" type="time" id="hora_Almuerzo" name="hora_Almuerzo" class="form-control classname" th:value='${seguimiento.hora_Almuerzo}'  readonly="">
+                                                <td colspan="9">
+                                                    <textarea style="background-color:white;" class="form-control classname" id="almuerzo" name="almuerzo" rows="5"  th:text='${seguimiento.almuerzo}'  readonly=""></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr class="fondo">
+                                                <td><p>Cena </p>
+                                                    <br>
+                                                    <input style="background-color:white;" type="time" id="hora_Cena" name="hora_Cena"  th:value='${seguimiento.hora_Cena}'  class="form-control classname"  readonly>
+                                                <td colspan="9">
+                                                    <textarea style="background-color:white;" class="form-control classname" id="cena" name="cena"   th:text='${seguimiento.cena}'  rows="5"  readonly></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr class="fondo">
+                                                <td>Recomendacion </td>
+                                                <td colspan="9">
+                                                    <textarea style="background-color:white;" class="form-control classname" name="recomendacion" id="recomendacion" th:text='${seguimiento.recomendacion}'  rows="5"  readonly=""></textarea>
+                                                </td>
+                                            </tr>
 
-                                    </table>
+                                        </table>
+                                    </div>
+                                    <button  onclick="printDiv('areaImprimir')" type="button" class="btn btn-secondary">Imprimir</button>
                                 </form>
                             </div>
 
@@ -141,6 +144,20 @@
 
     </body>
     <script type="text/javascript">
+
+        function printDiv(nombreDiv) {
+            var contenido = document.getElementById(nombreDiv).innerHTML;
+            var contenidoOriginal = document.body.innerHTML;
+
+            document.body.innerHTML = contenido;
+
+            window.print();
+
+            document.body.innerHTML = contenidoOriginal;
+
+        }
+
+
         $("#BtnGuardarDieta").on("click", function () {
             var fecha = $("#fechaProxima").val();
             var cita = "[[${idCita}]]";
